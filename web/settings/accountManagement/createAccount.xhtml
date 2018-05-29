@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="medium-line-break" onload="#{accountsController.initAccounts()}"/>
+    <h:outputText class="page-title" value="Add Account"/>
+    <h:form id="uploadForm">
+        <h:panelGrid class="basic-form-style" columns="2" cellpadding="10">
+            <p:outputLabel value="Username"/>
+            <p:inputText id="username" class="input-normal-size" value="#{accountsController.account.username}" 
+                         required="true" requiredMessage="Username is Required"
+                         validatorMessage="Username must have atleast 3 characters and can only contain characters a-z and 0-9.">
+                <f:validateRegex pattern="([a-zA-Z0-9]{3,})" />
+            </p:inputText>
+            <p:outputLabel value="Password"/>
+            <p:password id="password" class="input-normal-size" value="#{accountsController.account.password}"
+                        required="true" requiredMessage="Password is Required"
+                        validatorMessage="Password must be 7 characters long and cannot contain any spaces.">
+                <f:validateRegex pattern="[^\s]{7,}" />
+            </p:password>
+            <p:outputLabel value="Confirm Password"/>
+            <p:password id="confirmPassword" class="input-normal-size" value="#{accountsController.passwordConfirm}"
+                        required="true" requiredMessage="Password Confirmation is Required">
+            </p:password>
+            <div/>
+            <p:selectBooleanCheckbox value="#{accountsController.account.passwordReset}" itemLabel="Make this user reset their password the next time they login." style="font-size: 13px;"/>
+            <p:outputLabel value="Access"/>
+            <h:selectOneMenu id="access" value="#{accountsController.account.role}" class="selectone-normal-size">
+                <f:selectItem itemLabel="Staff" itemValue="Users"/>
+                <f:selectItem itemLabel="Super User" itemValue="Superusers"/>
+                <f:selectItem itemLabel="Administrator" itemValue="Administrators"/>
+            </h:selectOneMenu>
+            <p:outputLabel value="Email"/>
+            <p:inputText id="email" class="input-normal-size" value="#{accountsController.account.email}"
+                         validatorMessage="Email address format is invalid.">
+                <f:validateRegex 
+                    pattern="(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)?" />
+            </p:inputText>
+            <p:outputLabel value="Contact Number"/>
+            <p:inputText id="contactNo" class="input-normal-size" value="#{accountsController.account.contactNo}"
+                         validatorMessage="Phone number format is invalid. It has to be atleast 6 characters long and can only contain numbers, spaces and (). ">
+                <f:validateRegex 
+                    pattern="([0-9\s()]{6,})?" />
+            </p:inputText>
+            <p:outputLabel value="Account Status"/>
+            <h:selectOneMenu id="status" value="#{accountsController.account.active}" class="selectone-normal-size">
+                <f:selectItem itemLabel="Active" itemValue="#{true}"/>
+                <f:selectItem itemLabel="Disabled" itemValue="#{false}"/>
+            </h:selectOneMenu>
+        </h:panelGrid>
+
+        <p:commandButton id="add" value="Add" action="#{navigator.setAccountIndex(accountsController.createAccount())}" ajax="false" styleClass="basic-buttons">
+            <f:ajax execute="@form" render=":settings" />
+        </p:commandButton>
+        <p:commandButton id="back" action="#{navigator.setAccountIndex(0)}" ajax="false" value="Back" immediate="true" styleClass="basic-buttons">
+            <f:ajax render=":settings"/>
+        </p:commandButton>
+        <p:messages for="add" style="color:red" />
+        <p:messages for="username" style="color:red" />
+        <p:messages for="password" style="color:red" />
+        <p:messages for="confirmPassword" style="color:red" />
+        <p:messages for="access" style="color:red" />
+        <p:messages for="email" style="color:red" />
+        <p:messages for="contactNo" style="color:red" />
+        <p:messages for="status" style="color:red" />
+    </h:form>
+</ui:composition>
+

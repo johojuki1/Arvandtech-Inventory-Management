@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div class="medium-line-break"/>
+    <h:outputText class="page-title" value="Stock Setup"/>
+    <div class="medium-line-break"/>
+
+    <div style="float:top;">
+        <h:form id="stockSetupForm">
+            <p:growl id="msg" showDetail="true"/>
+            <h:panelGrid class="basic-form-style" columns="3">
+                <p:outputPanel style="display: inline-block; position: relative; min-height: fit-content;">
+                    <div style="display:inline-block; position: absolute; padding-top: 9px; ">
+                        <p:commandButton value="+" action="#{stockSetup.setItemTypeState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
+                        <p:commandButton value="-" action="#{stockSetup.deleteItem('displayItemBox')}" update="@form" styleClass="tiny-buttons"/>
+                        <p:commandButton value="^" action="#{stockSetup.changeItemOrder('up', 'displayItemBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="v" action="#{stockSetup.changeItemOrder('down', 'displayItemBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="e" action="#{stockSetup.navigateItemEdit('displayItemBox', 2)}" update="@form" styleClass="tiny-buttons"/>
+                    </div>
+                    <h:panelGroup id="displayItemBox" style="display:inline-block">
+                        <ui:include src="#{stockSetup.getItemTypeLink()}"/>
+                    </h:panelGroup>
+                    <p:messages for="displayItemBox" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+                </p:outputPanel>
+                <p:outputPanel style="display: inline-block;position: inherit; width: 5vw;"/>
+                <p:outputPanel style="display:inline-block; position: inherit;" rendered="#{stockSetup.checkItemSelected(1)}">
+                    <div style="display:inline-block; position: absolute; padding-top: 9px; ">
+                        <p:commandButton value="+" action="#{stockSetup.setAttributeState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
+                        <p:commandButton value="-" action="#{stockSetup.deleteAttribute('attributeBox')}" update="@form" styleClass="tiny-buttons"/>
+                        <p:commandButton value="^" action="#{stockSetup.changeAttributeOrder('up', 'attributeBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="v" action="#{stockSetup.changeAttributeOrder('down', 'attributeBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="e" action="#{stockSetup.navigateAttributeEdit('attributeBox', 2)}" update="@form" styleClass="tiny-buttons"/>
+                    </div>
+                    <h:panelGroup id="attributeBox" style="display:block">
+                        <ui:include src="#{stockSetup.getAttributeLink()}"/>
+                    </h:panelGroup>
+                    <p:messages for="attributeBox" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+                </p:outputPanel>
+            </h:panelGrid>
+            <div style="display:block; height: 2vh"/>
+            <h:panelGrid class="basic-form-style" columns="3">
+                <p:outputPanel style="display:inline-block; position: inherit;" rendered="#{stockSetup.checkAttributeSelected()}">
+                    <div style="display:inline-block; position: absolute; padding-top: 9px; ">
+                        <p:commandButton value="+" action="#{stockSetup.setSelectableState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
+                        <p:commandButton value="-" action="#{stockSetup.deleteSelectable('stockBox')}" update="@form" styleClass="tiny-buttons"/>
+                        <p:commandButton value="^" action="#{stockSetup.changeStockOrder('up', 'stockBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="v" action="#{stockSetup.changeStockOrder('down', 'stockBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="e" action="#{stockSetup.navigateSelectableEdit('stockBox', 2)}" update="@form" styleClass="tiny-buttons"/>
+                    </div>
+                    <h:panelGroup id="stockBox" style="display:block">
+                        <ui:include src="#{stockSetup.getSelectableLink()}"/>
+                    </h:panelGroup>
+                    <p:messages for="stockBox" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+                </p:outputPanel>
+                <p:outputPanel style="display: inline-block;position: inherit; width: 5vw;"/>
+                <p:outputPanel style="display:inline-block;" rendered="#{stockSetup.checkSelectableSelected()}">
+                    <div style="display:inline-block; position: absolute; padding-top: 9px;">
+                        <p:commandButton value="+" action="#{stockSetup.setSecondaryState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
+                        <p:commandButton value="-" action="#{stockSetup.deleteSecondary('secondarySeletableBox')}" update="@form" styleClass="tiny-buttons"/>
+                        <p:commandButton value="^" action="#{stockSetup.changeStockOrder('up', 'secondarySeletableBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="v" action="#{stockSetup.changeStockOrder('down', 'secondarySeletableBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="e" action="#{stockSetup.navigateSelectableEdit('secondarySeletableBox', 2)}" update="@form" styleClass="tiny-buttons"/>
+                    </div>
+                    <h:panelGroup id="secondarySelectableBox" style="display:block">
+                        <ui:include src="#{stockSetup.getSecondaryLink()}"/>
+                    </h:panelGroup>
+                    <p:messages for="secondarySeletableBox" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+                </p:outputPanel>
+            <p:outputPanel style="display: inline-block;position: inherit; width: 5vw;"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+</ui:composition>
+

@@ -1,0 +1,247 @@
+
+/**
+//////////////////////////
+Common formatting types across all pages
+//////////////////////////
+**/
+
+.logo {
+    width: 20vw;
+    min-width: 200px;
+    padding-bottom:5px;
+    padding-left:2%;
+}
+
+.basic-form-style {
+    padding-left:2%;
+    padding-top: 2%;
+    padding-bottom:2%;
+    font-size: 18px;
+}
+
+/*user inputs*/
+
+.input-normal-size {
+    width: 20vw;
+    min-width: 90px;
+    max-width: 210px;
+    font-size: 16px;
+}
+
+.input-background-size {
+    width: 90%;
+    font-size: 14px;
+    display: block;
+}
+.basic-buttons {
+    margin-left:10px;
+    margin-top:3px;
+    margin-bottom:3px;
+    min-width: 100px;
+    width: 10%;
+}
+
+.small-buttons {
+    margin: auto;
+    width: 70px;
+    height: 35px;
+    display:inline-block;
+    font-size: 16px !important;
+}
+
+.small-buttons .ui-commandbutton .ui-commandbutton-text {
+    font-size: 100px;
+}
+
+.tiny-buttons {
+    margin-bottom:3px;
+    width: 45px;
+    height: 35px;
+    display:block
+}
+
+.selectone-normal-size{
+    background:none;
+}
+
+.selectone-normal-size thead{ 
+    display:none;
+}
+
+
+/* Line breaks and padding boxes*/
+.small-line-break {
+    padding-top: 1%;
+}
+
+.medium-line-break {
+    padding-top: 2%;
+}
+
+.large-line-break {
+    padding-top: 5%;
+}
+
+.ten-px-line-break {
+    padding-top: 10px;
+}
+
+.medium-view-line-break {
+    padding-top: 2vh;
+}
+.small-view-line-break {
+    padding-top: 1vh;
+}
+
+/*Fonts and sizes*/
+.page-title {
+    padding-top:2px;
+    font-size: 36px;
+}
+
+.small-title {
+    font-size: 24px;
+}
+
+.font-small {
+    font-size:16px;
+}
+
+.font-tiny {
+    font-size: 5px;
+}
+
+/**
+/////////////////
+Formatting types for settings
+/////////////////
+**/
+
+.settings-tab{
+    width: 100%;
+    min-width: 1px;
+    min-height: fit-content;
+    height: 82vh;
+}
+
+.new-stock-selectable-box{
+    position: inherit; 
+    padding-left: 48px;
+}
+
+.new-stock-selectable-box .ui-orderlist-list{
+    width: 15vw;
+    height: 30vh;
+    min-height: 180px;
+    min-width: 100px;
+    max-height: 250px;
+    max-width: 200px;
+}
+
+new-stock-settings-box{
+    padding-left: 49px;
+    padding-top:10px;
+    padding-right:10px;
+    padding-bottom:10px;
+    display: inline-block;
+    width: 15vw;
+    height: fit-content;
+    min-height: 180px;
+    min-width: 100px;
+    max-height: 250px;
+    max-width: 200px;
+}
+
+/**
+/////////////////////////
+Formatting for display of the main tab menu, does not contain any formatting data for content
+/////////////////////////
+**/
+.tab {
+    height:fit-content;
+    display: inline-block;
+    position: relative;
+}
+
+.menutab {
+    width: 4vw;
+    height: 4vw;
+    min-height: 40px;
+    min-width: 20px;
+    max-height: 60px;
+    max-width: 60px;
+    outline-color: red;
+    outline-style:dashed;
+}
+
+/*This object is where all contents of program is written on.*/
+.content {
+    display: block;
+    align-content: stretch;
+    position: relative;
+    width: inherit;
+    height: 10vh;
+    min-height: fit-content;
+    min-width: 300px;
+    float: top;
+    padding-left: 25px;
+}
+
+.tmp-tab {
+    font-size: 0.8vw;
+}
+
+.mainpage {
+    width: 97%;
+    position: relative;
+    height: available;
+    display: block;
+    min-width: fit-content;
+    min-height: fit-content;
+    margin: auto;
+}
+
+.containing-block {
+    width: 100%;
+    position: absolute;
+    height: 99vh;
+    display:block;
+}
+
+body {
+    background-color: #0353FE;
+}
+
+/** 
+//////////////////////////
+Alters tab values directly from the tab object in Primefaces
+//////////////////////////
+**/
+
+/*Alters nav panel for tabs.*/
+.ui-tabs.ui-tabs-left > .ui-tabs-nav {
+    width: 6%;
+    display: block;
+    position: static;
+    display: block;
+    min-width:50px;
+    max-width: 85px;
+    min-height: 87vh;
+    height: available;
+}
+
+/* Alters content panel for Prime Faces tab system. 
+This determines width and height of tabbed windows.*/
+.ui-tabs.ui-tabs-left > .ui-tabs-panels {
+    position: static;
+    float: none;
+    padding-left:3%;
+    min-height: fit-content;
+    min-width: fit-content;
+    width: 88vw;
+    height: 87vh;
+}
+
+/* Edits the sizes of top tabs within forms*/
+.ui-tabs.ui-tabs-top > .ui-tabs-nav li {
+}

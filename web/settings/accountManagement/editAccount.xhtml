@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="medium-line-break"/>
+    <h:outputText class="page-title" value="Edit Account"/>
+    <h:form id="uploadForm">
+        <h:panelGrid class="basic-form-style" columns="2" cellpadding="10">
+            <p:outputLabel value="Username"/>
+            <p:outputLabel value="#{accountsController.account.username}"/>
+            <p:outputLabel value="Access"/>
+            <h:selectOneMenu id="access" value="#{accountsController.account.role}" class="selectone-normal-size">
+                <f:selectItem itemLabel="Staff" itemValue="Users"/>
+                <f:selectItem itemLabel="Super User" itemValue="Superusers"/>
+                <f:selectItem itemLabel="Administrator" itemValue="Administrators"/>
+            </h:selectOneMenu>
+            <p:outputLabel value="Email"/>
+            <p:inputText id="email" class="input-normal-size" value="#{accountsController.account.email}"
+                         validatorMessage="Email address format is invalid.">
+                <f:validateRegex 
+                    pattern="(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)?" />
+            </p:inputText>
+            <p:outputLabel value="Contact Number"/>
+            <p:inputText id="contactNo" class="input-normal-size" value="#{accountsController.account.contactNo}"
+                         validatorMessage="Phone number format is invalid. It has to be atleast 6 characters long and can only contain numbers, spaces and (). ">
+                <f:validateRegex 
+                    pattern="([0-9\s()]{6,})?" />
+            </p:inputText>
+            <p:outputLabel value="Account Status"/>
+            <h:selectOneMenu id="status" value="#{accountsController.account.active}" class="selectone-normal-size">
+                <f:selectItem itemLabel="Active" itemValue="#{true}"/>
+                <f:selectItem itemLabel="Disabled" itemValue="#{false}"/>
+            </h:selectOneMenu>
+            <p:commandButton id="changePassword" value="Change Password" action="#{navigator.setAccountIndex(3)}" ajax="false">
+                <f:ajax execute="@form" render=":settings" />
+            </p:commandButton>
+        </h:panelGrid>
+
+        <p:commandButton id="edit" value="Edit" action="#{accountsController.editAccount()}" actionListener="#{navigator.setAccountIndex(0)}" ajax="false" styleClass="basic-buttons">
+            <f:ajax execute="@form" render=":settings" />
+        </p:commandButton>
+        <p:commandButton id="back" action="#{navigator.setAccountIndex(0)}" ajax="false" value="Back" immediate="true" styleClass="basic-buttons">
+            <f:ajax render=":settings"/>
+        </p:commandButton>
+        <p:messages for="edit" style="color:red" />
+        <p:messages for="access" style="color:red" />
+        <p:messages for="email" style="color:red" />
+        <p:messages for="contactNo" style="color:red" />
+        <p:messages for="status" style="color:red" />
+    </h:form>
+</ui:composition>
+
