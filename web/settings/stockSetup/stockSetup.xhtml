@@ -66,8 +66,8 @@
                     <div style="display:inline-block; position: absolute; padding-top: 9px;">
                         <p:commandButton value="+" action="#{stockSetup.setSecondaryState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
                         <p:commandButton value="-" action="#{stockSetup.deleteSecondary('secondarySeletableBox')}" update="@form" styleClass="tiny-buttons"/>
-                        <p:commandButton value="^" action="#{stockSetup.changeStockOrder('up', 'secondarySeletableBox')}" update="@form"  styleClass="tiny-buttons"/>
-                        <p:commandButton value="v" action="#{stockSetup.changeStockOrder('down', 'secondarySeletableBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="^" action="#{stockSetup.changeSecondaryOrder('up', 'secondarySeletableBox')}" update="@form"  styleClass="tiny-buttons"/>
+                        <p:commandButton value="v" action="#{stockSetup.changeSecondaryOrder('down', 'secondarySeletableBox')}" update="@form"  styleClass="tiny-buttons"/>
                         <p:commandButton value="e" action="#{stockSetup.navigateSelectableEdit('secondarySeletableBox', 2)}" update="@form" styleClass="tiny-buttons"/>
                     </div>
                     <h:panelGroup id="secondarySelectableBox" style="display:block">
