@@ -5,7 +5,6 @@
  */
 package com.arvandtech.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -46,5 +45,21 @@ public class SecondaryAttributeFacade extends AbstractFacade<SecondaryAttribute>
             }
         }
         remove(secondary);
+    }
+
+    public void swapOrder(int id1, int id2) throws Exception {
+        SecondaryAttribute secondary1 = find(id1);
+        SecondaryAttribute secondary2 = find(id2);
+        int tmpOrder = secondary1.getSecondaryOrder();
+        secondary1.setSecondaryOrder(secondary2.getSecondaryOrder());
+        secondary2.setSecondaryOrder(tmpOrder);
+        edit(secondary1);
+        edit(secondary2);
+    }
+
+    public void safeEdit(int id, String name) throws Exception {
+        SecondaryAttribute secondary = find(id);
+        secondary.setSecondaryAttributeName(name);
+        edit(secondary);
     }
 }

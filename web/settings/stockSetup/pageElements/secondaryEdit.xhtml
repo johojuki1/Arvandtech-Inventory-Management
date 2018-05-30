@@ -8,24 +8,24 @@
     <new-stock-settings-box>
         <div style="width:100%; height: 100%; border: 1px solid grey; padding: 10px; min-width: fit-content; min-height: fit-content; position: relative">
             <div class="small-view-line-break"/>
-            <h:outputText class="small-title" value="Edit Item"/>
+            <h:outputText class="small-title" value="Add Secondary Attribute"/>
             <div class="medium-view-line-break"/>
-            <p:outputLabel value="Item Name"/>
+            <p:outputLabel value="Attribute Name"/>
             <div class="ten-px-line-break"/>
-            <p:inputText class="input-background-size" value="#{stockSetup.item.typeName}" 
-                         required="true" requiredMessage="Item Type is Required"
-                         validatorMessage="Item Name must have more than 3 characters">
+            <p:inputText class="input-background-size" value="#{stockSetup.secondary.secondaryAttributeName}" 
+                         required="true" requiredMessage="Secondary name is Required"
+                         validatorMessage="Secondary attribute name must have more than 3 characters">
                 <f:validateRegex pattern="([a-zA-Z0-9\s]{3,})" />
             </p:inputText>
             <div class="ten-px-line-break"/>
             <div class="medium-view-line-break"/>
             <div style="display: block; margin: auto; width: fit-content">
                 <div style="padding:3px; display: inline-block">
-                    <p:commandButton action="#{stockSetup.setItemTypeState(stockSetup.editItem())}" value="Edit" styleClass="small-buttons" update="@form">
+                    <p:commandButton action="#{stockSetup.setSecondaryState(stockSetup.editSecondary())}" value="Edit" styleClass="small-buttons" update="@form">
                     </p:commandButton>
                 </div>
                 <div style="padding:3px; display: inline-block">
-                    <p:commandButton  action="#{stockSetup.setItemTypeState(0)}" value="Back" immediate="true" styleClass="small-buttons" update="@form">
+                    <p:commandButton  action="#{stockSetup.setSecondaryState(0)}" value="Back" immediate="true" styleClass="small-buttons" update="@form">
                     </p:commandButton>
                 </div>
             </div>

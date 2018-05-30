@@ -9,7 +9,7 @@
 
     <new-stock-settings-box onload="#{stockSetup.updateSelect()}">
         <p:dataTable var="secondary" value="#{stockSetup.selectable.secondaryAttribute}" selectionMode="single" selection="#{stockSetup.secondary}" rowKey="#{secondary.secondaryAttributeId}" sortBy="#{secondary.secondaryOrder}" scrollable="true" scrollHeight="200">
-            <p:ajax event="rowSelect" update="@form" />
+            <p:ajax event="rowSelect" listener="#{stockSetup.secondarySelected()}" update="@form"/>
             <p:column width="100" headerText="Secondary Attribute">
                 <h:outputText value="#{secondary.secondaryAttributeName}"/>
             </p:column>

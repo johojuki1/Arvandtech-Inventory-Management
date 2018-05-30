@@ -7,9 +7,9 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <new-stock-settings-box onload="#{stockSetup.init()}">
+    <new-stock-settings-box onload="#{stockSetup.updateItem()}">
         <p:dataTable var="attribute" value="#{stockSetup.item.attribute}" selectionMode="single" selection="#{stockSetup.attribute}" rowKey="#{attribute.attributeId}" sortBy="#{attribute.attributeOrder}" scrollable="true" scrollHeight="200">
-            <p:ajax event="rowSelect" update="@form" />
+            <p:ajax event="rowSelect" listener="#{stockSetup.attributeSelected()}" update="@form" />
             <p:column width="100" headerText="Attributes">
                 <h:outputText value="#{attribute.attributeName}"/>
             </p:column>

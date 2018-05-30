@@ -9,7 +9,7 @@
 
     <new-stock-settings-box onload="#{stockSetup.updateAtt()}">
         <p:dataTable var="selectable" value="#{stockSetup.attribute.selectableBox}" selectionMode="single" selection="#{stockSetup.selectable}" rowKey="#{selectable.selectableBoxId}" sortBy="#{selectable.selectableOrder}" scrollable="true" scrollHeight="200">
-            <p:ajax event="rowSelect" update="@form" />
+            <p:ajax event="rowSelect" listener="#{stockSetup.selectableSelected()}" update="@form" />
             <p:column width="100" headerText="Selectable Box">
                 <h:outputText value="#{selectable.name}"/>
             </p:column>

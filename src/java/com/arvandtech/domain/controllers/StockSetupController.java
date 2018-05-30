@@ -57,17 +57,45 @@ public class StockSetupController implements Serializable {
     private int secondaryState;
 
     public StockSetupController() {
-        itemTypeState = 0;
-        attributeState = 0;
-        selectableState = 0;
+        resetStates();
     }
 
-    public void init() {
+    private void resetObject(int identifier, boolean cascade) {
+        switch (identifier) {
+            case 1:
+                item = new ItemType();
+                if (!cascade) {
+                    return;
+                }
+            case 2:
+                attribute = new Attribute();
+                if (!cascade) {
+                    return;
+                }
+            case 3:
+                selectable = new SelectableBox();
+                if (!cascade) {
+                    return;
+                }
+            case 4:
+                secondary = new SecondaryAttribute();
+            default:
+        }
+    }
+
+    public void loadItems() {
         itemTypes = itemTypeFacade.findAll();
     }
 
-    public void resetAtt() {
-        attribute = new Attribute();
+    private void resetStates() {
+        itemTypeState = 0;
+        attributeState = 0;
+        selectableState = 0;
+        secondaryState = 0;
+    }
+
+    public void updateItem() {
+        item = itemTypeFacade.find(item.getItemTypeId());
     }
 
     public void updateAtt() {
@@ -186,6 +214,7 @@ public class StockSetupController implements Serializable {
      */
     public int addItem(String name) {
         try {
+            resetObject(1, false);
             ItemType tmpType = new ItemType();
             tmpType.setTypeName(name);
             tmpType.setDeleteable(true);
@@ -193,7 +222,6 @@ public class StockSetupController implements Serializable {
             tmpType.setAttribute(new ArrayList<>());
             tmpType.setItemOrder(itemTypes.size() + 1);
             itemTypeFacade.safeCreate(tmpType);
-            item = new ItemType();
             return 0;
         } catch (Exception e) {
             return 1;
@@ -211,18 +239,22 @@ public class StockSetupController implements Serializable {
 
     public void deleteItem(String errorBoxName) {
         try {
-            init();
             if (checkSelected(errorBoxName, "No item is selected for delete.", "Database Update Failed.", 1)) {
+                for (Attribute tmpAttribute : item.getAttribute()) {
+                    attribute = tmpAttribute;
+                    deleteAttribute("errorBoxName");
+                }
                 itemTypeFacade.safeDelete(item.getItemTypeId());
                 item = new ItemType();
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Database Update Failed."));
         }
+        resetObject(2, true);
+        resetStates();
     }
 
     public void changeItemOrder(String direction, String errorBoxName) {
-        init();
         try {
             if (checkSelected(errorBoxName, "No item is selected for moving.", "Database Update Failed.", 1)) {
                 if (direction.equals("up")) {
@@ -242,6 +274,10 @@ public class StockSetupController implements Serializable {
         }
     }
 
+    public void itemSelected() {
+        resetObject(2, true);
+        resetStates();
+    }
 
     /*
     
@@ -249,6 +285,7 @@ public class StockSetupController implements Serializable {
     
      */
     public int addAttribute(String name, boolean state) {
+        resetObject(2, false);
         try {
             Attribute tmpAttribute = attributeFacade.returnedCreate(name, state, new ArrayList<>());
             itemTypeFacade.addAttribute(item.getItemTypeId(), tmpAttribute);
@@ -264,11 +301,17 @@ public class StockSetupController implements Serializable {
             if (checkSelected(errorBoxName, "No attribute is selected for delete.", "Database Update Failed.", 2)) {
                 item = itemTypeFacade.find(item.getItemTypeId());
                 if (itemTypeFacade.removeAttribute(item.getItemTypeId(), attribute.getAttributeId())) {
+                    for (SelectableBox tmpSelectable : attribute.getSelectableBox()) {
+                        selectable = tmpSelectable;
+                        deleteSelectable("errorBoxName");
+                    }
                     attributeFacade.safeDelete(attribute.getAttributeId(), item.getAttribute());
                 } else {
                     FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Database Update Failed."));
                 }
                 item = itemTypeFacade.find(item.getItemTypeId());
+                resetObject(3, true);
+                resetStates();
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Database Update Failed."));
@@ -286,7 +329,6 @@ public class StockSetupController implements Serializable {
 
     public void changeAttributeOrder(String direction, String errorBoxName) {
         try {
-            init();
             if (checkSelected(errorBoxName, "No attribute is selected for moving.", "Database Update Failed.", 2)) {
                 Attribute attribute2 = new Attribute();
                 int tmpOrder = 0;
@@ -335,12 +377,18 @@ public class StockSetupController implements Serializable {
         }
     }
 
+    public void attributeSelected() {
+        resetObject(3, true);
+        resetStates();
+    }
+
     /*
     
     Selectable Functions
     
      */
     public int addSelectable(String name, boolean secondary, String secondaryName) {
+        resetObject(3, false);
         try {
             SelectableBox tmpSelectable = selectableFacade.returnedCreate(name, secondary, secondaryName, new ArrayList<>());
             attributeFacade.addSelectable(attribute.getAttributeId(), tmpSelectable);
@@ -360,11 +408,17 @@ public class StockSetupController implements Serializable {
             if (checkSelected(errorBoxName, "No selectable item is selected for delete.", "Database Update Failed.", 3)) {
                 attribute = attributeFacade.find(attribute.getAttributeId());
                 if (attributeFacade.removeSelectable(attribute.getAttributeId(), selectable.getSelectableBoxId())) {
+                    for (SecondaryAttribute tmpSecondary : selectable.getSecondaryAttribute()) {
+                        secondary = tmpSecondary;
+                        deleteSecondary("errorBoxName");
+                    }
                     selectableFacade.safeDelete(selectable.getSelectableBoxId(), attribute.getSelectableBox());
                 } else {
                     FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Database Update Failed."));
                 }
                 attribute = attributeFacade.find(attribute.getAttributeId());
+                resetObject(4, true);
+                resetStates();
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Database Update Failed."));
@@ -373,7 +427,6 @@ public class StockSetupController implements Serializable {
 
     public void changeStockOrder(String direction, String errorBoxName) {
         try {
-            init();
             if (checkSelected(errorBoxName, "No selectable item is selected for moving.", "Database Update Failed.", 3)) {
                 SelectableBox selectable2 = new SelectableBox();
                 int tmpOrder = 0;
@@ -415,7 +468,7 @@ public class StockSetupController implements Serializable {
     }
 
     public void navigateSelectableEdit(String errorBoxName, int state) {
-        if (checkSelected(errorBoxName, "No selectable item is selected for edit.", "Database Update Failed.", 1) && checkSelected(errorBoxName, "No selectable item is selected for edit.", "Database Update Failed.", 2)) {
+        if (checkSelected(errorBoxName, "No selectable item is selected for edit.", "Database Update Failed.", 2) && checkSelected(errorBoxName, "No selectable item is selected for edit.", "Database Update Failed.", 3)) {
             setSelectableState(state);
         }
     }
@@ -431,16 +484,22 @@ public class StockSetupController implements Serializable {
         }
     }
 
+    public void selectableSelected() {
+        resetObject(4, true);
+        resetStates();
+    }
+
     /*
     
     Secondary Attribute Functions
     
      */
     public int addSecondary(String name) {
+        resetObject(4, false);
         try {
             SecondaryAttribute tmpSecondary = secondaryFacade.returnedCreate(name);
             selectableFacade.addSecondary(selectable.getSelectableBoxId(), tmpSecondary);
-            attribute = attributeFacade.find(attribute.getAttributeId());
+            selectable = selectableFacade.find(selectable.getSelectableBoxId());
             return 0;
         } catch (Exception e) {
             return 1;
@@ -460,6 +519,59 @@ public class StockSetupController implements Serializable {
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Database Update Failed."));
+        }
+    }
+
+    public void changeSecondaryOrder(String direction, String errorBoxName) {
+        try {
+            if (checkSelected(errorBoxName, "No secondary attribute is selected for moving.", "Database Update Failed.", 4)) {
+                SecondaryAttribute secondary2 = new SecondaryAttribute();
+                int tmpOrder = 0;
+                if (direction.equals("up")) {
+                    if (!(secondary.getSecondaryOrder() <= 1)) {
+                        tmpOrder = secondary.getSecondaryOrder() - 1;
+                    }
+                } else {
+                    if (!(secondary.getSecondaryOrder() >= selectable.getSecondaryAttribute().size())) {
+                        tmpOrder = secondary.getSecondaryOrder() + 1;
+                    }
+                }
+                if (tmpOrder != 0) {
+                    for (SecondaryAttribute tmpAtt : selectable.getSecondaryAttribute()) {
+                        if (tmpAtt.getSecondaryOrder() == tmpOrder) {
+                            secondary2 = tmpAtt;
+                        }
+                    }
+                    if (secondary2.getSecondaryAttributeId() != 0) {
+                        secondaryFacade.swapOrder(secondary.getSecondaryAttributeId(), secondary2.getSecondaryAttributeId());
+                    } else {
+                        FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Secondary Attribute with correct index was not found. Order Swapping failed."));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Database Update Failed."));
+        }
+        item = itemTypeFacade.find(item.getItemTypeId());
+    }
+
+    public void secondarySelected() {
+        resetObject(5, true);
+        resetStates();
+    }
+
+    public void navigateSecondaryEdit(String errorBoxName, int state) {
+        if (checkSelected(errorBoxName, "No secondary attribute item is selected for edit.", "Database Update Failed.", 3) && checkSelected(errorBoxName, "No selectable item is selected for edit.", "Database Update Failed.", 4)) {
+            setSecondaryState(state);
+        }
+    }
+
+    public int editSecondary() {
+        try {
+            secondaryFacade.safeEdit(secondary.getSecondaryAttributeId(), secondary.getSecondaryAttributeName());
+            return 0;
+        } catch (Exception e) {
+            return 2;
         }
     }
 
@@ -506,6 +618,7 @@ public class StockSetupController implements Serializable {
     }
 
     public void setItemTypeState(int itemTypeState) {
+        resetStates();
         this.itemTypeState = itemTypeState;
     }
 
@@ -518,10 +631,12 @@ public class StockSetupController implements Serializable {
     }
 
     public void setAttributeState(int attributeState) {
+        resetStates();
         this.attributeState = attributeState;
     }
 
     public void setSelectableState(int selectableState) {
+        resetStates();
         this.selectableState = selectableState;
     }
 
@@ -530,6 +645,7 @@ public class StockSetupController implements Serializable {
     }
 
     public void setSecondaryState(int secondaryState) {
+        resetStates();
         this.secondaryState = secondaryState;
     }
 
