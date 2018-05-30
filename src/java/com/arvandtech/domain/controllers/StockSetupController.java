@@ -221,7 +221,7 @@ public class StockSetupController implements Serializable {
             tmpType.setItemTypeId(0);
             tmpType.setAttribute(new ArrayList<>());
             tmpType.setItemOrder(itemTypes.size() + 1);
-            itemTypeFacade.safeCreate(tmpType);
+            item = itemTypeFacade.returnedCreate(tmpType);
             return 0;
         } catch (Exception e) {
             return 1;
@@ -274,6 +274,11 @@ public class StockSetupController implements Serializable {
         }
     }
 
+    public void navigateItemAdd(int state) {
+        resetObject(1, true);
+        setItemTypeState(state);
+    }
+
     public void itemSelected() {
         resetObject(2, true);
         resetStates();
@@ -290,6 +295,7 @@ public class StockSetupController implements Serializable {
             Attribute tmpAttribute = attributeFacade.returnedCreate(name, state, new ArrayList<>());
             itemTypeFacade.addAttribute(item.getItemTypeId(), tmpAttribute);
             item = itemTypeFacade.find(item.getItemTypeId());
+            attribute=tmpAttribute;
             return 0;
         } catch (Exception e) {
             return 1;
@@ -366,6 +372,11 @@ public class StockSetupController implements Serializable {
         }
     }
 
+    public void navigateAttributeAdd(int state) {
+        resetObject(2, true);
+        setAttributeState(state);
+    }
+
     public boolean checkAttributeSelected() {
         try {
             if (attribute.getAttributeId() != 0) {
@@ -393,6 +404,7 @@ public class StockSetupController implements Serializable {
             SelectableBox tmpSelectable = selectableFacade.returnedCreate(name, secondary, secondaryName, new ArrayList<>());
             attributeFacade.addSelectable(attribute.getAttributeId(), tmpSelectable);
             attribute = attributeFacade.find(attribute.getAttributeId());
+            selectable = tmpSelectable;
             return 0;
         } catch (Exception e) {
             return 1;
@@ -473,6 +485,11 @@ public class StockSetupController implements Serializable {
         }
     }
 
+    public void navigateSelectableAdd(int state) {
+        resetObject(3, true);
+        setSelectableState(state);
+    }
+
     public boolean checkSelectableSelected() {
         try {
             if (selectable.getSelectableBoxId() != 0) {
@@ -500,6 +517,7 @@ public class StockSetupController implements Serializable {
             SecondaryAttribute tmpSecondary = secondaryFacade.returnedCreate(name);
             selectableFacade.addSecondary(selectable.getSelectableBoxId(), tmpSecondary);
             selectable = selectableFacade.find(selectable.getSelectableBoxId());
+            secondary = tmpSecondary;
             return 0;
         } catch (Exception e) {
             return 1;
@@ -564,6 +582,11 @@ public class StockSetupController implements Serializable {
         if (checkSelected(errorBoxName, "No secondary attribute item is selected for edit.", "Database Update Failed.", 3) && checkSelected(errorBoxName, "No selectable item is selected for edit.", "Database Update Failed.", 4)) {
             setSecondaryState(state);
         }
+    }
+
+    public void navigateSecondaryAdd(int state) {
+        resetObject(4, true);
+        setSecondaryState(state);
     }
 
     public int editSecondary() {

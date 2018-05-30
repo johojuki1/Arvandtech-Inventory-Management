@@ -28,9 +28,10 @@ public class ItemTypeFacade extends AbstractFacade<ItemType> {
         edit(tmpItem);
     }
 
-    public void safeCreate(ItemType newItem) throws Exception {
+    public ItemType returnedCreate(ItemType newItem) throws Exception {
         newItem.setItemOrder(count() + 1);
         create(newItem);
+        return(newItem);
     }
 
     public void addAttribute(int id, Attribute attribute) {

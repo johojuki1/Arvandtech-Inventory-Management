@@ -14,7 +14,7 @@
             <h:panelGrid class="basic-form-style" columns="3">
                 <p:outputPanel style="display: inline-block; position: relative; min-height: fit-content;">
                     <div style="display:inline-block; position: absolute; padding-top: 9px; ">
-                        <p:commandButton value="+" action="#{stockSetup.setItemTypeState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
+                        <p:commandButton value="+" action="#{stockSetup.navigateItemAdd(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
                         <p:commandButton value="-" action="#{stockSetup.deleteItem('displayItemBox')}" update="@form" styleClass="tiny-buttons"/>
                         <p:commandButton value="^" action="#{stockSetup.changeItemOrder('up', 'displayItemBox')}" update="@form"  styleClass="tiny-buttons"/>
                         <p:commandButton value="v" action="#{stockSetup.changeItemOrder('down', 'displayItemBox')}" update="@form"  styleClass="tiny-buttons"/>
@@ -30,7 +30,7 @@
                 <p:outputPanel style="display: inline-block;position: inherit; width: 5vw;"/>
                 <p:outputPanel style="display:inline-block; position: inherit;" rendered="#{stockSetup.checkItemSelected(1)}">
                     <div style="display:inline-block; position: absolute; padding-top: 9px; ">
-                        <p:commandButton value="+" action="#{stockSetup.setAttributeState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
+                        <p:commandButton value="+" action="#{stockSetup.navigateAttributeAdd(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
                         <p:commandButton value="-" action="#{stockSetup.deleteAttribute('attributeBox')}" update="@form" styleClass="tiny-buttons"/>
                         <p:commandButton value="^" action="#{stockSetup.changeAttributeOrder('up', 'attributeBox')}" update="@form"  styleClass="tiny-buttons"/>
                         <p:commandButton value="v" action="#{stockSetup.changeAttributeOrder('down', 'attributeBox')}" update="@form"  styleClass="tiny-buttons"/>
@@ -48,7 +48,7 @@
             <h:panelGrid class="basic-form-style" columns="3">
                 <p:outputPanel style="display:inline-block; position: inherit;" rendered="#{stockSetup.checkAttributeSelected()}">
                     <div style="display:inline-block; position: absolute; padding-top: 9px; ">
-                        <p:commandButton value="+" action="#{stockSetup.setSelectableState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
+                        <p:commandButton value="+" action="#{stockSetup.navigateSelectableAdd(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
                         <p:commandButton value="-" action="#{stockSetup.deleteSelectable('stockBox')}" update="@form" styleClass="tiny-buttons"/>
                         <p:commandButton value="^" action="#{stockSetup.changeStockOrder('up', 'stockBox')}" update="@form"  styleClass="tiny-buttons"/>
                         <p:commandButton value="v" action="#{stockSetup.changeStockOrder('down', 'stockBox')}" update="@form"  styleClass="tiny-buttons"/>
@@ -64,7 +64,7 @@
                 <p:outputPanel style="display: inline-block;position: inherit; width: 5vw;"/>
                 <p:outputPanel style="display:inline-block;" rendered="#{stockSetup.checkSelectableSelected()}">
                     <div style="display:inline-block; position: absolute; padding-top: 9px;">
-                        <p:commandButton value="+" action="#{stockSetup.setSecondaryState(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
+                        <p:commandButton value="+" action="#{stockSetup.navigateSecondaryAdd(1)}" update="@form" styleClass="tiny-buttons" immediate="true"/>
                         <p:commandButton value="-" action="#{stockSetup.deleteSecondary('secondarySeletableBox')}" update="@form" styleClass="tiny-buttons"/>
                         <p:commandButton value="^" action="#{stockSetup.changeSecondaryOrder('up', 'secondarySeletableBox')}" update="@form"  styleClass="tiny-buttons"/>
                         <p:commandButton value="v" action="#{stockSetup.changeSecondaryOrder('down', 'secondarySeletableBox')}" update="@form"  styleClass="tiny-buttons"/>
