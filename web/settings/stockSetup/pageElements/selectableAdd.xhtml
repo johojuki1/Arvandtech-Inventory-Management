@@ -12,7 +12,7 @@
             <div class="medium-view-line-break"/>
             <p:outputLabel value="Selectable Name"/>
             <div class="ten-px-line-break"/>
-            <p:inputText class="input-background-size" value="#{selectableName}" 
+            <p:inputText class="input-background-size" binding="#{selectableName}" 
                          required="true" requiredMessage="Item Type is Required"
                          validatorMessage="Selectable Name must have more than 3 characters">
                 <f:validateRegex pattern="([a-zA-Z0-9\s]{3,})" />
@@ -35,7 +35,7 @@
             <div class="medium-view-line-break"/>
             <div style="display: block; margin: auto; width: fit-content">
                 <div style="padding:3px; display: inline-block">
-                    <p:commandButton action="#{stockSetup.setSelectableState(stockSetup.addSelectable(selectableName, selectableCheck.value, secondarySelectableName.value))}" value="Add" styleClass="small-buttons" update="@form">
+                    <p:commandButton action="#{stockSetup.setSelectableState(stockSetup.addSelectable(selectableName.value, selectableCheck.value, secondarySelectableName.value))}" value="Add" styleClass="small-buttons" update="@form">
                     </p:commandButton>
                 </div>
                 <div style="padding:3px; display: inline-block">
