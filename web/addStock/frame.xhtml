@@ -7,7 +7,9 @@
         <div class="medium-line-break"/>
         <h:outputText class="page-title" value="Stock Setup" />
         <div class="medium-line-break"/>
-        <ui:include src="#{navigator.getAddStockLink()}" />
+        <h:form id="addStockBox">
+            <ui:include src="#{navigator.getAddStockLink()}" />
+        </h:form>
     </div>
 
 </ui:composition>

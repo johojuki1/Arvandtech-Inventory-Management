@@ -1,10 +1,11 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
-        <add-stock-table-box onload="">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+        <add-stock-table-box onload="#{addStock.clearItem()}">
             <p:dataTable var="itemType" value="#{addStock.findAllItems()}" selectionMode="single" selection="#{addStock.item}" rowKey="#{itemType.itemTypeId}" sortBy="#{itemType.itemOrder}" scrollable="true" >
-                <p:ajax event="rowSelect"/>
+                <p:ajax event="rowSelect" listener="#{navigator.setAddStockIndex(1, addStock.checkAttributeExist())}" update="@form"/>
                 <p:column width="100" headerText="Item Type" style="width:100px">
                     <h:outputText value="#{itemType.typeName}"/>
                 </p:column>

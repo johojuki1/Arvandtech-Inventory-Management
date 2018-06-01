@@ -65,9 +65,17 @@ public class Navigator implements Serializable {
         switch (addStockIndex) {
             case 0:
                 return ADDSTOCKLINK + "pageElements/typeSelect.xhtml";
+            case 1:
+                return ADDSTOCKLINK + "pageElements/chooseAttributes.xhtml";
             default:
                 addStockIndex = 0;
                 return ADDSTOCKLINK + "pageElements/typeSelect.xhtml";
+        }
+    }
+
+    public void setAddStockIndex(int addStockIndex, boolean b) {
+        if (b) {
+            this.addStockIndex = addStockIndex;
         }
     }
 
@@ -88,6 +96,7 @@ public class Navigator implements Serializable {
     public void setSettingsIndex(int settingsIndex) {
         this.settingsIndex = settingsIndex;
     }
+
     public void setAccountIndex(int accountIndex) {
         this.accountIndex = accountIndex;
     }
