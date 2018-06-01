@@ -124,6 +124,7 @@ Formatting types for settings
     height: 82vh;
 }
 
+/**
 .new-stock-selectable-box{
     position: inherit; 
     padding-left: 48px;
@@ -137,6 +138,7 @@ Formatting types for settings
     max-height: 250px;
     max-width: 200px;
 }
+**/
 
 new-stock-settings-box{
     padding-left: 49px;
@@ -150,6 +152,17 @@ new-stock-settings-box{
     min-width: 100px;
     max-height: 250px;
     max-width: 200px;
+}
+
+add-stock-table-box{
+    padding-top:10px;
+    display: inline-block;
+    width: 30vw;
+    height: fit-content;
+    min-height: 180px;
+    min-width: 250px;
+    max-height: 80vh;
+    max-width: 600px;
 }
 
 /**

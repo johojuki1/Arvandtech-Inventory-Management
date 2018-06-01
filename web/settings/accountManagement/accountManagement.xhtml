@@ -8,8 +8,8 @@
     <div class="medium-line-break"/>
     <div onload="#{accountsController.updateAccounts()}">
         <h:form id="accountManagementForm">
-            <p:dataTable id="accountsTable" var="account" value="#{accountsController.accounts}" selectionMode="single" selection="#{accountsController.account}" rowKey="#{account.username}" scrollable="true">
-                <p:column headerText="Username" style="width: 100px; padding-top:7px; padding-bottom:7px">
+            <p:dataTable var="account" value="#{accountsController.accounts}" selectionMode="single" selection="#{accountsController.account}" rowKey="#{account.username}" scrollable="true">
+                <p:column headerText="Username" style="width: 100px">
                     <h:outputText value="#{account.username}" styleClass="font-small"/>
                 </p:column>
                 <p:column headerText="Access" style="width: 100px;">

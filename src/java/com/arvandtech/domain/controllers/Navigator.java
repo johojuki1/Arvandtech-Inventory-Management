@@ -16,10 +16,12 @@ import org.primefaces.event.TabChangeEvent;
 @SessionScoped
 public class Navigator implements Serializable {
 
-    private final String WEBLINK = "/settings/";
+    private final String SETTINGSLINK = "/settings/";
+    private final String ADDSTOCKLINK = "/addStock/";
     private int mainPageIndex;
     private int settingsIndex;
     private int accountIndex;
+    private int addStockIndex;
 
     /*
     Storage of current location of main tab system. (The one that is permanately visible of left of all pages.
@@ -38,28 +40,34 @@ public class Navigator implements Serializable {
     }
 
     /*
-    Stores current page of account management system.
-     */
-    public void setAccountIndex(int index) {
-        accountIndex = index;
-    }
-
-    /*
     Returns user's current location within the account management system. 
      */
     public String getAccountLink() {
         switch (accountIndex) {
             case 0:
-                return WEBLINK + "accountManagement/accountManagement.xhtml";
+                return SETTINGSLINK + "accountManagement/accountManagement.xhtml";
             case 1:
-                return WEBLINK + "accountManagement/createAccount.xhtml";
+                return SETTINGSLINK + "accountManagement/createAccount.xhtml";
             case 2:
-                return WEBLINK + "accountManagement/editAccount.xhtml";
+                return SETTINGSLINK + "accountManagement/editAccount.xhtml";
             case 3:
-                return WEBLINK + "accountManagement/changePassword.xhtml";
+                return SETTINGSLINK + "accountManagement/changePassword.xhtml";
             default:
                 accountIndex = 0;
-                return WEBLINK + "accountManagement/accountManagement.xhtml";
+                return SETTINGSLINK + "accountManagement/accountManagement.xhtml";
+        }
+    }
+
+    /*
+    Returns user's current location within the add stock pages. 
+     */
+    public String getAddStockLink() {
+        switch (addStockIndex) {
+            case 0:
+                return ADDSTOCKLINK + "pageElements/typeSelect.xhtml";
+            default:
+                addStockIndex = 0;
+                return ADDSTOCKLINK + "pageElements/typeSelect.xhtml";
         }
     }
 
@@ -79,5 +87,12 @@ public class Navigator implements Serializable {
 
     public void setSettingsIndex(int settingsIndex) {
         this.settingsIndex = settingsIndex;
+    }
+    public void setAccountIndex(int accountIndex) {
+        this.accountIndex = accountIndex;
+    }
+
+    public void setAddStockIndex(int addStockIndex) {
+        this.addStockIndex = addStockIndex;
     }
 }
