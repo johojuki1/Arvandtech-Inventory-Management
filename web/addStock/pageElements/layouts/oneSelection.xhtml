@@ -8,9 +8,10 @@
     <h:outputText class="small-title" value="#{itemTitle}"/>
     <div class="medium-view-line-break"/>
     <p:selectOneMenu value="#{selection}" style="width:150px">
-        <p:ajax/>
-        <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
-        <f:selectItems value="#{dropdown}"  var="#{var}" itemLabel="#{dropName}" />
+        <p:ajax event="valueChange"  listener="#{listener}" process="@this" update="#{update}"/>
+        <f:selectItem itemValue="" noSelectionOption="false" />
+        <f:selectItems value="#{dropdown}" var="#{var}" itemValue="#{dropValue}" itemLabel="#{dropName}" />
     </p:selectOneMenu>
+    <div class="medium-view-line-break"/>
 </ui:composition>
 

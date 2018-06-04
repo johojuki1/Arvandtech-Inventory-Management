@@ -82,6 +82,10 @@ Common formatting types across all pages
     padding-top: 5%;
 }
 
+.three-px-line-break {
+    padding-top: 3px;
+}
+
 .ten-px-line-break {
     padding-top: 10px;
 }
@@ -101,6 +105,10 @@ Common formatting types across all pages
 
 .small-title {
     font-size: 24px;
+}
+
+.smaller-title {
+    font-size: 18px;
 }
 
 .font-small {
