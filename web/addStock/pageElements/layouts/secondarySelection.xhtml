@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="small-view-line-break"/>
+        <h:outputText  class="smaller-title" value="#{secondaryTitle}"/>
+        <div class="three-px-line-break"/>
+        <p:selectOneMenu style="width:150px" value="#{secondarySelection}">
+            <p:ajax event="valueChange" listener="#{secondarylistener}"/>
+            <f:selectItem itemValue="" noSelectionOption="false" />
+            <f:selectItems value="#{secondaryDrop}" var="#{sVar}" itemValue="#{secondaryValue}" itemLabel="#{secondaryName}" />
+        </p:selectOneMenu>
+    <div class="medium-view-line-break"/>
+</ui:composition>
+

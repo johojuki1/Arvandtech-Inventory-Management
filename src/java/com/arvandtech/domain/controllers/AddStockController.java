@@ -83,6 +83,7 @@ public class AddStockController implements Serializable {
     }
 
     public void updatePrimaryAttribute(int i, String select) {
+        try {
         SelectableBox tmpSelect = selectFacade.find(Integer.valueOf(select));
         ItemAttribute tmpAtt = new ItemAttribute();
         tmpAtt.setAttributeName(item.getAttribute().get(i - 1).getAttributeName());
@@ -92,6 +93,12 @@ public class AddStockController implements Serializable {
         }
         attributes.set(i - 1, tmpAtt);
         selections.set(i - 1, tmpSelect);
+        } catch (Exception e) {   
+        }
+    }
+
+    public void updateSecondaryAttribute(int i, String select) {
+        String s = "s";
     }
 
     public String findLink(int i) {
@@ -104,12 +111,34 @@ public class AddStockController implements Serializable {
                     }
                 } catch (Exception e) {
                 }
-                return "layouts/oneSelection.xhtml";
+                return "layouts/twoSelections.xhtml";
             } else {
                 return "layouts/entry.xhtml";
             }
         }
         return "";
+    }
+
+    public String findSecondaryLink(int i) {
+        {
+            try {
+                if (selections.get(i - 1).getName() != null && selections.get(i - 1).isSecondary()) {
+                    return "secondarySelection.xhtml";
+                }
+            } catch (Exception e) {
+            }
+            return "";
+        }
+    }
+
+    public boolean secondaryRender(int i) {
+        try {
+            if (selections.get(i - 1).getName() != null && selections.get(i - 1).isSecondary()) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
     }
 
     public List<SelectableBox> findSelectables(int i) {
@@ -119,8 +148,12 @@ public class AddStockController implements Serializable {
     }
 
     public List<SecondaryAttribute> findSecondaries(int i) {
-        selections.get(i-1).getSecondaryAttribute().sort(Comparator.comparing(SecondaryAttribute::getSecondaryOrder));
-        return selections.get(i-1).getSecondaryAttribute();
+        try {
+            selections.get(i - 1).getSecondaryAttribute().sort(Comparator.comparing(SecondaryAttribute::getSecondaryOrder));
+            return selections.get(i - 1).getSecondaryAttribute();
+        } catch (Exception e) {
+        }
+        return null;
     }
 
     //GETTERS
