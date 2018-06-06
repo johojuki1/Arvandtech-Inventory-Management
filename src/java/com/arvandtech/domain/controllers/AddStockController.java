@@ -38,7 +38,6 @@ public class AddStockController implements Serializable {
     private ItemType item;
     private ArrayList<ItemAttribute> attributes;
     private ArrayList<SelectableBox> selections;
-    private String tmpEntry;
 
     public List<ItemType> findAllItems() {
         return itemFacade.findAll();
@@ -82,19 +81,8 @@ public class AddStockController implements Serializable {
         }
     }
 
-    public void updatePrimaryAttribute(int i, String select) {
-        try {
-        SelectableBox tmpSelect = selectFacade.find(Integer.valueOf(select));
-        ItemAttribute tmpAtt = new ItemAttribute();
-        tmpAtt.setAttributeName(item.getAttribute().get(i - 1).getAttributeName());
-        tmpAtt.setAttributeValue(tmpSelect.getName());
-        if (tmpSelect.isSecondary()) {
-            tmpAtt.setSecondaryName(tmpSelect.getSecondaryName());
-        }
-        attributes.set(i - 1, tmpAtt);
-        selections.set(i - 1, tmpSelect);
-        } catch (Exception e) {   
-        }
+    //Function is pointless and only used to trigger onchange.
+    public void listener() {
     }
 
     public void updateSecondaryAttribute(int i, String select) {
@@ -105,13 +93,7 @@ public class AddStockController implements Serializable {
         if (attributeExists(i)) {
             Attribute tmpAtt = item.getAttribute().get(i - 1);
             if (tmpAtt.isSelectable()) {
-                try {
-                    if (selections.get(i - 1).getName() != null && selections.get(i - 1).isSecondary()) {
-                        return "layouts/twoSelections.xhtml";
-                    }
-                } catch (Exception e) {
-                }
-                return "layouts/twoSelections.xhtml";
+                return "layouts/selectable.xhtml";
             } else {
                 return "layouts/entry.xhtml";
             }
@@ -119,26 +101,22 @@ public class AddStockController implements Serializable {
         return "";
     }
 
-    public String findSecondaryLink(int i) {
-        {
-            try {
-                if (selections.get(i - 1).getName() != null && selections.get(i - 1).isSecondary()) {
-                    return "secondarySelection.xhtml";
-                }
-            } catch (Exception e) {
-            }
-            return "";
-        }
-    }
-
-    public boolean secondaryRender(int i) {
+    public String findSecondaryLink(int i, int id) {
         try {
+            if (id == -1) {
+                selections.set(i - 1, new SelectableBox());
+            }
+            else if (id != 0) {
+                SelectableBox tmpsb = selectFacade.find(id);
+                selections.set(i - 1, tmpsb);
+            }
             if (selections.get(i - 1).getName() != null && selections.get(i - 1).isSecondary()) {
-                return true;
+                return "secondarySelection.xhtml";
             }
         } catch (Exception e) {
         }
-        return false;
+        return "";
+
     }
 
     public List<SelectableBox> findSelectables(int i) {
@@ -161,16 +139,10 @@ public class AddStockController implements Serializable {
         return item;
     }
 
-    public String getTmpEntry() {
-        return tmpEntry;
-    }
-
     //SETTERS
     public void setItem(ItemType item) {
+        item.getAttribute().sort(Comparator.comparing(Attribute::getAttributeOrder));
         this.item = item;
     }
 
-    public void setTmpEntry(String tmpEntry) {
-        this.tmpEntry = tmpEntry;
-    }
 }

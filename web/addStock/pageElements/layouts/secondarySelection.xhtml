@@ -6,8 +6,8 @@
     <div class="small-view-line-break"/>
         <h:outputText  class="smaller-title" value="#{secondaryTitle}"/>
         <div class="three-px-line-break"/>
-        <p:selectOneMenu style="width:150px" value="#{secondarySelection}">
-            <p:ajax event="valueChange" listener="#{secondarylistener}"/>
+        <p:selectOneMenu id="#{secondarySelectableId}" style="width:150px" value="#{secondarySelection}">
+            <p:ajax event="valueChange" update="@none"/>
             <f:selectItem itemValue="" noSelectionOption="false" />
             <f:selectItems value="#{secondaryDrop}" var="#{sVar}" itemValue="#{secondaryValue}" itemLabel="#{secondaryName}" />
         </p:selectOneMenu>

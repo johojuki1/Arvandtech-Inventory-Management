@@ -8,14 +8,15 @@
     <div style="display: block" >
         <h:outputText class="small-title" value="#{itemTitle}"/>
         <div class="medium-view-line-break"/>
-        <p:selectOneMenu style="width:150px" value="#{selection}">
-            <p:ajax event="valueChange" listener="#{listener}" update="@form"/>
-            <f:selectItem itemValue="" noSelectionOption="false" />
+        <p:selectOneMenu style="width:150px" value="#{selection}" onchange="#{listener}" >
+            <p:ajax update="#{update}"/>
+            <f:selectItem itemValue="-1" noSelectionOption="false" />
             <f:selectItems value="#{dropdown}" var="#{var}" itemValue="#{dropValue}" itemLabel="#{dropName}" />
         </p:selectOneMenu>
     </div>
-    <p:outputPanel id="boxId" style="display: block; padding-left:50px">
+    <p:outputPanel id="#{secondaryBoxId}" style="display: block; padding-left:50px">
         <ui:include src="#{secondaryLink}"/>
     </p:outputPanel>
+
 </ui:composition>
 

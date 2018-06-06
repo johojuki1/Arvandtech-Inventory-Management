@@ -103,6 +103,10 @@ Common formatting types across all pages
     font-size: 36px;
 }
 
+.medium-title {
+    font-size: 28px;
+}
+
 .small-title {
     font-size: 24px;
 }
