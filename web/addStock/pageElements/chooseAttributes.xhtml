@@ -4,7 +4,7 @@
                 xmlns:p="http://primefaces.org/ui">
 
     <h:outputText class="medium-title" value="#{addStock.item.typeName}" />
-    <div class="medium-line-break"/>
+    <div class="small-line-break"/>
 
     <p:outputPanel id="add1" rendered="#{addStock.attributeExists(1)}"> 
         <ui:include src="#{addStock.findLink(1)}">
@@ -29,7 +29,6 @@
             <ui:param name="secondarySelectableId" value="ss1"/>
         </ui:include>
     </p:outputPanel>
-
     <p:outputPanel id="add2" rendered="#{addStock.attributeExists(2)}"> 
         <ui:include src="#{addStock.findLink(2)}">
             <ui:param name="itemTitle" value="#{addStock.findTitle(2)}"/>
@@ -118,7 +117,6 @@
             <ui:param name="secondarySelectableId" value="ss5"/>
         </ui:include>
     </p:outputPanel>
-
     <div style="padding:3px; padding-top:40px; display: block">
         <p:commandButton  action="#{navigator.setAddStockIndex(0)}" value="Back" immediate="true" styleClass="small-buttons" update="@form">
         </p:commandButton>

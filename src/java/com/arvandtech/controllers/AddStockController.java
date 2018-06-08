@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain.controllers;
+package com.arvandtech.controllers;
 
-import com.arvandtech.domain.Attribute;
-import com.arvandtech.domain.ItemType;
-import com.arvandtech.domain.ItemTypeFacade;
-import com.arvandtech.domain.SelectableBox;
-import com.arvandtech.domain.ItemAttribute;
-import com.arvandtech.domain.SecondaryAttribute;
-import com.arvandtech.domain.SelectableBoxFacade;
+import com.arvandtech.domain.entities.Attribute;
+import com.arvandtech.domain.entities.ItemType;
+import com.arvandtech.domain.facades.ItemTypeFacade;
+import com.arvandtech.domain.entities.SelectableBox;
+import com.arvandtech.domain.entities.ItemAttribute;
+import com.arvandtech.domain.entities.SecondaryAttribute;
+import com.arvandtech.domain.facades.SelectableBoxFacade;
+import com.arvandtech.utilities.Settings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -47,7 +48,7 @@ public class AddStockController implements Serializable {
         attributes = new ArrayList<>();
         selections = new ArrayList<>();
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < new Settings().getMAX_ATTRIBUTES(); i++) {
                 try {
                     item.getAttribute().get(i);
                     attributes.add(new ItemAttribute());
@@ -66,7 +67,7 @@ public class AddStockController implements Serializable {
     }
 
     public String findSecondaryTitle(int i) {
-        return attributes.get(i - 1).getSecondaryName();
+        return selections.get(i - 1).getSecondaryName();
     }
 
     public void clearItem() {
@@ -74,14 +75,17 @@ public class AddStockController implements Serializable {
     }
 
     public boolean attributeExists(int i) {
-        if (i <= attributes.size()) {
-            return true;
-        } else {
-            return false;
-        }
+        return i <= item.getAttribute().size();
     }
 
-    //Function is pointless and only used to trigger onchange.
+    /*
+    Function is pointless and only used to trigger onchange.
+    onchange needs to be triggered for the 'findSecondaryLink' function to recieve its correct id. Otherwise the id returns as 0 all of the time.
+    I tried to use ajax to trigger the ID, but the attribute 'select' on the html does not persist until 'findSecondaryLink' triggers.
+    Many solutions were trialed including having a saparate listener as an ajax command and having the 'onchange' command do soemthing.
+    None worked due to load orders of HTML or 'select' attribute no longer existing.
+    This non-sensical solution is the only one tested that works short of making a different attribute for every 'SelectableBox' object. 
+    */
     public void listener() {
     }
 
@@ -105,10 +109,13 @@ public class AddStockController implements Serializable {
         try {
             if (id == -1) {
                 selections.set(i - 1, new SelectableBox());
-            }
-            else if (id != 0) {
+            } else if (id != 0) {
                 SelectableBox tmpsb = selectFacade.find(id);
                 selections.set(i - 1, tmpsb);
+                ItemAttribute tmpAtt = new ItemAttribute();
+                tmpAtt.setAttributeName(item.getAttribute().get(i - 1).getAttributeName());
+                tmpAtt.setAttributeValue(tmpsb.getName());
+                attributes.set(i - 1, tmpAtt);
             }
             if (selections.get(i - 1).getName() != null && selections.get(i - 1).isSecondary()) {
                 return "secondarySelection.xhtml";
@@ -116,7 +123,6 @@ public class AddStockController implements Serializable {
         } catch (Exception e) {
         }
         return "";
-
     }
 
     public List<SelectableBox> findSelectables(int i) {

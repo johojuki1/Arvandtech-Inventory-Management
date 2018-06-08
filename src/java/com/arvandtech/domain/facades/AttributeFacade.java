@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain;
+package com.arvandtech.domain.facades;
 
+import com.arvandtech.domain.entities.Attribute;
+import com.arvandtech.domain.entities.SelectableBox;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;

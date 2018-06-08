@@ -1,4 +1,4 @@
-package com.arvandtech.domain.controllers;
+package com.arvandtech.controllers;
 
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;

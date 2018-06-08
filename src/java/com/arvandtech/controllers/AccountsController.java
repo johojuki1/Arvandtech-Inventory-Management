@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain.controllers;
+package com.arvandtech.controllers;
 
-import com.arvandtech.domain.Accounts;
-import com.arvandtech.domain.AccountsFacade;
-import com.arvandtech.domain.utilities.Security;
+import com.arvandtech.domain.entities.Accounts;
+import com.arvandtech.domain.facades.AccountsFacade;
+import com.arvandtech.utilities.Security;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;

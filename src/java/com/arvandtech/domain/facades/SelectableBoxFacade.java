@@ -1,5 +1,7 @@
-package com.arvandtech.domain;
+package com.arvandtech.domain.facades;
 
+import com.arvandtech.domain.entities.SecondaryAttribute;
+import com.arvandtech.domain.entities.SelectableBox;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;

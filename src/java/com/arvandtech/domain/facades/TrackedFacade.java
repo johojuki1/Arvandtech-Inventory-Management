@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain;
+package com.arvandtech.domain.facades;
 
+import com.arvandtech.domain.entities.Tracked;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author User
  */
 @Stateless
-public class ItemAttributeFacade extends AbstractFacade<ItemAttribute> {
+public class TrackedFacade extends AbstractFacade<Tracked> {
 
     @PersistenceContext(unitName = "arvandtechintranet_V1PU")
     private EntityManager em;
@@ -24,8 +25,8 @@ public class ItemAttributeFacade extends AbstractFacade<ItemAttribute> {
         return em;
     }
 
-    public ItemAttributeFacade() {
-        super(ItemAttribute.class);
+    public TrackedFacade() {
+        super(Tracked.class);
     }
     
 }

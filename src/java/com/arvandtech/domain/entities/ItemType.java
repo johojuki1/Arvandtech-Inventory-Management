@@ -1,4 +1,4 @@
-package com.arvandtech.domain;
+package com.arvandtech.domain.entities;
 
 import java.io.Serializable;
 import java.util.Comparator;

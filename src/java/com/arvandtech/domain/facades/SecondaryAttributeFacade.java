@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain;
+package com.arvandtech.domain.facades;
 
+import com.arvandtech.domain.entities.SecondaryAttribute;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

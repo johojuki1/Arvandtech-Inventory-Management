@@ -3,9 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain.controllers;
+package com.arvandtech.controllers;
 
-import com.arvandtech.domain.*;
+import com.arvandtech.domain.entities.ItemType;
+import com.arvandtech.domain.entities.SelectableBox;
+import com.arvandtech.domain.facades.ItemTypeFacade;
+import com.arvandtech.domain.entities.Attribute;
+import com.arvandtech.domain.entities.SecondaryAttribute;
+import com.arvandtech.domain.facades.SecondaryAttributeFacade;
+import com.arvandtech.domain.facades.SelectableBoxFacade;
+import com.arvandtech.domain.facades.AttributeFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
