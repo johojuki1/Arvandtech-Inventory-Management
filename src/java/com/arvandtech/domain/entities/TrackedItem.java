@@ -6,26 +6,28 @@
 package com.arvandtech.domain.entities;
 
 import java.io.Serializable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.Table;
 
 /**
  *
  * @author User
  */
 @Entity
+@Table(name = "tracked_itemAttribute")
 public class TrackedItem implements Serializable {
 
-    private int id;
+    private TrackedItemId id;
     private Tracked tracked;
     private ItemAttribute attribute;
     private int itemOrder;
 
     //GETTERS
-    @Id
-    public int getId() {
+    @EmbeddedId
+    public TrackedItemId getId() {
         return id;
     }
 
@@ -46,7 +48,7 @@ public class TrackedItem implements Serializable {
     }
 
     //SETTERS
-    public void setId(int id) {
+    public void setId(TrackedItemId id) {
         this.id = id;
     }
 

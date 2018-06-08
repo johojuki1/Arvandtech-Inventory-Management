@@ -28,6 +28,14 @@ Common formatting types across all pages
     font-size: 16px;
 }
 
+.input-large-area-size {
+    width: 35vw;
+    min-height: 90px;
+    min-width: 150px;
+    max-width: 350px;
+    font-size: 16px;
+}
+
 .input-background-size {
     width: 90%;
     font-size: 14px;

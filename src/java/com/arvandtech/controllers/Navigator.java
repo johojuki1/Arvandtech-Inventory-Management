@@ -67,6 +67,8 @@ public class Navigator implements Serializable {
                 return ADDSTOCKLINK + "pageElements/typeSelect.xhtml";
             case 1:
                 return ADDSTOCKLINK + "pageElements/chooseAttributes.xhtml";
+            case 2:
+                return ADDSTOCKLINK + "pageElements/scanStock.xhtml";
             default:
                 addStockIndex = 0;
                 return ADDSTOCKLINK + "pageElements/typeSelect.xhtml";

@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:outputText class="medium-title" value="Scan Barcodes" />
+    <div class="small-line-break"/>
+    <div style="padding:3px; padding-bottom: 2%; display: inline-block">
+        <p:commandButton  action="#{navigator.setAddStockIndex(1)}" value="Back" immediate="true" update="@form">
+        </p:commandButton>
+    </div>
+</ui:composition>
+

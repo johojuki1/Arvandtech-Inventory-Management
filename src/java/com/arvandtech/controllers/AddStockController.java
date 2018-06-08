@@ -11,6 +11,7 @@ import com.arvandtech.domain.facades.ItemTypeFacade;
 import com.arvandtech.domain.entities.SelectableBox;
 import com.arvandtech.domain.entities.ItemAttribute;
 import com.arvandtech.domain.entities.SecondaryAttribute;
+import com.arvandtech.domain.facades.SecondaryAttributeFacade;
 import com.arvandtech.domain.facades.SelectableBoxFacade;
 import com.arvandtech.utilities.Settings;
 import java.io.Serializable;
@@ -36,9 +37,17 @@ public class AddStockController implements Serializable {
     @EJB
     private SelectableBoxFacade selectFacade;
 
+    @EJB
+    private SecondaryAttributeFacade secondaryFacade;
+
     private ItemType item;
     private ArrayList<ItemAttribute> attributes;
     private ArrayList<SelectableBox> selections;
+    private ArrayList<SecondaryAttribute> secondaries;
+    private String barcode;
+    private String status;
+    private String itemCondition;
+    private String description;
 
     public List<ItemType> findAllItems() {
         return itemFacade.findAll();
@@ -47,12 +56,14 @@ public class AddStockController implements Serializable {
     public boolean checkAttributeExist() {
         attributes = new ArrayList<>();
         selections = new ArrayList<>();
+        secondaries = new ArrayList<>();
         try {
             for (int i = 0; i < new Settings().getMAX_ATTRIBUTES(); i++) {
                 try {
                     item.getAttribute().get(i);
                     attributes.add(new ItemAttribute());
                     selections.add(new SelectableBox());
+                    secondaries.add(new SecondaryAttribute());
                 } catch (Exception e) {
                 }
             }
@@ -85,12 +96,15 @@ public class AddStockController implements Serializable {
     Many solutions were trialed including having a saparate listener as an ajax command and having the 'onchange' command do soemthing.
     None worked due to load orders of HTML or 'select' attribute no longer existing.
     This non-sensical solution is the only one tested that works short of making a different attribute for every 'SelectableBox' object. 
-    */
+     */
     public void listener() {
     }
 
-    public void updateSecondaryAttribute(int i, String select) {
-        String s = "s";
+    public void updateSecondaryAttribute(int i, int id) {
+        if (id != 0) {
+            SecondaryAttribute tmpsa = secondaryFacade.find(id);
+            secondaries.set(i - 1, tmpsa);
+        }
     }
 
     public String findLink(int i) {
@@ -125,6 +139,15 @@ public class AddStockController implements Serializable {
         return "";
     }
 
+    public void moveToScan() {
+        scanItem = item;
+        int counter = 0;
+        for (Attribute tmpAtt : scanItem.getAttribute()) {
+            //SET ONE TRACKED ITEM OBJECT
+        }
+
+    }
+
     public List<SelectableBox> findSelectables(int i) {
         Attribute tmpAtt = item.getAttribute().get(i - 1);
         tmpAtt.getSelectableBox().sort(Comparator.comparing(SelectableBox::getSelectableOrder));
@@ -140,9 +163,33 @@ public class AddStockController implements Serializable {
         return null;
     }
 
+    public List<String> fetchStatusDropdown() {
+        return new Settings().getStatus();
+    }
+
+    public List<String> fetchConditionDropdown() {
+        return new Settings().getCondition();
+    }
+
     //GETTERS
     public ItemType getItem() {
         return item;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getItemCondition() {
+        return itemCondition;
     }
 
     //SETTERS
@@ -151,4 +198,19 @@ public class AddStockController implements Serializable {
         this.item = item;
     }
 
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setItemCondition(String itemCondition) {
+        this.itemCondition = itemCondition;
+    }
 }

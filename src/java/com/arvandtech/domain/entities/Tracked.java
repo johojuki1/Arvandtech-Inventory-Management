@@ -29,8 +29,10 @@ public class Tracked implements Serializable {
     private String itemTypeName;
     private String barcode;
     private String status;
+    private String itemCondition;
     private Date dateAdded;
     private String description;
+    private String orderNum;
     private List<TrackedItem> attributes;
 
     //GETTERS
@@ -56,9 +58,19 @@ public class Tracked implements Serializable {
     }
 
     @Column(nullable = false)
+    public String getItemCondition() {
+        return itemCondition;
+    }
+
+    @Column(nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
     public Date getDateAdded() {
         return dateAdded;
+    }
+
+    @Column(nullable = false)
+    public String getOrderNum() {
+        return orderNum;
     }
 
     public String getDescription() {
@@ -88,6 +100,10 @@ public class Tracked implements Serializable {
         this.status = status;
     }
 
+    public void setItemCondition(String itemCondition) {
+        this.itemCondition = itemCondition;
+    }
+
     public void setDateAdded(Date dateAdded) {
         this.dateAdded = dateAdded;
     }
@@ -98,5 +114,9 @@ public class Tracked implements Serializable {
 
     public void setAttributes(List<TrackedItem> attributes) {
         this.attributes = attributes;
+    }
+
+    public void setOrderNum(String orderNum) {
+        this.orderNum = orderNum;
     }
 }
