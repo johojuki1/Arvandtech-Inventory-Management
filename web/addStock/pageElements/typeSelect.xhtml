@@ -5,7 +5,7 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
         <add-stock-table-box onload="#{addStock.clearItem()}">
             <p:dataTable var="itemType" value="#{addStock.findAllItems()}" selectionMode="single" selection="#{addStock.item}" rowKey="#{itemType.itemTypeId}" sortBy="#{itemType.itemOrder}" scrollable="true" >
-                <p:ajax event="rowSelect" listener="#{navigator.setAddStockIndex(1, addStock.checkAttributeExist())}" update="@form"/>
+                <p:ajax event="rowSelect" listener="#{navigator.setAddStockIndex(1, addStock.checkAttributeExist())}" onsuccess="#{addStock.resetAll()}" update="@form"/>
                 <p:column width="100" headerText="Item Type" style="width:100px">
                     <h:outputText value="#{itemType.typeName}"/>
                 </p:column>

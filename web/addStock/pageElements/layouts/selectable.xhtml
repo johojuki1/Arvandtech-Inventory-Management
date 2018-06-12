@@ -10,7 +10,7 @@
         <div class="medium-view-line-break"/>
         <p:selectOneMenu style="width:150px" value="#{selection}" onchange="#{listener}" >
             <p:ajax update="#{update}"/>
-            <f:selectItem itemValue="-1" noSelectionOption="false" />
+            <f:selectItem itemValue="-1" noSelectionOption="false"/>
             <f:selectItems value="#{dropdown}" var="#{var}" itemValue="#{dropValue}" itemLabel="#{dropName}" />
         </p:selectOneMenu>
     </div>

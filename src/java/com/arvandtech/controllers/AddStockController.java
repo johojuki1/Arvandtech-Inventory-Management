@@ -11,6 +11,8 @@ import com.arvandtech.domain.facades.ItemTypeFacade;
 import com.arvandtech.domain.entities.SelectableBox;
 import com.arvandtech.domain.entities.ItemAttribute;
 import com.arvandtech.domain.entities.SecondaryAttribute;
+import com.arvandtech.domain.entities.Tracked;
+import com.arvandtech.domain.entities.TrackedItem;
 import com.arvandtech.domain.facades.SecondaryAttributeFacade;
 import com.arvandtech.domain.facades.SelectableBoxFacade;
 import com.arvandtech.utilities.Settings;
@@ -20,6 +22,9 @@ import java.util.Comparator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 
 /**
@@ -44,9 +49,11 @@ public class AddStockController implements Serializable {
     private ArrayList<ItemAttribute> attributes;
     private ArrayList<SelectableBox> selections;
     private ArrayList<SecondaryAttribute> secondaries;
+    private Tracked selectedAttributes;
     private String barcode;
     private String status;
     private String itemCondition;
+    private String orderNo;
     private String description;
 
     public List<ItemType> findAllItems() {
@@ -71,6 +78,16 @@ public class AddStockController implements Serializable {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void resetAll() {
+        status = new String();
+        itemCondition = new String();
+        selectedAttributes = new Tracked();
+        secondaries = new ArrayList<>();
+        selections = new ArrayList<>();
+        attributes = new ArrayList<>();
+        orderNo = new String();
     }
 
     public String findTitle(int i) {
@@ -139,13 +156,59 @@ public class AddStockController implements Serializable {
         return "";
     }
 
-    public void moveToScan() {
-        scanItem = item;
-        int counter = 0;
-        for (Attribute tmpAtt : scanItem.getAttribute()) {
-            //SET ONE TRACKED ITEM OBJECT
+    public int moveToScan() {
+        selectedAttributes = new Tracked();
+        boolean errorChecker = true;
+        if (!checkEmpty(itemCondition, "Item condition cannot be empty", "submitButton")) {
+            errorChecker = false;
         }
+        if (!checkEmpty(status, "Item status cannot be empty", "submitButton")) {
+            errorChecker = false;
+        }
+        if (!checkEmpty(orderNo, "Item order number cannot be empty", "submitButton")) {
+            errorChecker = false;
+        }
+        if (!errorChecker) {
+            return 1;
+        }
+        selectedAttributes.setItemCondition(itemCondition);
+        selectedAttributes.setStatus(status);
+        selectedAttributes.setItemTypeName(item.getTypeName());
+        List<TrackedItem> tmpAttributeList = new ArrayList<>();
+        for (int i = 0; i < item.getAttribute().size(); i++) {
+            TrackedItem tmpAttribute = new TrackedItem();
+            tmpAttribute.setAttribute(attributes.get(i));
+            if (selections.get(i).isSecondary()) {
+                tmpAttribute.getAttribute().setSecondaryName(selections.get(i).getSecondaryName());
+                tmpAttribute.getAttribute().setSecondaryValue(secondaries.get(i).getSecondaryAttributeName());
+            }
+            tmpAttributeList.add(tmpAttribute);
+            /*if (!checkEmpty(status, "All attribute fields much be filled in and cannot be empty.", "submitButton")) {
+            errorChecker = false;
+        }*/
+        }
+        selectedAttributes.setAttributes(tmpAttributeList);
+        return 2;
+    }
 
+    public boolean checkEmpty(String string, String fieldEmptyError, String errorBoxName) {
+        if (string.isEmpty() || string.equals("-1")) {
+            FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error:", fieldEmptyError));
+            return false;
+        }
+        return true;
+    }
+
+    public void addManualInputs(ActionEvent event) {
+        for (int i = 0; i < new Settings().getMAX_ATTRIBUTES(); i++) {
+            String tmpManual = (String) event.getComponent().getAttributes().get("man" + (i + 1));
+            if (tmpManual != null) {
+                if (!tmpManual.equals("")) {
+                    attributes.get(i).setAttributeName(item.getAttribute().get(i).getAttributeName());
+                    attributes.get(i).setAttributeValue(tmpManual);
+                }
+            }
+        }
     }
 
     public List<SelectableBox> findSelectables(int i) {
@@ -192,6 +255,10 @@ public class AddStockController implements Serializable {
         return itemCondition;
     }
 
+    public String getOrderNo() {
+        return orderNo;
+    }
+
     //SETTERS
     public void setItem(ItemType item) {
         item.getAttribute().sort(Comparator.comparing(Attribute::getAttributeOrder));
@@ -212,5 +279,9 @@ public class AddStockController implements Serializable {
 
     public void setItemCondition(String itemCondition) {
         this.itemCondition = itemCondition;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 }
