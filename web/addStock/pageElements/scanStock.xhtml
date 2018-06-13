@@ -5,10 +5,185 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:outputText class="medium-title" value="Scan Barcodes" />
-    <div class="small-line-break"/>
-    <div style="padding:3px; padding-bottom: 2%; display: inline-block">
-        <p:commandButton  action="#{navigator.setAddStockIndex(0)}" value="Back" immediate="true" update="@form">
-        </p:commandButton>
+    <div style="padding:3px; padding-bottom: 1%">
+        <p:outputPanel style="display: block">
+            <p:outputPanel id="scanItemName" style="display: inline-block; padding-left: 30px;">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="Item Type"/>
+                    <ui:param name="primaryValue" value="#{addStock.item.typeName}"/>
+                    <ui:param name="secondaryExists" value="true"/>
+                    <ui:param name="secondaryTitle" value="Invoice No"/>
+                    <ui:param name="secondaryValue" value="#{addStock.orderNo}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan1" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(1)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(1, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(1, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(1)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(1, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(1, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan2" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(2)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(2, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(2, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(2)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(2, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(2, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan3" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(3)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(3, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(3, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(3)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(3, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(3, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan4" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(4)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(4, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(4, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(4)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(4, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(4, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan5" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(5)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(5, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(5, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(5)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(5, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(5, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan6" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(6)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(6, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(6, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(6)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(6, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(6, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan7" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(7)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(7, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(7, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(7)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(7, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(7, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan8" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(8)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(8, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(8, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(8)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(8, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(8, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan9" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(9)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(9, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(9, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(9)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(9, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(9, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+            <p:outputPanel id="scan10" style="display: inline-block; padding-left: 30px;" rendered="#{addStock.attributeExists(10)}">
+                <ui:include src="layouts/showAttribute.xhtml">
+                    <ui:param name="primaryTitle" value="#{addStock.fetchAttributeValue(10, true, true)}"/>
+                    <ui:param name="primaryValue" value="#{addStock.fetchAttributeValue(10, true, false)}"/>
+                    <ui:param name="secondaryExists" value="#{addStock.checkSecondaryExists(10)}"/>
+                    <ui:param name="secondaryTitle" value="#{addStock.fetchAttributeValue(10, false, true)}"/>
+                    <ui:param name="secondaryValue" value="#{addStock.fetchAttributeValue(10, false, false)}"/>
+                </ui:include>
+            </p:outputPanel>
+        </p:outputPanel>
+        <div style="display: block; padding-bottom: 2vh;"/>
+        <div style="display: block; min-width: 730px; max-width: 900px; width: 70vw">
+            <p:dataTable var="item" value="#{addStock.tableItems}" selectionMode="single" selection="#{addStock.selectedTableItem}"  onRowClick="#{addStock.initiateEdit()}" rowKey="#{item.id}" scrollable="true">
+                <p:column headerText="Barcode" style="width: 300px">
+                    <h:outputText value="#{item.barcode}" styleClass="font-small"/>
+                </p:column>
+                <p:column headerText="Status" style="">
+                    <h:outputText value="#{item.status}" styleClass="font-small"/>
+                </p:column>
+                <p:column headerText="Condition" style="">
+                    <h:outputText value="#{item.condition}" styleClass="font-small"/>
+                </p:column>
+                <p:column headerText="Description" style="width:100px">
+                    <h:outputText value="#{item.descriptionExists}" styleClass="font-small"/>
+                </p:column>
+                <p:column headerText=" " style="width: 20px">
+                    <h:outputText value="#{account.email}" styleClass="font-small"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div style="display:flex; padding-top: 10px; justify-content: flex-start">
+                        <div style="display:flex; align-items: center">
+                            <h:outputText class="font-medium" value="Barcode: "/>
+                            <div style="padding-left: 78px"/>
+                            <p:inputText id="barcodeInput" style="width: 538px" value="#{addStock.barcode}"  onkeydown="if (event.keyCode === 13) {
+                                        addBarcode();
+                                        return false;
+                                    }"/>
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content: flex-start; padding-top: 15px;">
+                        <div style="display:flex; align-items: center">
+                            <h:outputText class="font-medium" value="Process Status:"/>
+                            <div style="padding-left: 20px"/>
+                            <p:selectOneMenu style="width:150px" value="#{addStock.status}" onchange="initiateFocus(); return false;">
+                                <f:selectItem itemValue="-1" noSelectionOption="false" />
+                                <f:selectItems value="#{addStock.fetchStatusDropdown()}" var="#{status}" itemValue="#{status}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div style="display:flex; align-items: center; padding-left: 22px;">
+                            <h:outputText class="font-medium" value="Item Condition:"/>
+                            <div style="padding-left: 20px"/>
+                            <p:selectOneMenu style="width:150px;" value="#{addStock.itemCondition}" onchange="initiateFocus(); return false;">
+                                <f:selectItem itemValue="-1" noSelectionOption="false" />
+                                <f:selectItems value="#{addStock.fetchConditionDropdown()}" var="#{cond}" itemValue="#{cond}"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div style="display:flex; padding-top: 15px; justify-content: flex-start">
+                        <h:outputText class="font-medium" value="Item Description: "/>
+                        <div style="padding-left: 9px"/>
+                        <p:inputTextarea style="width: 538px" value="#{addStock.description}" onkeydown="if (event.keyCode === 13) {
+                                    initiateFocus();
+                                    return false;
+                                }">
+                        </p:inputTextarea>
+                    </div>
+                    <p:remoteCommand name="addBarcode" action="#{addStock.addBarcodeItem()}"  update="@form"/>
+                    <p:remoteCommand name="initiateFocus"  oncomplete="PrimeFaces.focus('frm:newProjectName');"  update="@form"/>
+                    <p:focus for="barcodeInput"/>
+                    <div style="display: block">
+                        <div style="padding-top: 10px; display: inline; align-content: flex-start">
+                            <p:commandButton ajax="false" value="Edit Item" action="#{addStock.addBarcodeItem()}" disabled="#{addStock.tableStateAdd}" style="width: 15%!important; align-self: flex-start" styleClass="basic-buttons">
+                            </p:commandButton>
+                            <p:commandButton ajax="false" value="Cancel Edit" action="#{addStock.cancelEdit()}" disabled="#{addStock.tableStateAdd}" style="width: 20%!important; align-self: flex-start" styleClass="basic-buttons">
+                            </p:commandButton>
+                        </div>
+                        <div style="padding-top: 10px; display: inline;">
+                            <p:commandButton id = "back" styleClass="basic-buttons" style="float: right" action="#{navigator.setAddStockIndex(0)}" value="Back" immediate="true" update="@form">
+                            </p:commandButton>
+                            <p:commandButton ajax="false" value="Add All" styleClass="basic-buttons" style="float: right">
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </f:facet>
+            </p:dataTable>
+            <p:messages for="accountsTable" style="color:red" />
+        </div>
     </div>
 </ui:composition>
 

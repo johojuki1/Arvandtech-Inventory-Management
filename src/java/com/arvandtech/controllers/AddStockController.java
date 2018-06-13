@@ -15,6 +15,7 @@ import com.arvandtech.domain.entities.Tracked;
 import com.arvandtech.domain.entities.TrackedItem;
 import com.arvandtech.domain.facades.SecondaryAttributeFacade;
 import com.arvandtech.domain.facades.SelectableBoxFacade;
+import com.arvandtech.utilities.ScanBarcodeTable;
 import com.arvandtech.utilities.Settings;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,6 +56,9 @@ public class AddStockController implements Serializable {
     private String itemCondition;
     private String orderNo;
     private String description;
+    private ArrayList<ScanBarcodeTable> tableItems;
+    private ScanBarcodeTable selectedTableItem;
+    private boolean tableStateAdd;
 
     public List<ItemType> findAllItems() {
         return itemFacade.findAll();
@@ -178,25 +182,30 @@ public class AddStockController implements Serializable {
         for (int i = 0; i < item.getAttribute().size(); i++) {
             TrackedItem tmpAttribute = new TrackedItem();
             tmpAttribute.setAttribute(attributes.get(i));
+            tmpAttribute.setItemOrder(item.getAttribute().get(i).getAttributeOrder());
             if (selections.get(i).isSecondary()) {
                 tmpAttribute.getAttribute().setSecondaryName(selections.get(i).getSecondaryName());
                 tmpAttribute.getAttribute().setSecondaryValue(secondaries.get(i).getSecondaryAttributeName());
             }
             tmpAttributeList.add(tmpAttribute);
-            /*if (!checkEmpty(status, "All attribute fields much be filled in and cannot be empty.", "submitButton")) {
-            errorChecker = false;
-        }*/
+            if (!checkEmpty(tmpAttribute.getAttribute().getAttributeValue(), "All attribute fields must be filled in and cannot be empty.", "submitButton")) {
+                return 1;
+            }
         }
         selectedAttributes.setAttributes(tmpAttributeList);
+        tableItems = new ArrayList();
+        tableStateAdd = true;
         return 2;
     }
 
     public boolean checkEmpty(String string, String fieldEmptyError, String errorBoxName) {
-        if (string.isEmpty() || string.equals("-1")) {
-            FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error:", fieldEmptyError));
-            return false;
+        if (string != null) {
+            if (!(string.isEmpty() || string.equals("-1"))) {
+                return true;
+            }
         }
-        return true;
+        FacesContext.getCurrentInstance().addMessage(errorBoxName, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error:", fieldEmptyError));
+        return false;
     }
 
     public void addManualInputs(ActionEvent event) {
@@ -234,7 +243,92 @@ public class AddStockController implements Serializable {
         return new Settings().getCondition();
     }
 
-    //GETTERS
+    public String fetchAttributeValue(int number, boolean isPrimary, boolean isTitle) {
+        try {
+            if (isPrimary) {
+                if (isTitle) {
+                    return (selectedAttributes.getAttributes().get(number - 1).getAttribute().getAttributeName());
+                } else {
+                    return (selectedAttributes.getAttributes().get(number - 1).getAttribute().getAttributeValue());
+                }
+            } else {
+                if (isTitle) {
+                    return (selectedAttributes.getAttributes().get(number - 1).getAttribute().getSecondaryName());
+                } else {
+                    if (selectedAttributes.getAttributes().get(number - 1).getAttribute().getSecondaryValue() != null) {
+                        return (selectedAttributes.getAttributes().get(number - 1).getAttribute().getSecondaryValue());
+                    } else {
+                        if (selectedAttributes.getAttributes().get(number - 1).getAttribute().getSecondaryName() != null) {
+                            return ("Not Selected");
+                        } else {
+                            return "";
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public String checkSecondaryExists(int number) {
+        try {
+            if (selectedAttributes.getAttributes().get(number - 1).getAttribute().getSecondaryName() != null) {
+                return "true";
+            }
+        } catch (Exception e) {
+
+        }
+        return "false";
+    }
+
+    public void addBarcodeItem() {
+        if (tableStateAdd) {
+            ScanBarcodeTable tmpTableItem = new ScanBarcodeTable();
+            tmpTableItem.setBarcode(barcode);
+            tmpTableItem.setCondition(itemCondition);
+            tmpTableItem.setStatus(status);
+            tmpTableItem.setDescription(description);
+            if (tmpTableItem.getDescription().isEmpty()) {
+                tmpTableItem.setDescriptionExists("No");
+            } else {
+                tmpTableItem.setDescriptionExists("Yes");
+            }
+            if (tableItems.isEmpty()) {
+                tmpTableItem.setId(1);
+            } else {
+                tmpTableItem.setId(tableItems.get(tableItems.size() - 1).getId() + 1);
+            }
+            tableItems.add(tmpTableItem);
+            barcode = "";
+            itemCondition = selectedAttributes.getItemCondition();
+            status = selectedAttributes.getStatus();
+            description = "";
+        }
+    }
+
+    public void initiateEdit() {
+        try {
+            tableStateAdd = false;
+            barcode = selectedTableItem.getBarcode();
+            status = selectedTableItem.getStatus();
+            itemCondition = selectedTableItem.getCondition();
+            description = selectedTableItem.getDescription();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void cancelEdit() {
+        barcode = "";
+        itemCondition = selectedAttributes.getItemCondition();
+        status = selectedAttributes.getStatus();
+        description = "";
+        selectedTableItem = new ScanBarcodeTable();
+        tableStateAdd=true;
+    }
+//GETTERS
+
     public ItemType getItem() {
         return item;
     }
@@ -257,6 +351,18 @@ public class AddStockController implements Serializable {
 
     public String getOrderNo() {
         return orderNo;
+    }
+
+    public ArrayList<ScanBarcodeTable> getTableItems() {
+        return tableItems;
+    }
+
+    public ScanBarcodeTable getSelectedTableItem() {
+        return selectedTableItem;
+    }
+
+    public boolean isTableStateAdd() {
+        return tableStateAdd;
     }
 
     //SETTERS
@@ -283,5 +389,17 @@ public class AddStockController implements Serializable {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public void setTableItems(ArrayList<ScanBarcodeTable> tableItems) {
+        this.tableItems = tableItems;
+    }
+
+    public void setSelectedTableItem(ScanBarcodeTable selectedTableItem) {
+        this.selectedTableItem = selectedTableItem;
+    }
+
+    public void setTableStateAdd(boolean tableStateAdd) {
+        this.tableStateAdd = tableStateAdd;
     }
 }

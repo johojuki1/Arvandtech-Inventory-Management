@@ -123,12 +123,20 @@ Common formatting types across all pages
     font-size: 18px;
 }
 
+.font-medium {
+    font-size:18px;
+}
+
 .font-small {
     font-size:16px;
 }
 
 .font-tiny {
     font-size: 5px;
+}
+.font-small-invisible {
+    color: white;
+    font-size:16px;
 }
 
 /**
