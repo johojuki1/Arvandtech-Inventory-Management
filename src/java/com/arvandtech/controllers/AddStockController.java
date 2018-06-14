@@ -21,9 +21,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -107,7 +109,11 @@ public class AddStockController implements Serializable {
     }
 
     public boolean attributeExists(int i) {
-        return i <= item.getAttribute().size();
+        try {
+            return i <= item.getAttribute().size();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /*
@@ -194,7 +200,7 @@ public class AddStockController implements Serializable {
         }
         selectedAttributes.setAttributes(tmpAttributeList);
         tableItems = new ArrayList();
-        tableStateAdd = true;
+        initiateAdd();
         return 2;
     }
 
@@ -297,14 +303,33 @@ public class AddStockController implements Serializable {
             if (tableItems.isEmpty()) {
                 tmpTableItem.setId(1);
             } else {
-                tmpTableItem.setId(tableItems.get(tableItems.size() - 1).getId() + 1);
+                tmpTableItem.setId(tableItems.get(0).getId() + 1);
             }
             tableItems.add(tmpTableItem);
-            barcode = "";
-            itemCondition = selectedAttributes.getItemCondition();
-            status = selectedAttributes.getStatus();
-            description = "";
+            initiateAdd();
         }
+    }
+
+    public void editBarcodeItem() {
+        if (!tableStateAdd) {
+            int index = tableItems.indexOf(selectedTableItem);
+            selectedTableItem.setBarcode(barcode);
+            selectedTableItem.setCondition(itemCondition);
+            selectedTableItem.setStatus(status);
+            selectedTableItem.setDescription(description);
+            if (selectedTableItem.getDescription().isEmpty()) {
+                selectedTableItem.setDescriptionExists("No");
+            } else {
+                selectedTableItem.setDescriptionExists("Yes");
+            }
+            tableItems.set(index, selectedTableItem);
+            initiateAdd();
+        }
+    }
+
+    public void deleteBarcodeItem() {
+        tableItems.remove(selectedTableItem);
+        initiateAdd();
     }
 
     public void initiateEdit() {
@@ -319,13 +344,13 @@ public class AddStockController implements Serializable {
         }
     }
 
-    public void cancelEdit() {
+    public void initiateAdd() {
         barcode = "";
         itemCondition = selectedAttributes.getItemCondition();
         status = selectedAttributes.getStatus();
         description = "";
         selectedTableItem = new ScanBarcodeTable();
-        tableStateAdd=true;
+        tableStateAdd = true;
     }
 //GETTERS
 

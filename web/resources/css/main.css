@@ -68,6 +68,27 @@ Common formatting types across all pages
     display:block
 }
 
+.table-delete-button {
+    width: 32px;
+    height: 30px;
+    background: firebrick!important ;
+    background-color:firebrick !important;
+    border: none!important;
+    outline:none!important;
+    padding:0px!important;
+}
+
+.small-white-icon{
+    color: white !important;
+}
+
+.small-white-icon:before{
+    overflow: hidden;
+    position: absolute;
+    top: -1px;
+    left: 1px;
+}
+
 .selectone-normal-size{
     background:none;
 }

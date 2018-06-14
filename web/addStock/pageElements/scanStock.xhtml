@@ -109,31 +109,37 @@
         </p:outputPanel>
         <div style="display: block; padding-bottom: 2vh;"/>
         <div style="display: block; min-width: 730px; max-width: 900px; width: 70vw">
-            <p:dataTable var="item" value="#{addStock.tableItems}" selectionMode="single" selection="#{addStock.selectedTableItem}"  onRowClick="#{addStock.initiateEdit()}" rowKey="#{item.id}" scrollable="true">
-                <p:column headerText="Barcode" style="width: 300px">
-                    <h:outputText value="#{item.barcode}" styleClass="font-small"/>
-                </p:column>
-                <p:column headerText="Status" style="">
-                    <h:outputText value="#{item.status}" styleClass="font-small"/>
-                </p:column>
-                <p:column headerText="Condition" style="">
-                    <h:outputText value="#{item.condition}" styleClass="font-small"/>
-                </p:column>
-                <p:column headerText="Description" style="width:100px">
-                    <h:outputText value="#{item.descriptionExists}" styleClass="font-small"/>
-                </p:column>
-                <p:column headerText=" " style="width: 20px">
-                    <h:outputText value="#{account.email}" styleClass="font-small"/>
-                </p:column>
+            <p:dataTable id="barcodeTable" style="border-color: grey; border-style: solid; border-width: 1px" var="item" value="#{addStock.tableItems}" selectionMode="single" selection="#{addStock.selectedTableItem}" rowKey="#{item.id}" sortBy="#{item.id}" scrollHeight="400" sortOrder="descending" scrollable="true">
+                <p:ajax event="rowSelect" listener="#{addStock.initiateEdit()}" update="barcodeTable" />
+                <p:ajax event="rowUnselect" listener="#{addStock.initiateAdd()}" update="barcodeTable" />
+                <data-table>
+                    <p:column headerText="Barcode" style="width: 300px">
+                        <h:outputText value="#{item.barcode}" styleClass="font-small"/>
+                    </p:column>
+                    <p:column headerText="Status" style="">
+                        <h:outputText value="#{item.status}" styleClass="font-small"/>
+                    </p:column>
+                    <p:column headerText="Condition" style="">
+                        <h:outputText value="#{item.condition}" styleClass="font-small"/>
+                    </p:column>
+                    <p:column headerText="Description" style="width:100px">
+                        <h:outputText value="#{item.descriptionExists}" styleClass="font-small"/>
+                    </p:column>
+                    <p:column headerText=" " style="width: 32px; padding-left: 5px; padding-right: 5px;">
+                        <p:commandButton update="barcodeTable" action="#{addStock.deleteBarcodeItem()}" styleClass="table-delete-button" icon="fa fa-fw fa-remove small-white-icon" title="View">
+                            <f:setPropertyActionListener value="#{item}" target="#{addStock.selectedTableItem}" />
+                        </p:commandButton>
+                    </p:column>
+                </data-table>
                 <f:facet name="footer">
                     <div style="display:flex; padding-top: 10px; justify-content: flex-start">
                         <div style="display:flex; align-items: center">
                             <h:outputText class="font-medium" value="Barcode: "/>
                             <div style="padding-left: 78px"/>
                             <p:inputText id="barcodeInput" style="width: 538px" value="#{addStock.barcode}"  onkeydown="if (event.keyCode === 13) {
-                                        addBarcode();
-                                        return false;
-                                    }"/>
+                                    addBarcode();
+                                    return false;
+                                }"/>
                         </div>
                     </div>
                     <div style="display:flex; justify-content: flex-start; padding-top: 15px;">
@@ -141,7 +147,6 @@
                             <h:outputText class="font-medium" value="Process Status:"/>
                             <div style="padding-left: 20px"/>
                             <p:selectOneMenu style="width:150px" value="#{addStock.status}" onchange="initiateFocus(); return false;">
-                                <f:selectItem itemValue="-1" noSelectionOption="false" />
                                 <f:selectItems value="#{addStock.fetchStatusDropdown()}" var="#{status}" itemValue="#{status}"/>
                             </p:selectOneMenu>
                         </div>
@@ -149,7 +154,6 @@
                             <h:outputText class="font-medium" value="Item Condition:"/>
                             <div style="padding-left: 20px"/>
                             <p:selectOneMenu style="width:150px;" value="#{addStock.itemCondition}" onchange="initiateFocus(); return false;">
-                                <f:selectItem itemValue="-1" noSelectionOption="false" />
                                 <f:selectItems value="#{addStock.fetchConditionDropdown()}" var="#{cond}" itemValue="#{cond}"/>
                             </p:selectOneMenu>
                         </div>
@@ -158,19 +162,16 @@
                         <h:outputText class="font-medium" value="Item Description: "/>
                         <div style="padding-left: 9px"/>
                         <p:inputTextarea style="width: 538px" value="#{addStock.description}" onkeydown="if (event.keyCode === 13) {
-                                    initiateFocus();
-                                    return false;
-                                }">
+                                initiateFocus();
+                                return false;
+                            }">
                         </p:inputTextarea>
                     </div>
-                    <p:remoteCommand name="addBarcode" action="#{addStock.addBarcodeItem()}"  update="@form"/>
-                    <p:remoteCommand name="initiateFocus"  oncomplete="PrimeFaces.focus('frm:newProjectName');"  update="@form"/>
-                    <p:focus for="barcodeInput"/>
                     <div style="display: block">
                         <div style="padding-top: 10px; display: inline; align-content: flex-start">
-                            <p:commandButton ajax="false" value="Edit Item" action="#{addStock.addBarcodeItem()}" disabled="#{addStock.tableStateAdd}" style="width: 15%!important; align-self: flex-start" styleClass="basic-buttons">
+                            <p:commandButton value="Edit Item" action="#{addStock.editBarcodeItem()}" disabled="#{addStock.tableStateAdd}" style="width: 15%!important; align-self: flex-start" update="barcodeTable" styleClass="basic-buttons">
                             </p:commandButton>
-                            <p:commandButton ajax="false" value="Cancel Edit" action="#{addStock.cancelEdit()}" disabled="#{addStock.tableStateAdd}" style="width: 20%!important; align-self: flex-start" styleClass="basic-buttons">
+                            <p:commandButton value="Cancel Edit" action="#{addStock.initiateAdd()}" disabled="#{addStock.tableStateAdd}" style="width: 20%!important; align-self: flex-start" update="barcodeTable" styleClass="basic-buttons">
                             </p:commandButton>
                         </div>
                         <div style="padding-top: 10px; display: inline;">
@@ -180,6 +181,9 @@
                             </p:commandButton>
                         </div>
                     </div>
+                    <p:remoteCommand name="addBarcode" action="#{addStock.addBarcodeItem()}" update="barcodeTable"/>
+                    <p:remoteCommand name="initiateFocus"  update="barcodeTable"/>
+                    <p:focus for="barcodeInput"/>
                 </f:facet>
             </p:dataTable>
             <p:messages for="accountsTable" style="color:red" />
