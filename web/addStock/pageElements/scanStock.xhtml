@@ -108,7 +108,7 @@
             </p:outputPanel>
         </p:outputPanel>
         <div style="display: block; padding-bottom: 2vh;"/>
-        <div style="display: block; min-width: 730px; max-width: 900px; width: 70vw">
+        <div style="display: block; min-width: 730px; max-width: 900px; width: 70vw; padding-left: 30px;">
             <p:dataTable id="barcodeTable" style="border-color: grey; border-style: solid; border-width: 1px" var="item" value="#{addStock.tableItems}" selectionMode="single" selection="#{addStock.selectedTableItem}" rowKey="#{item.id}" sortBy="#{item.id}" scrollHeight="400" sortOrder="descending" scrollable="true">
                 <p:ajax event="rowSelect" listener="#{addStock.initiateEdit()}" update="barcodeTable" />
                 <p:ajax event="rowUnselect" listener="#{addStock.initiateAdd()}" update="barcodeTable" />

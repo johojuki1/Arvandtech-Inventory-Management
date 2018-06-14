@@ -4,6 +4,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
 
+    <div class="fake-tabs-fix">
         <p:growl id="settingsGrowl" showDetail="true" />
         <p:tabView id="settings" class="settings-tab" activeIndex="#{navigator.settingsIndex}" >
             <p:ajax event="tabChange" listener="#{navigator.settingsTabChange}"/>
@@ -14,5 +15,6 @@
                 <ui:include src="stockSetup/stockSetup.xhtml" />  
             </p:tab>
         </p:tabView>
+    </div>
 </ui:composition>
 

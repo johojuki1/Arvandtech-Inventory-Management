@@ -169,25 +169,10 @@ Formatting types for settings
 .settings-tab{
     width: 100%;
     min-width: 1px;
+    position: relative;
     min-height: fit-content;
-    height: 82vh;
+    height: 100%;
 }
-
-/**
-.new-stock-selectable-box{
-    position: inherit; 
-    padding-left: 48px;
-}
-
-.new-stock-selectable-box .ui-orderlist-list{
-    width: 15vw;
-    height: 30vh;
-    min-height: 180px;
-    min-width: 100px;
-    max-height: 250px;
-    max-width: 200px;
-}
-**/
 
 new-stock-settings-box{
     padding-left: 49px;
@@ -242,7 +227,7 @@ Formatting for display of the main tab menu, does not contain any formatting dat
     align-content: stretch;
     position: relative;
     width: inherit;
-    height: 10vh;
+    height: 87vh;
     min-height: fit-content;
     min-width: 300px;
     float: top;
@@ -255,7 +240,7 @@ Formatting for display of the main tab menu, does not contain any formatting dat
 
 .mainpage {
     width: 97%;
-    position: relative;
+    position: absolute;
     height: available;
     display: block;
     min-width: fit-content;
@@ -268,6 +253,22 @@ Formatting for display of the main tab menu, does not contain any formatting dat
     position: absolute;
     height: 99vh;
     display:block;
+}
+
+.fake-tabs-fix {
+    background-color: white; 
+    margin-top: -22px; 
+    margin-bottom: -22px; 
+    padding-right: 20px; 
+    padding-bottom: 20px; 
+    border-radius: 2px; 
+    border-color: #A8A8A8; 
+    border-top-style: solid; 
+    border-top-width: 1px;
+    border-bottom-style: solid; 
+    border-bottom-width: 1px;
+    height: 100%;
+    min-height: fit-content;
 }
 
 body {
