@@ -16,6 +16,7 @@ public class ScanBarcodeTable {
     String condition;
     String description;
     String descriptionExists;
+    String backgroundColour;
     
     //GETTERS
 
@@ -41,6 +42,10 @@ public class ScanBarcodeTable {
 
     public String getDescriptionExists() {
         return descriptionExists;
+    }
+
+    public String getBackgroundColour() {
+        return backgroundColour;
     }
     
     //SETTERS
@@ -69,5 +74,7 @@ public class ScanBarcodeTable {
         this.descriptionExists = descriptionExists;
     }
 
-    
+    public void setBackgroundColour(String backgroundColour) {
+        this.backgroundColour = backgroundColour;
+    }
 }

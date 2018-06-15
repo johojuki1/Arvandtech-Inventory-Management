@@ -109,7 +109,7 @@
         </p:outputPanel>
         <div style="display: block; padding-bottom: 2vh;"/>
         <div style="display: block; min-width: 730px; max-width: 900px; width: 70vw; padding-left: 30px;">
-            <p:dataTable id="barcodeTable" style="border-color: grey; border-style: solid; border-width: 1px" var="item" value="#{addStock.tableItems}" selectionMode="single" selection="#{addStock.selectedTableItem}" rowKey="#{item.id}" sortBy="#{item.id}" scrollHeight="400" sortOrder="descending" scrollable="true">
+            <p:dataTable id="barcodeTable" style="border-color: grey; border-style: solid; border-width: 1px" var="item" value="#{addStock.tableItems}" selectionMode="single" selection="#{addStock.selectedTableItem}" rowKey="#{item.id}" sortBy="#{item.id}" scrollHeight="400" sortOrder="descending" scrollable="true" rowStyleClass="#{item.backgroundColour}">
                 <p:ajax event="rowSelect" listener="#{addStock.initiateEdit()}" update="barcodeTable" />
                 <p:ajax event="rowUnselect" listener="#{addStock.initiateAdd()}" update="barcodeTable" />
                 <data-table>
@@ -126,7 +126,7 @@
                         <h:outputText value="#{item.descriptionExists}" styleClass="font-small"/>
                     </p:column>
                     <p:column headerText=" " style="width: 32px; padding-left: 5px; padding-right: 5px;">
-                        <p:commandButton update="barcodeTable" action="#{addStock.deleteBarcodeItem()}" styleClass="table-delete-button" icon="fa fa-fw fa-remove small-white-icon" title="View">
+                        <p:commandButton update="barcodeTable" action="#{addStock.deleteBarcodeItem()}" styleClass="table-delete-button" icon="fa fa-fw fa-remove small-white-icon" title="Delete Item">
                             <f:setPropertyActionListener value="#{item}" target="#{addStock.selectedTableItem}" />
                         </p:commandButton>
                     </p:column>
@@ -177,7 +177,7 @@
                         <div style="padding-top: 10px; display: inline;">
                             <p:commandButton id = "back" styleClass="basic-buttons" style="float: right" action="#{navigator.setAddStockIndex(0)}" value="Back" immediate="true" update="@form">
                             </p:commandButton>
-                            <p:commandButton ajax="false" value="Add All" styleClass="basic-buttons" style="float: right">
+                            <p:commandButton ajax="false" value="Add All" styleClass="basic-buttons" action="#{addStock.addAllTracked}" style="float: right">
                             </p:commandButton>
                         </div>
                     </div>

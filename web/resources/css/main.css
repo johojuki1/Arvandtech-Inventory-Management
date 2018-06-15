@@ -199,6 +199,9 @@ add-stock-table-box{
     max-width: 600px;
 }
 
+.table-row-yellow{
+    background: yellow;
+}
 /**
 /////////////////////////
 Formatting for display of the main tab menu, does not contain any formatting data for content

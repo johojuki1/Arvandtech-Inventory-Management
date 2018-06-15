@@ -21,11 +21,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -265,7 +263,8 @@ public class AddStockController implements Serializable {
                         return (selectedAttributes.getAttributes().get(number - 1).getAttribute().getSecondaryValue());
                     } else {
                         if (selectedAttributes.getAttributes().get(number - 1).getAttribute().getSecondaryName() != null) {
-                            return ("Not Selected");
+                            selectedAttributes.getAttributes().get(number - 1).getAttribute().setSecondaryValue("Not Selected");
+                            return (selectedAttributes.getAttributes().get(number - 1).getAttribute().getSecondaryValue());
                         } else {
                             return "";
                         }
@@ -295,6 +294,7 @@ public class AddStockController implements Serializable {
             tmpTableItem.setCondition(itemCondition);
             tmpTableItem.setStatus(status);
             tmpTableItem.setDescription(description);
+            tmpTableItem.setBackgroundColour("");
             if (tmpTableItem.getDescription().isEmpty()) {
                 tmpTableItem.setDescriptionExists("No");
             } else {
@@ -306,8 +306,28 @@ public class AddStockController implements Serializable {
                 tmpTableItem.setId(tableItems.get(0).getId() + 1);
             }
             tableItems.add(tmpTableItem);
+            checkTableColour();
             initiateAdd();
         }
+    }
+
+    private boolean checkTableColour() {
+        for (ScanBarcodeTable tmpItem : tableItems) {
+            tmpItem.setBackgroundColour("");
+        }
+        boolean noSameBarcode = true;
+        for (ScanBarcodeTable tmpItem : tableItems) {
+            if (tmpItem.getBackgroundColour().equals("")) {
+                for (int i = tableItems.indexOf(tmpItem); i + 1 < tableItems.size(); i++) {
+                    if (tmpItem.getBarcode().equals(tableItems.get(i + 1).getBarcode())) {
+                        tmpItem.setBackgroundColour("table-row-yellow");
+                        tableItems.get(i + 1).setBackgroundColour("table-row-yellow");
+                        noSameBarcode = false;
+                    }
+                }
+            }
+        }
+        return noSameBarcode;
     }
 
     public void editBarcodeItem() {
@@ -323,12 +343,14 @@ public class AddStockController implements Serializable {
                 selectedTableItem.setDescriptionExists("Yes");
             }
             tableItems.set(index, selectedTableItem);
+            checkTableColour();
             initiateAdd();
         }
     }
 
     public void deleteBarcodeItem() {
         tableItems.remove(selectedTableItem);
+        checkTableColour();
         initiateAdd();
     }
 
@@ -352,6 +374,17 @@ public class AddStockController implements Serializable {
         selectedTableItem = new ScanBarcodeTable();
         tableStateAdd = true;
     }
+
+    //UP TO HERE. ATTRIBUTES ARE PROPERLY SET.
+    public void addAllTracked() {
+        List<ItemAttribute> attributeList = new ArrayList<>();
+        for (TrackedItem tmpTrackedItem : selectedAttributes.getAttributes()) {
+            ItemAttribute newAttribute = tmpTrackedItem.getAttribute();
+            attributeList.add(newAttribute);
+        }
+        
+    }
+    
 //GETTERS
 
     public ItemType getItem() {
