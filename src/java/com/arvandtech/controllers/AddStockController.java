@@ -20,6 +20,7 @@ import com.arvandtech.utilities.Settings;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -375,12 +376,40 @@ public class AddStockController implements Serializable {
         tableStateAdd = true;
     }
 
-    //UP TO HERE. ATTRIBUTES ARE PROPERLY SET.
+    //UP TO HERE. DATABASE ITEM CORRECTLY SET.
     public void addAllTracked() {
         List<ItemAttribute> attributeList = new ArrayList<>();
+        List <Tracked> inventoryItems = new ArrayList<>();
         for (TrackedItem tmpTrackedItem : selectedAttributes.getAttributes()) {
             ItemAttribute newAttribute = tmpTrackedItem.getAttribute();
             attributeList.add(newAttribute);
+        }
+        for (ScanBarcodeTable tmpScanItem: tableItems) {
+            Tracked tmpItem = new Tracked();
+            tmpItem.setItemTypeName(item.getTypeName());
+            tmpItem.setBarcode(tmpScanItem.getBarcode());
+            tmpItem.setStatus(tmpScanItem.getStatus());
+            tmpItem.setItemCondition(tmpScanItem.getCondition());
+            tmpItem.setDateAdded(new Date());
+            tmpItem.setDescription(tmpScanItem.getDescription());
+            tmpItem.setOrderNum(orderNo);
+            inventoryItems.add(tmpItem);
+        }
+        for (Tracked tmpTracked: inventoryItems) {
+            tmpTracked.setAttributes(new ArrayList<>());
+            int listCount = 0;
+            for (ItemAttribute tmpAttribute: attributeList) {
+                if (tmpAttribute.getItems() == null) {
+                    tmpAttribute.setItems(new ArrayList<>());
+                }
+                TrackedItem tmpTrackedItem = new TrackedItem();
+                tmpTrackedItem.setAttribute(tmpAttribute);
+                tmpTrackedItem.setTracked(tmpTracked);
+                tmpTrackedItem.setItemOrder(item.getAttribute().get(listCount).getAttributeOrder());
+                tmpTracked.getAttributes().add(tmpTrackedItem);
+                tmpAttribute.getItems().add(tmpTrackedItem);
+                listCount++;
+            }
         }
         
     }
