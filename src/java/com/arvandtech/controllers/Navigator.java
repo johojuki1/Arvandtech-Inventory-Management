@@ -18,10 +18,12 @@ public class Navigator implements Serializable {
 
     private final String SETTINGSLINK = "/settings/";
     private final String ADDSTOCKLINK = "/addStock/";
+    private final String INVENTORYMANAGEMENTLINK = "/inventoryManagement/";
     private int mainPageIndex;
     private int settingsIndex;
     private int accountIndex;
     private int addStockIndex;
+    private int inventoryManagementIndex;
 
     /*
     Storage of current location of main tab system. (The one that is permanately visible of left of all pages.
@@ -76,6 +78,19 @@ public class Navigator implements Serializable {
                 return ADDSTOCKLINK + "pageElements/typeSelect.xhtml";
         }
     }
+    
+    /*
+    Returns user's current location within the inventory management pages.
+    */
+    public String getInventoryManagementLink() {
+        switch (inventoryManagementIndex) {
+            case 0:
+                return INVENTORYMANAGEMENTLINK + "pageElements/managementTable.xhtml";
+            default:
+                inventoryManagementIndex = 0;
+                return INVENTORYMANAGEMENTLINK + "pageElements/managementTable.xhtml";
+        }
+    }
 
     public void setAddStockIndex(int addStockIndex, boolean b) {
         if (b) {
@@ -107,5 +122,9 @@ public class Navigator implements Serializable {
 
     public void setAddStockIndex(int addStockIndex) {
         this.addStockIndex = addStockIndex;
+    }
+
+    public void setInventoryManagementIndex(int inventoryManagementIndex) {
+        this.inventoryManagementIndex = inventoryManagementIndex;
     }
 }
