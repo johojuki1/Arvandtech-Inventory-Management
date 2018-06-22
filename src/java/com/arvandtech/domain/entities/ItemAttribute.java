@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MapsId;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,14 +22,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "itemAttribute")
-public class ItemAttribute implements Serializable{
+@NamedQuery(
+        name = "ItemAttribute.findSimilarItems",
+        query = "SELECT a FROM ItemAttribute a WHERE a.attributeName LIKE :attName AND a.attributeValue LIKE :attValue AND a.secondaryName LIKE :secName AND a.secondaryValue LIKE :secValue"
+)
+public class ItemAttribute implements Serializable {
+
     private int id;
-    private String AttributeName;
-    private String AttributeValue;
-    private String SecondaryName;
-    private String SecondaryValue;
+    private String attributeName;
+    private String attributeValue;
+    private String secondaryName;
+    private String secondaryValue;
     private List<TrackedItem> items;
-    
+
     //GETTERS
     @Id
     @GeneratedValue
@@ -38,20 +44,20 @@ public class ItemAttribute implements Serializable{
 
     @Column(nullable = false)
     public String getAttributeName() {
-        return AttributeName;
+        return attributeName;
     }
 
     @Column(nullable = false)
     public String getAttributeValue() {
-        return AttributeValue;
+        return attributeValue;
     }
 
     public String getSecondaryName() {
-        return SecondaryName;
+        return secondaryName;
     }
 
     public String getSecondaryValue() {
-        return SecondaryValue;
+        return secondaryValue;
     }
 
     @OneToMany(mappedBy = "attribute")
@@ -65,20 +71,20 @@ public class ItemAttribute implements Serializable{
         this.id = id;
     }
 
-    public void setAttributeName(String AttributeName) {
-        this.AttributeName = AttributeName;
+    public void setAttributeName(String attributeName) {
+        this.attributeName = attributeName;
     }
 
-    public void setAttributeValue(String AttributeValue) {
-        this.AttributeValue = AttributeValue;
+    public void setAttributeValue(String attributeValue) {
+        this.attributeValue = attributeValue;
     }
 
-    public void setSecondaryName(String SecondaryName) {
-        this.SecondaryName = SecondaryName;
+    public void setSecondaryName(String secondaryName) {
+        this.secondaryName = secondaryName;
     }
 
-    public void setSecondaryValue(String SecondaryValue) {
-        this.SecondaryValue = SecondaryValue;
+    public void setSecondaryValue(String secondaryValue) {
+        this.secondaryValue = secondaryValue;
     }
 
     public void setItems(List<TrackedItem> items) {

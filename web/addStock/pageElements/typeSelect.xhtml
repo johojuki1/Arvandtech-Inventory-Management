@@ -3,13 +3,14 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
-        <add-stock-table-box onload="#{addStock.clearItem()}">
-            <p:dataTable var="itemType" value="#{addStock.findAllItems()}" selectionMode="single" selection="#{addStock.item}" rowKey="#{itemType.itemTypeId}" sortBy="#{itemType.itemOrder}" scrollable="true" >
-                <p:ajax event="rowSelect" listener="#{navigator.setAddStockIndex(1, addStock.checkAttributeExist())}" onsuccess="#{addStock.resetAll()}" update="@form"/>
-                <p:column width="100" headerText="Item Type" style="width:100px">
-                    <h:outputText value="#{itemType.typeName}"/>
-                </p:column>
-            </p:dataTable>
-        </add-stock-table-box>
+    <p:messages for="selectTable" style="color:red" closable="true" />
+    <add-stock-table-box onload="#{addStock.clearItem()}">
+        <p:dataTable id="selectTable" var="itemType" value="#{addStock.findAllItems()}" selectionMode="single" selection="#{addStock.item}" rowKey="#{itemType.itemTypeId}" sortBy="#{itemType.itemOrder}" scrollable="true" >
+            <p:ajax event="rowSelect" listener="#{navigator.setAddStockIndex(1, addStock.checkAttributeExist())}" onsuccess="#{addStock.resetAll()}" update="@form"/>
+            <p:column width="100" headerText="Item Type" style="width:100px">
+                <h:outputText value="#{itemType.typeName}"/>
+            </p:column>
+        </p:dataTable>
+    </add-stock-table-box>
 </ui:composition>
 

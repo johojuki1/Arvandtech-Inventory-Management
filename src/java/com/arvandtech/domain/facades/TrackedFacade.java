@@ -25,6 +25,11 @@ public class TrackedFacade extends AbstractFacade<Tracked> {
         return em;
     }
 
+    public Tracked returnedCreate(Tracked item) {
+        create(item);
+        return item;
+    }
+    
     public TrackedFacade() {
         super(Tracked.class);
     }

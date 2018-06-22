@@ -8,6 +8,7 @@ package com.arvandtech.domain.facades;
 import com.arvandtech.domain.entities.TrackedItem;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -24,7 +25,6 @@ public class TrackedItemFacade extends AbstractFacade<TrackedItem> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
     public TrackedItemFacade() {
         super(TrackedItem.class);
     }

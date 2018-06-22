@@ -13,8 +13,11 @@ import com.arvandtech.domain.entities.ItemAttribute;
 import com.arvandtech.domain.entities.SecondaryAttribute;
 import com.arvandtech.domain.entities.Tracked;
 import com.arvandtech.domain.entities.TrackedItem;
+import com.arvandtech.domain.facades.ItemAttributeFacade;
 import com.arvandtech.domain.facades.SecondaryAttributeFacade;
 import com.arvandtech.domain.facades.SelectableBoxFacade;
+import com.arvandtech.domain.facades.TrackedFacade;
+import com.arvandtech.domain.facades.TrackedItemFacade;
 import com.arvandtech.utilities.ScanBarcodeTable;
 import com.arvandtech.utilities.Settings;
 import java.io.Serializable;
@@ -46,6 +49,15 @@ public class AddStockController implements Serializable {
 
     @EJB
     private SecondaryAttributeFacade secondaryFacade;
+
+    @EJB
+    private ItemAttributeFacade itemAttFacade;
+
+    @EJB
+    private TrackedItemFacade trackedItemFacade;
+
+    @EJB
+    private TrackedFacade trackedFacade;
 
     private ItemType item;
     private ArrayList<ItemAttribute> attributes;
@@ -378,44 +390,53 @@ public class AddStockController implements Serializable {
 
     //UP TO HERE. DATABASE ITEM CORRECTLY SET.
     public void addAllTracked() {
-        List<ItemAttribute> attributeList = new ArrayList<>();
-        List <Tracked> inventoryItems = new ArrayList<>();
-        for (TrackedItem tmpTrackedItem : selectedAttributes.getAttributes()) {
-            ItemAttribute newAttribute = tmpTrackedItem.getAttribute();
-            attributeList.add(newAttribute);
-        }
-        for (ScanBarcodeTable tmpScanItem: tableItems) {
-            Tracked tmpItem = new Tracked();
-            tmpItem.setItemTypeName(item.getTypeName());
-            tmpItem.setBarcode(tmpScanItem.getBarcode());
-            tmpItem.setStatus(tmpScanItem.getStatus());
-            tmpItem.setItemCondition(tmpScanItem.getCondition());
-            tmpItem.setDateAdded(new Date());
-            tmpItem.setDescription(tmpScanItem.getDescription());
-            tmpItem.setOrderNum(orderNo);
-            inventoryItems.add(tmpItem);
-        }
-        for (Tracked tmpTracked: inventoryItems) {
-            tmpTracked.setAttributes(new ArrayList<>());
-            int listCount = 0;
-            for (ItemAttribute tmpAttribute: attributeList) {
-                if (tmpAttribute.getItems() == null) {
-                    tmpAttribute.setItems(new ArrayList<>());
-                }
-                TrackedItem tmpTrackedItem = new TrackedItem();
-                tmpTrackedItem.setAttribute(tmpAttribute);
-                tmpTrackedItem.setTracked(tmpTracked);
-                tmpTrackedItem.setItemOrder(item.getAttribute().get(listCount).getAttributeOrder());
-                tmpTracked.getAttributes().add(tmpTrackedItem);
-                tmpAttribute.getItems().add(tmpTrackedItem);
-                listCount++;
+        try {
+            List<ItemAttribute> attributeList = new ArrayList<>();
+            List<Tracked> inventoryItems = new ArrayList<>();
+            for (TrackedItem tmpTrackedItem : selectedAttributes.getAttributes()) {
+                ItemAttribute newAttribute = tmpTrackedItem.getAttribute();
+                attributeList.add(itemAttFacade.checkAndAdd(newAttribute));
             }
+            for (ScanBarcodeTable tmpScanItem : tableItems) {
+                Tracked tmpItem = new Tracked();
+                tmpItem.setItemTypeName(item.getTypeName());
+                tmpItem.setBarcode(tmpScanItem.getBarcode());
+                tmpItem.setStatus(tmpScanItem.getStatus());
+                tmpItem.setItemCondition(tmpScanItem.getCondition());
+                tmpItem.setDateAdded(new Date());
+                tmpItem.setDescription(tmpScanItem.getDescription());
+                tmpItem.setOrderNum(orderNo);
+                inventoryItems.add(tmpItem);
+            }
+            for (Tracked tmpTracked : inventoryItems) {
+                tmpTracked.setAttributes(new ArrayList<>());
+                int listCount = 0;
+                tmpTracked = trackedFacade.returnedCreate(tmpTracked);
+                for (ItemAttribute tmpAttribute : attributeList) {
+                    if (tmpAttribute.getItems() == null) {
+                        tmpAttribute.setItems(new ArrayList<>());
+                    }
+                    TrackedItem tmpTrackedItem = new TrackedItem();
+                    tmpTrackedItem.setAttribute(tmpAttribute);
+                    tmpTrackedItem.setTracked(tmpTracked);
+                    tmpTrackedItem.setItemOrder(item.getAttribute().get(listCount).getAttributeOrder());
+                    trackedItemFacade.create(tmpTrackedItem);
+                    tmpTracked.getAttributes().add(tmpTrackedItem);
+                    tmpAttribute.getItems().add(tmpTrackedItem);
+                    listCount++;
+                }
+                trackedFacade.edit(tmpTracked);
+            }
+            for (ItemAttribute tmpAttribute : attributeList) {
+                itemAttFacade.edit(tmpAttribute);
+            }
+            FacesContext.getCurrentInstance().addMessage("selectTable", new FacesMessage(FacesMessage.SEVERITY_INFO, "New '"+item.getTypeName()+"' items have been successifully added to database.", ""));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("selectTable", new FacesMessage(FacesMessage.SEVERITY_ERROR, "New '"+item.getTypeName()+"' items were not successifully added to database.", ""));
         }
-        
     }
-    
-//GETTERS
 
+//GETTERS
     public ItemType getItem() {
         return item;
     }

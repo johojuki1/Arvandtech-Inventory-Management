@@ -137,9 +137,9 @@
                             <h:outputText class="font-medium" value="Barcode: "/>
                             <div style="padding-left: 78px"/>
                             <p:inputText id="barcodeInput" style="width: 538px" value="#{addStock.barcode}"  onkeydown="if (event.keyCode === 13) {
-                                    addBarcode();
-                                    return false;
-                                }"/>
+                                        addBarcode();
+                                        return false;
+                                    }"/>
                         </div>
                     </div>
                     <div style="display:flex; justify-content: flex-start; padding-top: 15px;">
@@ -162,9 +162,9 @@
                         <h:outputText class="font-medium" value="Item Description: "/>
                         <div style="padding-left: 9px"/>
                         <p:inputTextarea style="width: 538px" value="#{addStock.description}" onkeydown="if (event.keyCode === 13) {
-                                initiateFocus();
-                                return false;
-                            }">
+                                    initiateFocus();
+                                    return false;
+                                }">
                         </p:inputTextarea>
                     </div>
                     <div style="display: block">
@@ -177,7 +177,7 @@
                         <div style="padding-top: 10px; display: inline;">
                             <p:commandButton id = "back" styleClass="basic-buttons" style="float: right" action="#{navigator.setAddStockIndex(0)}" value="Back" immediate="true" update="@form">
                             </p:commandButton>
-                            <p:commandButton ajax="false" value="Add All" styleClass="basic-buttons" action="#{addStock.addAllTracked}" style="float: right">
+                            <p:commandButton ajax="false" value="Add All" styleClass="basic-buttons" action="#{addStock.addAllTracked()}" actionListener="#{navigator.setAddStockIndex(0, true)}" style="float: right">
                             </p:commandButton>
                         </div>
                     </div>
