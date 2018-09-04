@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
+ * This class is for the design and implementation of the 
  * @author Jonathan Ho
  */
 @Entity

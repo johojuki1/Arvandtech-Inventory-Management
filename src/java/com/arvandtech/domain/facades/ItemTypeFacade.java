@@ -7,7 +7,6 @@ package com.arvandtech.domain.facades;
 
 import com.arvandtech.domain.entities.Attribute;
 import com.arvandtech.domain.entities.ItemType;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -44,7 +43,6 @@ public class ItemTypeFacade extends AbstractFacade<ItemType> {
         tmpItem.setAttribute(tmpAttList);
         edit(tmpItem);
         em.merge(attribute);
-        String s = "s";
     }
 
     public boolean removeAttribute(int itemId, int attributeId) {

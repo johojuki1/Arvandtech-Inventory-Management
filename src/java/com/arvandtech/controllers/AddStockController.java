@@ -34,7 +34,6 @@ import javax.inject.Named;
 
 /**
  * Controller used to manage all functions used by the add stock function.
- *
  * @author User
  */
 @Named("addStock")

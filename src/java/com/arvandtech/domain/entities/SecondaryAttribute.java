@@ -4,7 +4,8 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- *
+ * This class is part of the system which allows administrators to add, edit or remove item types.
+ * This class stores the secondary attribute incase the attribute item needs another drop down item.
  * @author User
  */
 @Entity

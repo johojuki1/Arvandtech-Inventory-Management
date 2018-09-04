@@ -6,7 +6,13 @@
 package com.arvandtech.utilities;
 
 /**
- *
+ * Class used to store and display items in the scan barcode table. 
+ * id: id of item in table.
+ * barcode: barcode assigned to item.
+ * condition: current condition of item. Is derived form selectable list.
+ * description: description written by user concerning item.
+ * descriptionExists: is "yes" or "no" tells user if description has been added to item.
+ * backgroundColour: Colour displayed on the background of the row of this item. Used to tell user of there is duplicate barcode in table.
  * @author User
  */
 public class ScanBarcodeTable {

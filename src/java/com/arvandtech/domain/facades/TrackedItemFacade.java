@@ -8,7 +8,6 @@ package com.arvandtech.domain.facades;
 import com.arvandtech.domain.entities.TrackedItem;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 
 /**

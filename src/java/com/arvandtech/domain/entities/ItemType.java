@@ -10,7 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
- *
+ * This class is part of the system which allows administrators to add, edit or remove item types.
+ * Stores the type of item the user wants to add as well as which attributes are attached to the item.
+ * itemTypeId: id of itemType.
+ * typeName: name of the type of item user wants to add. Eg Computers, Laptops.
+ * itemOrder: Order in which this item appears to users who are adding to the inventory.
+ * attribute: links to connected attributes to this item. contains Attribute class.
  * @author Jonathan
  */
 @Entity

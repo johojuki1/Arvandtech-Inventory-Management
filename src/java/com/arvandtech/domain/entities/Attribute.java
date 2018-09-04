@@ -14,7 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
- *
+ * This class is part of the system which allows administrators to add, edit or remove item types.
+ * Stores attributes of items, which will eventually be shown when a user attempts to add, remove or edit items.
+ * For example item 'Computer' may have attribute 'Ram'.
+ * attributeId: id for attribute item.
+ * attributeName: name of the attribute. eg. Ram
+ * selectable: determines if the attribute will use selectable boxes or have direct user input.
+ * attributeOrder: determines order which this attribute will be displayed when adding items.
+ * selectableBox: contains Id to selectable box items. Determines values to be viewed in selectable boxes. Only utilised if selectable table is used.
  * @author User
  */
 @Entity
