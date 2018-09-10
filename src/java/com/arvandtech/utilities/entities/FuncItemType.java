@@ -12,12 +12,26 @@ import java.util.ArrayList;
  * @author User
  */
 public class FuncItemType {
+
     private String typeName;
     private ArrayList<FuncItemValue> attributeNames;
     private ArrayList<FuncItem> items;
-    
-    //GETTERS
 
+    public FuncItemType() {
+        attributeNames = new ArrayList<>();
+        items = new ArrayList<>();
+    }
+
+    //FUNCTIONS
+    public String findAttributeNames(int i) {
+        try {
+            return attributeNames.get(i).getPrimary();
+        } catch(Exception e) {
+            return "";
+        }
+    }
+
+    //GETTERS
     public String getTypeName() {
         return typeName;
     }
@@ -29,9 +43,8 @@ public class FuncItemType {
     public ArrayList<FuncItem> getItems() {
         return items;
     }
-    
-    //SETTERS
 
+    //SETTERS
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }

@@ -13,6 +13,8 @@ import java.util.Date;
  * @author User
  */
 public class FuncItem {
+
+    private int id;
     private String barcode;
     private Date dateAdded;
     private String condition;
@@ -20,9 +22,38 @@ public class FuncItem {
     private String status;
     private String description;
     private ArrayList<FuncItemValue> itemValues;
-    
-    
+
+    //Constructor used to set all initial values.
+    public FuncItem(int id, String barcode, Date dateAdded, String condition, String orderNumber, String status, String description) {
+        this.id = id;
+        this.barcode = barcode;
+        this.dateAdded = dateAdded;
+        this.condition = condition;
+        this.orderNumber = orderNumber;
+        this.status = status;
+        this.description = description;
+        itemValues = new ArrayList<>();
+    }
+
+    //FUNCTIONS
+    //Adds a new FuncItemValue into currently list of values.
+    public void addItemValue(FuncItemValue item) {
+        itemValues.add(item);
+    }
+
+    //Finds primary value based on number in Array
+    public String findPrimaryValue(int i) {
+        try {
+            return itemValues.get(i).getPrimary();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     //GETTERS
+    public int getId() {
+        return id;
+    }
 
     public String getBarcode() {
         return barcode;
@@ -53,6 +84,10 @@ public class FuncItem {
     }
 
     //SETTERS
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
@@ -80,6 +115,5 @@ public class FuncItem {
     public void setItemValues(ArrayList<FuncItemValue> itemValues) {
         this.itemValues = itemValues;
     }
-    
-    
+
 }

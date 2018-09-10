@@ -3,24 +3,73 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <div onload="#{accountsController.updateAccounts()}">
+    <div onload="#{manageTable.findAll()}">
         <h:form id="accountManagementForm">
-            <p:dataTable var="account" value="#{accountsController.accounts}" selectionMode="single" selection="#{accountsController.account}" rowKey="#{account.username}" scrollable="true">
-                <p:column headerText="Current Stock" style="width: 180px">
-                    <h:outputText value="#{account.username}" styleClass="font-small"/>
-                </p:column>
-                <p:column headerText="" style="width: 100px;">
-                    <h:outputText value="#{account.role}" styleClass="font-small"/>
-                </p:column>
-                <p:column headerText="" style="width: 50px;">
-                    <h:outputText value="#{account.active}" styleClass="font-small"/>
-                </p:column>
-                <p:column headerText="" style="">
-                    <h:outputText value="#{account.email}" styleClass="font-small"/>
-                </p:column>
-                <p:column headerText="" style="">
-                    <h:outputText value="#{account.contactNo}" styleClass="font-small"/>
-                </p:column>
+            <p:dataTable var="itemType" value="#{manageTable.inventoryItems}" scrollable="true">
+                <f:facet name="header">  
+                    <h:outputText value="Inventory"/>  
+                </f:facet>
+                <p:subTable var="item" value="#{itemType.getItems()}"> 
+                    <f:facet name="header">  
+                        <h:outputText value="#{itemType.typeName}"/>    
+                    </f:facet>
+                    <p:columnGroup type="header">  
+                        <p:row>  
+                            <p:column rowspan="1" headerText="Barcode" />
+                            <p:column rowspan="1" headerText="Condition" />
+                            <p:column rowspan="1" headerText="Status" />
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(0)}" />
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(1)}" />  
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(2)}" />  
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(3)}" />  
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(4)}" />  
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(5)}" />  
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(6)}" />  
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(7)}" />  
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(8)}" />  
+                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(9)}" />    
+                        </p:row>  
+                    </p:columnGroup>
+                    <p:column>  
+                        <h:outputText value=" #{item.barcode}"/>  
+                    </p:column>
+                    <p:column>  
+                        <h:outputText value=" #{item.condition}"/>  
+                    </p:column>
+                    <p:column>  
+                        <h:outputText value=" #{item.status}"/>  
+                    </p:column>
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(0)}"/>  
+                    </p:column>
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(1)}"/>  
+                    </p:column> 
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(2)}"/>  
+                    </p:column> 
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(3)}"/>  
+                    </p:column> 
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(4)}"/>  
+                    </p:column> 
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(5)}"/>  
+                    </p:column> 
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(6)}"/>  
+                    </p:column> 
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(7)}"/>  
+                    </p:column> 
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(8)}"/>  
+                    </p:column> 
+                    <p:column>  
+                        <h:outputText value=" #{item.findPrimaryValue(9)}"/>  
+                    </p:column> 
+                </p:subTable>  
                 <f:facet name="footer">
                     <div style="display:flex; justify-content: flex-start">
                         <p:commandButton actionListener="#{navigator.setAccountIndex(1)}" ajax="false" value="Add" styleClass="basic-buttons">
