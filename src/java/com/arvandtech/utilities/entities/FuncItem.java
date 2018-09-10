@@ -22,6 +22,7 @@ public class FuncItem {
     private String status;
     private String description;
     private ArrayList<FuncItemValue> itemValues;
+    private int typeId;
 
     //Constructor used to set all initial values.
     public FuncItem(int id, String barcode, Date dateAdded, String condition, String orderNumber, String status, String description) {
@@ -83,6 +84,10 @@ public class FuncItem {
         return itemValues;
     }
 
+    public int getTypeId() {
+        return typeId;
+    }
+
     //SETTERS
     public void setId(int id) {
         this.id = id;
@@ -116,4 +121,7 @@ public class FuncItem {
         this.itemValues = itemValues;
     }
 
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
 }

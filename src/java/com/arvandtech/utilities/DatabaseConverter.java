@@ -40,6 +40,7 @@ public class DatabaseConverter {
                     newAtt.add(itemValue);
                 }
                 newItem.setAttributeNames(newAtt);
+                newItem.setId(items.size());
                 items.add(newItem);
                 //assign i with the index of the item just created.
                 i = items.indexOf(newItem);
@@ -55,6 +56,7 @@ public class DatabaseConverter {
                         tmpFuncValue.setPrimary(dAtt.getAttribute().getAttributeValue());
                         tmpFuncValue.setSecondary(dAtt.getAttribute().getSecondaryValue());      
                         newfItem.addItemValue(tmpFuncValue);
+                        newfItem.setTypeId(items.get(i).getId());
                     }
                 }
             }

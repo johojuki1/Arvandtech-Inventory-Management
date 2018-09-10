@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class FuncItemType {
 
+    int id;
     private String typeName;
     private ArrayList<FuncItemValue> attributeNames;
     private ArrayList<FuncItem> items;
@@ -32,6 +33,11 @@ public class FuncItemType {
     }
 
     //GETTERS
+    
+    public int getId() {
+        return id;
+    }
+
     public String getTypeName() {
         return typeName;
     }
@@ -45,6 +51,11 @@ public class FuncItemType {
     }
 
     //SETTERS
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }

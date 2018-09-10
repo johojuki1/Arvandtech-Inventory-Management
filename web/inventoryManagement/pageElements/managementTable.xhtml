@@ -9,65 +9,66 @@
                 <f:facet name="header">  
                     <h:outputText value="Inventory"/>  
                 </f:facet>
-                <p:subTable var="item" value="#{itemType.getItems()}"> 
+                <p:subTable var="item" value="#{itemType.items}"> 
                     <f:facet name="header">  
                         <h:outputText value="#{itemType.typeName}"/>    
                     </f:facet>
-                    <p:columnGroup type="header">  
-                        <p:row>  
-                            <p:column rowspan="1" headerText="Barcode" />
-                            <p:column rowspan="1" headerText="Condition" />
-                            <p:column rowspan="1" headerText="Status" />
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(0)}" />
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(1)}" />  
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(2)}" />  
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(3)}" />  
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(4)}" />  
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(5)}" />  
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(6)}" />  
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(7)}" />  
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(8)}" />  
-                            <p:column rowspan="1" headerText="#{itemType.findAttributeNames(9)}" />    
-                        </p:row>  
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column headerText="Barcode" />
+                            <p:column headerText="Condition" />
+                            <p:column headerText="Status" />
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}" rendered="#{manageTable.columnRendered(0, itemType)}" headerText="#{itemType.findAttributeNames(0)}" /> 
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(1, itemType)}"  headerText="#{itemType.findAttributeNames(1)}" />  
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(2, itemType)}"  headerText="#{itemType.findAttributeNames(2)}" />  
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(3, itemType)}"  headerText="#{itemType.findAttributeNames(3)}" />  
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(4, itemType)}"  headerText="#{itemType.findAttributeNames(4)}" />  
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(5, itemType)}"  headerText="#{itemType.findAttributeNames(5)}" />  
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(6, itemType)}"  headerText="#{itemType.findAttributeNames(6)}" />  
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(7, itemType)}"  headerText="#{itemType.findAttributeNames(7)}" />  
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(8, itemType)}"  headerText="#{itemType.findAttributeNames(8)}" />  
+                            <p:column colspan="#{manageTable.findRowSpan(itemType.id)}"  rendered="#{manageTable.columnRendered(9, itemType)}"  headerText="#{itemType.findAttributeNames(9)}" />    
+                        </p:row>
                     </p:columnGroup>
+                    
                     <p:column>  
-                        <h:outputText value=" #{item.barcode}"/>  
+                        <h:outputText value="#{item.barcode}"/>  
                     </p:column>
                     <p:column>  
-                        <h:outputText value=" #{item.condition}"/>  
+                        <h:outputText value="#{item.condition}"/>  
                     </p:column>
                     <p:column>  
-                        <h:outputText value=" #{item.status}"/>  
+                        <h:outputText value="#{item.status}"/>  
                     </p:column>
                     <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(0)}"/>  
+                        <h:outputText value="#{item.findPrimaryValue(0)}"/>  
                     </p:column>
                     <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(1)}"/>  
+                        <h:outputText value="#{item.findPrimaryValue(1)}"/>  
                     </p:column> 
                     <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(2)}"/>  
+                        <h:outputText value="#{item.findPrimaryValue(2)}"/>  
+                    </p:column> 
+                    <p:column colspan="3">  
+                        <h:outputText value="#{item.findPrimaryValue(3)}"/>  
+                    </p:column> 
+                    <p:column>
+                        <h:outputText value="#{item.findPrimaryValue(4)}"/>  
                     </p:column> 
                     <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(3)}"/>  
+                        <h:outputText value="#{item.findPrimaryValue(5)}"/>  
                     </p:column> 
                     <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(4)}"/>  
+                        <h:outputText value="#{item.findPrimaryValue(6)}"/>  
                     </p:column> 
                     <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(5)}"/>  
+                        <h:outputText value="#{item.findPrimaryValue(7)}"/>  
                     </p:column> 
                     <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(6)}"/>  
+                        <h:outputText value="#{item.findPrimaryValue(8)}"/>  
                     </p:column> 
-                    <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(7)}"/>  
-                    </p:column> 
-                    <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(8)}"/>  
-                    </p:column> 
-                    <p:column>  
-                        <h:outputText value=" #{item.findPrimaryValue(9)}"/>  
+                    <p:column colspan="3">  
+                        <h:outputText value="#{item.findPrimaryValue(9)}"/>  
                     </p:column> 
                 </p:subTable>  
                 <f:facet name="footer">
