@@ -11,6 +11,7 @@ package com.arvandtech.utilities.entities;
  */
 public class FuncItemValue {
     private String primary;
+    private String secondaryType;
     private String secondary;
     
     //GETTERS
@@ -19,6 +20,10 @@ public class FuncItemValue {
         return primary;
     }
 
+    public String getSecondaryType() {
+        return secondaryType;
+    }
+    
     public String getSecondary() {
         return secondary;
     }
@@ -27,6 +32,10 @@ public class FuncItemValue {
 
     public void setPrimary(String primary) {
         this.primary = primary;
+    }
+
+    public void setSecondaryType(String secondaryType) {
+        this.secondaryType = secondaryType;
     }
 
     public void setSecondary(String secondary) {

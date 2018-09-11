@@ -11,11 +11,11 @@ import java.util.ArrayList;
  *
  * @author User
  */
-public class FuncItemType {
+public class FuncItemType{
 
     int id;
     private String typeName;
-    private ArrayList<FuncItemValue> attributeNames;
+    private ArrayList<String> attributeNames;
     private ArrayList<FuncItem> items;
 
     public FuncItemType() {
@@ -26,14 +26,13 @@ public class FuncItemType {
     //FUNCTIONS
     public String findAttributeNames(int i) {
         try {
-            return attributeNames.get(i).getPrimary();
-        } catch(Exception e) {
+            return attributeNames.get(i);
+        } catch (Exception e) {
             return "";
         }
     }
 
     //GETTERS
-    
     public int getId() {
         return id;
     }
@@ -42,7 +41,7 @@ public class FuncItemType {
         return typeName;
     }
 
-    public ArrayList<FuncItemValue> getAttributeNames() {
+    public ArrayList<String> getAttributeNames() {
         return attributeNames;
     }
 
@@ -51,16 +50,15 @@ public class FuncItemType {
     }
 
     //SETTERS
-
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
 
-    public void setAttributeNames(ArrayList<FuncItemValue> attributeNames) {
+    public void setAttributeNames(ArrayList<String> attributeNames) {
         this.attributeNames = attributeNames;
     }
 

@@ -11,6 +11,8 @@ import com.arvandtech.utilities.entities.FuncItem;
 import com.arvandtech.utilities.entities.FuncItemType;
 import com.arvandtech.utilities.entities.FuncItemValue;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -21,7 +23,7 @@ public class DatabaseConverter {
     /*
     This function takes in a list of 'Tracked' database items. It will sort the list into classes and cast all itmes into a more usable format.
     All website functions should use the output format as opposed to directly from database as it is easier to manage and use.
-    */
+     */
     public ArrayList<FuncItemType> sortToFunc(ArrayList<Tracked> databaseItem) {
         ArrayList<FuncItemType> items = new ArrayList<>();
         for (Tracked dItem : databaseItem) {
@@ -31,13 +33,10 @@ public class DatabaseConverter {
                 FuncItemType newItem = new FuncItemType();
                 //set type name.
                 newItem.setTypeName(dItem.getItemTypeName());
-                ArrayList<FuncItemValue> newAtt = new ArrayList<>();
+                ArrayList<String> newAtt = new ArrayList<>();
                 //set all attributes, both primary and secondary.
                 for (TrackedItem dAtt : dItem.getAttributes()) {
-                    FuncItemValue itemValue = new FuncItemValue();
-                    itemValue.setPrimary(dAtt.getAttribute().getAttributeName());
-                    itemValue.setSecondary(dAtt.getAttribute().getSecondaryName());
-                    newAtt.add(itemValue);
+                    newAtt.add(dAtt.getAttribute().getAttributeName());
                 }
                 newItem.setAttributeNames(newAtt);
                 newItem.setId(items.size());
@@ -47,30 +46,43 @@ public class DatabaseConverter {
             }
             //add item into array based on index i.
             FuncItem newfItem = new FuncItem(dItem.getTrackedId(), dItem.getBarcode(), dItem.getDateAdded(), dItem.getItemCondition(), dItem.getOrderNum(), dItem.getStatus(), dItem.getDescription());
-            ArrayList<FuncItemValue> fItemNames = items.get(i).getAttributeNames();
             //Set attributes of the class in the correct place, in correct order for 'newfItem'.
-            for (FuncItemValue fName : fItemNames) {
+            for (String fName : items.get(i).getAttributeNames()) {
                 for (TrackedItem dAtt : dItem.getAttributes()) {
-                    if (fName.getPrimary().equals(dAtt.getAttribute().getAttributeName()) && fName.getSecondary().equals(dAtt.getAttribute().getSecondaryName())) {
+                    if (fName.equals(dAtt.getAttribute().getAttributeName())/* && fName.getSecondary().equals(dAtt.getAttribute().getSecondaryName())*/) {
                         FuncItemValue tmpFuncValue = new FuncItemValue();
                         tmpFuncValue.setPrimary(dAtt.getAttribute().getAttributeValue());
-                        tmpFuncValue.setSecondary(dAtt.getAttribute().getSecondaryValue());      
+                        tmpFuncValue.setSecondary(dAtt.getAttribute().getSecondaryValue());
+                        tmpFuncValue.setSecondaryType(dAtt.getAttribute().getSecondaryName());
                         newfItem.addItemValue(tmpFuncValue);
-                        newfItem.setTypeId(items.get(i).getId());
                     }
                 }
             }
             //Add the new item into final 'items' list.
             items.get(i).getItems().add(newfItem);
         }
+        Collections.sort(items, sortItemsByType);
         return items;
     }
+
+    /*
+    Comparator used to compare array if FuncItemType. Will compare based on alphetical order of TypeName in FuncItemType.
+     */
+    private static final Comparator<FuncItemType> sortItemsByType = new Comparator<FuncItemType>() {
+        @Override
+        public int compare(FuncItemType item1, FuncItemType item2) {
+            String itemType1 = item1.getTypeName().toUpperCase();
+            String itemType2 = item2.getTypeName().toUpperCase();
+            return itemType1.compareTo(itemType2);
+        }
+    };
 
     /*
     Function tests if database item 'dItem' fits into any class of items currently stored in funcitnal items list, 'fItems'.
     Returns array index of corresponding fItem, if a similar class of item is found in 'fItems' list.
     Returns -1 if dItem is of a new class of items currently not in list 'fItems'.
      */
+
     private int findItemInArray(Tracked dItem, ArrayList<FuncItemType> fItems) {
         for (FuncItemType fItem : fItems) {
             boolean b = similarityTest(dItem, fItem);
@@ -94,8 +106,8 @@ public class DatabaseConverter {
             for (TrackedItem dAtt : dItem.getAttributes()) {
                 //Bit created to check if similar item found.
                 Boolean similarFoundBit = false;
-                for (FuncItemValue fAtt : fItem.getAttributeNames()) {
-                    if (fAtt.getPrimary().equals(dAtt.getAttribute().getAttributeName()) && fAtt.getSecondary().equals(dAtt.getAttribute().getSecondaryName())) {
+                for (String fAtt : fItem.getAttributeNames()) {
+                    if (fAtt.equals(dAtt.getAttribute().getAttributeName())/*&& fAtt.getSecondary().equals(dAtt.getAttribute().getSecondaryName())*/) {
                         similarFoundBit = true;
                     }
                 }

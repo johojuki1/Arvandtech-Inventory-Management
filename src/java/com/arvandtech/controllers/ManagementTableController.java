@@ -17,8 +17,12 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
- *
- * @author User
+ * This class manages the 'inventory management table'. Completes all relevant functions and sorting.
+ * dConverter - class used to complete conversion operations of Tracked items into FuncItems.
+ * inventoryItems - stores all current inventory items that is stored.
+ * displayedItems - stores all inventory items that is to be displayed to the user(after sorting).
+ * maxColNum - stores maximum columns to be displayed by table.
+ * @author Jonathan
  */
 @Named("manageTable")
 @SessionScoped
@@ -29,79 +33,65 @@ public class ManagementTableController implements Serializable {
 
     private DatabaseConverter dConverter;
     private ArrayList<FuncItemType> inventoryItems;
-    private ArrayList<Integer> typeRowSpan;
+    private ArrayList<FuncItemType> displayedItems;
+    private int maxColNum;
 
     public ManagementTableController() {
         dConverter = new DatabaseConverter();
-        typeRowSpan = new ArrayList<>();
     }
 
+    /*
+    
+    Sorting Classes- These functions determine the initial database searched and to be displayed.
+    
+     */
     public boolean findAll() {
-        ArrayList<Tracked> trackedItems = new ArrayList<>(trackedFacade.findAll());
-        inventoryItems = dConverter.sortToFunc(trackedItems);
-        int maxRowSpan = findMaxRowSpan(inventoryItems);
-        typeRowSpan = new ArrayList<>();
-        for (FuncItemType item : inventoryItems) {
-            int tmpAttSize = item.getAttributeNames().size();
-            double tmpDouble = maxRowSpan / tmpAttSize;
-            typeRowSpan.add((int) (tmpDouble));
-        }
+        castToFuncItem(new ArrayList<>(trackedFacade.findAll()));
+        displayedItems = inventoryItems;
         return true;
     }
 
     /*
-     Function finds the how large each row ought to be for a particular item.
-     */
-    public int findRowSpan(int i) {
-        return typeRowSpan.get(i);
-    }
-
     
-    public boolean columnRendered2(int colNo, FuncItemType item) {
-        if (colNo > item.getAttributeNames().size() - 1) {
+    Functional Classes- These classes are used for core functions of the Management Controller.
+    
+     */
+    
+    //This function caasts the Tracked object into the FunctItemType. Also sets maxColNum
+    private void castToFuncItem(ArrayList<Tracked> trackedItems) {
+        inventoryItems = dConverter.sortToFunc(trackedItems);
+        maxColNum = findMaxColSpan(inventoryItems);
+    }
+
+    //Determines if a column is to be rendered on the tabled. Based on maxColNum.
+    public boolean columnRendered(int colNo) {
+        if (maxColNum - 1 < colNo) {
             return false;
         } else {
             return true;
         }
-    }
-
-    public boolean columnRendered(int colNo, FuncItemType item) {
-        if (colNo > item.getAttributeNames().size() - 1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private FuncItemType findItemFromId(int id) {
-        for (FuncItemType item : inventoryItems) {
-            if (item.getId() == id) {
-                return item;
-            }
-        }
-        return null;
     }
 
     /*Takes a list of FunctItemType and finds the largest numbers of attributes within all contained items.
     The largest number of attributes is returned.
      */
-    private int findMaxRowSpan(ArrayList<FuncItemType> items) {
-        int tempMaxRow = 0;
+    private int findMaxColSpan(ArrayList<FuncItemType> items) {
+        int colNum = 0;
         for (FuncItemType item : items) {
-            if (item.getAttributeNames().size() > tempMaxRow) {
-                tempMaxRow = item.getAttributeNames().size();
+            if (item.getAttributeNames().size() > colNum) {
+                colNum = item.getAttributeNames().size();
             }
         }
-        return tempMaxRow;
+        return colNum;
     }
 
     //GETTERS
-    public ArrayList<FuncItemType> getInventoryItems() {
-        return inventoryItems;
+    public ArrayList<FuncItemType> getDisplayedItems() {
+        return displayedItems;
     }
 
     //SETTERS
-    public void setInventoryItems(ArrayList<FuncItemType> inventoryItems) {
-        this.inventoryItems = inventoryItems;
+    public void setDisplayedItems(ArrayList<FuncItemType> displayedItems) {
+        this.displayedItems = displayedItems;
     }
 }
