@@ -10,12 +10,18 @@ package com.arvandtech.utilities.entities;
  * @author User
  */
 public class FuncItemValue {
+
     private String primary;
     private String secondaryType;
     private String secondary;
-    
-    //GETTERS
 
+    //determines what happens if this item is converted to string.
+    @Override
+    public String toString() {
+        return primary + " " + secondaryType + " " + secondary + " ";
+    }
+
+    //GETTERS
     public String getPrimary() {
         return primary;
     }
@@ -23,13 +29,12 @@ public class FuncItemValue {
     public String getSecondaryType() {
         return secondaryType;
     }
-    
+
     public String getSecondary() {
         return secondary;
     }
-    
-    //SETTERS
 
+    //SETTERS
     public void setPrimary(String primary) {
         this.primary = primary;
     }
@@ -41,5 +46,5 @@ public class FuncItemValue {
     public void setSecondary(String secondary) {
         this.secondary = secondary;
     }
-    
+
 }

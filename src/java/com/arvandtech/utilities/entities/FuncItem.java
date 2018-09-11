@@ -50,7 +50,17 @@ public class FuncItem {
         }
     }
 
-    //GETTERS
+    //determines what happens if this item is converted to string.
+    @Override
+    public String toString() {
+        String s = condition + " " + status + " " + description + " ";
+        for (FuncItemValue fiValue : itemValues) {
+            s = s + fiValue.toString();
+        }
+        return s;
+    }
+
+//GETTERS
     public int getId() {
         return id;
     }

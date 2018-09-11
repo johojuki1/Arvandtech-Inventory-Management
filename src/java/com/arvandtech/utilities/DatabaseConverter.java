@@ -64,9 +64,14 @@ public class DatabaseConverter {
         Collections.sort(items, sortItemsByType);
         return items;
     }
+    
+    public ArrayList<FuncItemType> sortFuncList(ArrayList<FuncItemType>ftList) {
+        Collections.sort(ftList, sortItemsByType);
+        return ftList;
+    }
 
     /*
-    Comparator used to compare array if FuncItemType. Will compare based on alphetical order of TypeName in FuncItemType.
+    Comparator used to compare array of FuncItemType. Will compare based on alphetical order of TypeName in FuncItemType.
      */
     private static final Comparator<FuncItemType> sortItemsByType = new Comparator<FuncItemType>() {
         @Override
@@ -82,10 +87,8 @@ public class DatabaseConverter {
     Returns array index of corresponding fItem, if a similar class of item is found in 'fItems' list.
     Returns -1 if dItem is of a new class of items currently not in list 'fItems'.
      */
-
     private int findItemInArray(Tracked dItem, ArrayList<FuncItemType> fItems) {
         for (FuncItemType fItem : fItems) {
-            boolean b = similarityTest(dItem, fItem);
             if (similarityTest(dItem, fItem)) {
                 return (fItems.indexOf(fItem));
             }

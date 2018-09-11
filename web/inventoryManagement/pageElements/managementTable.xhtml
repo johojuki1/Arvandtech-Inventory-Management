@@ -5,7 +5,19 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <div onload="#{manageTable.findAll()}">
         <h:form id="accountManagementForm">
-            <p:dataTable var="itemType" value="#{manageTable.displayedItems}" scrollable="true">
+            <div style="display:flex; padding-top: 0px; justify-content: flex-start">
+                <div style="display:flex; align-items: center; padding-bottom: 10px">
+                    <h:outputText class="font-medium" value="Smart Search:"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:inputText id="smartSearch" style="width: 50vw" value="#{manageTable.searchField}"  onkeydown="if (event.keyCode === 13) {
+                                return false;
+                            }"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:commandButton value="Search" action="#{manageTable.smartSearch()}" style="width: 15%!important; align-self: flex-start" update="inventoryTable" styleClass="basic-buttons">
+                    </p:commandButton>
+                </div>
+            </div>
+            <p:dataTable id="inventoryTable" var="itemType" value="#{manageTable.displayedItems}" scrollable="true">
                 <f:facet name="header">  
                     <h:outputText value="Inventory"/>  
                 </f:facet>
@@ -30,7 +42,7 @@
                             <p:column rendered="#{manageTable.columnRendered(9)}"  headerText="#{itemType.findAttributeNames(9)}" />    
                         </p:row>
                     </p:columnGroup>
-                    
+
                     <p:column>  
                         <h:outputText value="#{item.barcode}"/>  
                     </p:column>

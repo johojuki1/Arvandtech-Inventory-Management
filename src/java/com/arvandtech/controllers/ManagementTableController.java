@@ -17,11 +17,13 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
- * This class manages the 'inventory management table'. Completes all relevant functions and sorting.
- * dConverter - class used to complete conversion operations of Tracked items into FuncItems.
- * inventoryItems - stores all current inventory items that is stored.
- * displayedItems - stores all inventory items that is to be displayed to the user(after sorting).
- * maxColNum - stores maximum columns to be displayed by table.
+ * This class manages the 'inventory management table'. Completes all relevant
+ * functions and sorting. dConverter - class used to complete conversion
+ * operations of Tracked items into FuncItems. inventoryItems - stores all
+ * current inventory items that is stored. displayedItems - stores all inventory
+ * items that is to be displayed to the user(after sorting). maxColNum - stores
+ * maximum columns to be displayed by table.
+ *
  * @author Jonathan
  */
 @Named("manageTable")
@@ -35,6 +37,7 @@ public class ManagementTableController implements Serializable {
     private ArrayList<FuncItemType> inventoryItems;
     private ArrayList<FuncItemType> displayedItems;
     private int maxColNum;
+    private String searchField;
 
     public ManagementTableController() {
         dConverter = new DatabaseConverter();
@@ -51,12 +54,56 @@ public class ManagementTableController implements Serializable {
         return true;
     }
 
+    public void smartSearch() {
+        ArrayList<FuncItemType> tmpFinalSearchList = new ArrayList<>();
+        ArrayList<FuncItemType> tmpInventoryItems = new ArrayList<>();
+        ArrayList<FuncItemType> secondTmpInventoryItems = new ArrayList<>();
+
+        //prepare temperory items.
+        tmpInventoryItems.addAll(inventoryItems);
+        secondTmpInventoryItems.addAll(tmpInventoryItems);
+        //Loop to check if item type or any parameters match.
+        //If it does, immediately add all items into list. Then delete all items from tmpInventory, which will be used for later more detailed searches.
+        for (FuncItemType item : secondTmpInventoryItems) {
+            //check names of the item type for match.
+            if (checkContainsString(item.getTypeName(), searchField) || checkContainsString(item.getAttributeNames(), searchField)) {
+                //if found, add all items available to final list. Then delete the entire item from tmp.
+                tmpFinalSearchList.add(item);
+                //tmpInventoryItems.remove(item);
+            }
+        }
+        //Check individual items and attributes to see if any match.
+        secondTmpInventoryItems.addAll(tmpInventoryItems);
+        for (FuncItemType item : secondTmpInventoryItems) {
+            for (FuncItem tmpItem : item.getItems()) {
+                if (checkContainsString(tmpItem.toString(), searchField)) {
+                    //if found, check if ItemType is in final searched list. If not Add to new list and also add the found item
+                    int index = findTypeInList(tmpFinalSearchList, item);
+                    if (index == -1) {
+                        FuncItemType itemToAdd = new FuncItemType();
+                        itemToAdd.setId(item.getId());
+                        itemToAdd.setTypeName(item.getTypeName());
+                        itemToAdd.setAttributeNames(item.getAttributeNames());
+                        tmpFinalSearchList.add(itemToAdd);
+                        index = tmpFinalSearchList.indexOf(itemToAdd);
+                    }
+                    ArrayList<FuncItem> tmpFuncItems = new ArrayList<>();
+                    tmpFuncItems.addAll(tmpFinalSearchList.get(index).getItems());
+                    tmpFuncItems.add(tmpItem);
+                    tmpFinalSearchList.get(index).setItems(tmpFuncItems);
+                }
+            }
+        }
+        dConverter.sortFuncList(tmpFinalSearchList);
+        displayedItems = new ArrayList<>();
+        displayedItems.addAll(tmpFinalSearchList);
+    }
+
     /*
     
     Functional Classes- These classes are used for core functions of the Management Controller.
     
      */
-    
     //This function caasts the Tracked object into the FunctItemType. Also sets maxColNum
     private void castToFuncItem(ArrayList<Tracked> trackedItems) {
         inventoryItems = dConverter.sortToFunc(trackedItems);
@@ -72,6 +119,14 @@ public class ManagementTableController implements Serializable {
         }
     }
 
+    //Checks the object a to see if the values of string b can be found in any form in object a.
+    private boolean checkContainsString(Object a, String b) {
+        //Convert object to string and capatilise both strings.
+        String convertedA = String.valueOf(a).toUpperCase();
+        b = b.toUpperCase();
+        return convertedA.contains(b);
+    }
+
     /*Takes a list of FunctItemType and finds the largest numbers of attributes within all contained items.
     The largest number of attributes is returned.
      */
@@ -85,13 +140,31 @@ public class ManagementTableController implements Serializable {
         return colNum;
     }
 
+    //checks to see if an item type exists in a particular list of items.
+    private int findTypeInList(ArrayList<FuncItemType> items, FuncItemType item) {
+        for (FuncItemType tmpItem : items) {
+            if (item.getTypeName().equals(tmpItem.getTypeName()) && item.getAttributeNames().equals(tmpItem.getAttributeNames())) {
+                return items.indexOf(tmpItem);
+            }
+        }
+        return -1;
+    }
+
     //GETTERS
     public ArrayList<FuncItemType> getDisplayedItems() {
         return displayedItems;
     }
 
+    public String getSearchField() {
+        return searchField;
+    }
+
     //SETTERS
     public void setDisplayedItems(ArrayList<FuncItemType> displayedItems) {
         this.displayedItems = displayedItems;
+    }
+
+    public void setSearchField(String searchField) {
+        this.searchField = searchField;
     }
 }
