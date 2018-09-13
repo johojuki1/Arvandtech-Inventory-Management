@@ -7,14 +7,16 @@
         <h:form id="accountManagementForm">
             <div style="display:flex; padding-top: 0px; justify-content: flex-start">
                 <div style="display:flex; align-items: center; padding-bottom: 10px">
-                    <h:outputText class="font-medium" value="Smart Search:"/>
+                    <h:outputText class="font-medium" value="Search:"/>
                     <div style="padding-left: 1.5vw"/>
                     <p:inputText id="smartSearch" style="width: 50vw" value="#{manageTable.searchField}"  onkeydown="if (event.keyCode === 13) {
-                                return false;
+                        smartSearch();        
+                        return false;
                             }"/>
                     <div style="padding-left: 1.5vw"/>
                     <p:commandButton value="Search" action="#{manageTable.smartSearch()}" style="width: 15%!important; align-self: flex-start" update="inventoryTable" styleClass="basic-buttons">
                     </p:commandButton>
+                    <p:remoteCommand name="addBarcode" action="#{manageTable.smartSearch()}" update="inventoryTable"/>
                 </div>
             </div>
             <p:dataTable id="inventoryTable" var="itemType" value="#{manageTable.displayedItems}" scrollable="true">

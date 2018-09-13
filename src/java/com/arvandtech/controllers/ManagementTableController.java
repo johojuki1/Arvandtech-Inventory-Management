@@ -50,35 +50,45 @@ public class ManagementTableController implements Serializable {
      */
     public boolean findAll() {
         castToFuncItem(new ArrayList<>(trackedFacade.findAll()));
-        displayedItems = inventoryItems;
+        displayedItems = new ArrayList<>();
+        displayedItems.addAll(inventoryItems);
         return true;
     }
 
     public void smartSearch() {
         ArrayList<FuncItemType> tmpFinalSearchList = new ArrayList<>();
         ArrayList<FuncItemType> tmpInventoryItems = new ArrayList<>();
-        ArrayList<FuncItemType> secondTmpInventoryItems = new ArrayList<>();
+        ArrayList<FuncItemType> modifiedTmpInventoryItems = new ArrayList<>();
+
+        //clear all lists(done due to memory leak issue we had.)
+        tmpFinalSearchList.clear();
+        tmpInventoryItems.clear();
+        modifiedTmpInventoryItems.clear();
 
         //prepare temperory items.
         tmpInventoryItems.addAll(inventoryItems);
-        secondTmpInventoryItems.addAll(tmpInventoryItems);
+        modifiedTmpInventoryItems.addAll(inventoryItems);
         //Loop to check if item type or any parameters match.
         //If it does, immediately add all items into list. Then delete all items from tmpInventory, which will be used for later more detailed searches.
-        for (FuncItemType item : secondTmpInventoryItems) {
+        for (FuncItemType item : modifiedTmpInventoryItems) {
             //check names of the item type for match.
             if (checkContainsString(item.getTypeName(), searchField) || checkContainsString(item.getAttributeNames(), searchField)) {
                 //if found, add all items available to final list. Then delete the entire item from tmp.
                 tmpFinalSearchList.add(item);
-                //tmpInventoryItems.remove(item);
+                tmpInventoryItems.remove(item);
             }
         }
         //Check individual items and attributes to see if any match.
-        secondTmpInventoryItems.addAll(tmpInventoryItems);
-        for (FuncItemType item : secondTmpInventoryItems) {
+        //Reset secondTmpInventoryItems to match with tmpInventoryItems. All items confirmed to be searched and found does not need to be searched again.
+        modifiedTmpInventoryItems.clear();
+        modifiedTmpInventoryItems.addAll(tmpInventoryItems);
+        for (FuncItemType item : modifiedTmpInventoryItems) {
             for (FuncItem tmpItem : item.getItems()) {
-                if (checkContainsString(tmpItem.toString(), searchField)) {
+                boolean itemFound = tmpItem.getBarcode().equals(searchField) || tmpItem.getOrderNumber().equals(searchField)||checkContainsString(tmpItem.toString(), searchField);
+                if (itemFound) {
                     //if found, check if ItemType is in final searched list. If not Add to new list and also add the found item
                     int index = findTypeInList(tmpFinalSearchList, item);
+                    //Adding ItemType if not found.
                     if (index == -1) {
                         FuncItemType itemToAdd = new FuncItemType();
                         itemToAdd.setId(item.getId());
@@ -87,7 +97,9 @@ public class ManagementTableController implements Serializable {
                         tmpFinalSearchList.add(itemToAdd);
                         index = tmpFinalSearchList.indexOf(itemToAdd);
                     }
+                    //Add new FuncItem to final list under the correct ItemType.
                     ArrayList<FuncItem> tmpFuncItems = new ArrayList<>();
+                    tmpFuncItems.clear();
                     tmpFuncItems.addAll(tmpFinalSearchList.get(index).getItems());
                     tmpFuncItems.add(tmpItem);
                     tmpFinalSearchList.get(index).setItems(tmpFuncItems);
@@ -95,7 +107,7 @@ public class ManagementTableController implements Serializable {
             }
         }
         dConverter.sortFuncList(tmpFinalSearchList);
-        displayedItems = new ArrayList<>();
+        displayedItems.clear();
         displayedItems.addAll(tmpFinalSearchList);
     }
 
