@@ -10,6 +10,7 @@ import com.arvandtech.domain.facades.TrackedFacade;
 import com.arvandtech.utilities.DatabaseConverter;
 import com.arvandtech.utilities.entities.FuncItem;
 import com.arvandtech.utilities.entities.FuncItemType;
+import com.arvandtech.utilities.entities.FuncItemValue;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.ejb.EJB;
@@ -112,6 +113,9 @@ public class ManagementTableController implements Serializable {
     public void itemTypeChange() {
         itemAttribute.clear();
         selectedItemAttribute.clear();
+        itemValue.clear();
+        selectedItemValue.clear();
+        
         if (selectedItemType.isEmpty()) {
             findItemAttribute(inventoryItems);
         }
@@ -130,12 +134,12 @@ public class ManagementTableController implements Serializable {
         selectedItemValue.clear();
 
         ArrayList<String> tmpItemType = new ArrayList<>();
-        if(selectedItemType.isEmpty()) {
+        if (selectedItemType.isEmpty()) {
             tmpItemType = itemType;
         } else {
             tmpItemType = selectedItemType;
         }
-        
+
         for (FuncItemType item : inventoryItems) {
             for (String type : tmpItemType) {
                 for (String attribute : selectedItemAttribute) {
@@ -161,12 +165,82 @@ public class ManagementTableController implements Serializable {
     }
 
     public void search() {
-        //ArrayList<String> processedSearch = processSearchString(searchField);
+        ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
+        interSearchArray.clear();
+        interSearchArray.addAll(searchByType(inventoryItems, selectedItemType));
+        if (interSearchArray.isEmpty()) {
+            interSearchArray.addAll(inventoryItems);
+        }
+        if (!selectedItemAttribute.isEmpty()) {
+            interSearchArray = searchByAttribute(interSearchArray, selectedItemAttribute);
+        }
+        if (!selectedItemValue.isEmpty()) {
+            interSearchArray = searchByValue(interSearchArray, selectedItemValue);
+        }
+        if (!searchField.isEmpty()) {
+            interSearchArray = searchByField(interSearchArray, searchField);
+        }
         displayedItems.clear();
-        displayedItems.addAll(searchListWithField(inventoryItems, searchField));
+        displayedItems.addAll(interSearchArray);
+        maxColNum = findMaxColSpan(displayedItems);
     }
 
-    public ArrayList<FuncItemType> searchListWithField(ArrayList<FuncItemType> searchItemList, String searchField) {
+    private ArrayList<FuncItemType> searchByValue(ArrayList<FuncItemType> items, ArrayList<String> values) {
+        ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
+        for (FuncItemType item : items) {
+            for (FuncItem tmpItem : item.getItems()) {
+                boolean itemAdded = false;
+                for (FuncItemValue tmpItemValue : tmpItem.getItemValues()) {
+                    if (!itemAdded && values.contains(tmpItemValue.getPrimary())) {
+                        int index = findTypeInList(interSearchArray, item);
+                        if (index == -1) {
+                            FuncItemType itemToAdd = new FuncItemType();
+                            itemToAdd.setId(item.getId());
+                            itemToAdd.setTypeName(item.getTypeName());
+                            itemToAdd.setAttributeNames(item.getAttributeNames());
+                            interSearchArray.add(itemToAdd);
+                            index = interSearchArray.indexOf(itemToAdd);
+                        }
+                        //Add new FuncItem to final list under the correct ItemType.
+                        ArrayList<FuncItem> tmpFuncItems = new ArrayList<>();
+                        tmpFuncItems.clear();
+                        tmpFuncItems.addAll(interSearchArray.get(index).getItems());
+                        tmpFuncItems.add(tmpItem);
+                        interSearchArray.get(index).setItems(tmpFuncItems);
+                        itemAdded = true;
+                    }
+                }
+            }
+        }
+
+        return interSearchArray;
+    }
+
+    private ArrayList<FuncItemType> searchByAttribute(ArrayList<FuncItemType> items, ArrayList<String> attributes) {
+        ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
+        for (FuncItemType item : items) {
+            boolean itemAdded = false;
+            for (String attribute : attributes) {
+                if (!itemAdded && item.getAttributeNames().contains(attribute)) {
+                    interSearchArray.add(item);
+                    itemAdded = true;
+                }
+            }
+        }
+        return interSearchArray;
+    }
+
+    private ArrayList<FuncItemType> searchByType(ArrayList<FuncItemType> items, ArrayList<String> types) {
+        ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
+        for (FuncItemType item : items) {
+            if (types.contains(item.getTypeName())) {
+                interSearchArray.add(item);
+            }
+        }
+        return interSearchArray;
+    }
+
+    private ArrayList<FuncItemType> searchByField(ArrayList<FuncItemType> searchItemList, String searchField) {
         ArrayList<FuncItemType> tmpFinalSearchList = new ArrayList<>();
         ArrayList<FuncItemType> tmpInventoryItems = new ArrayList<>();
         ArrayList<FuncItemType> modifiedTmpInventoryItems = new ArrayList<>();

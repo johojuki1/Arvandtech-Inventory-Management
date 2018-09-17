@@ -4,7 +4,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <div onload="#{manageTable.findAll()}">
-        <h:form id="accountManagementForm">
+        <h:form id="managementTableForm">
             <div style="display:block; padding-top: 0px; justify-content: flex-start">
                 <div style="display: flex; align-items: center; padding-bottom: 10px">
                     <h:outputText class="font-medium" value="Type:"/>
@@ -44,7 +44,7 @@
                     <p:remoteCommand name="addBarcode" action="#{manageTable.search()}" update="inventoryTable"/>
                 </div>
             </div>
-            <p:dataTable id="inventoryTable" var="itemType" value="#{manageTable.displayedItems}" scrollable="true">
+            <p:dataTable id="inventoryTable" var="itemType" value="#{manageTable.displayedItems}" scrollRows="20" liveScroll="true" scrollHeight="600" lazy="true" rows="20" scrollable="true" scrollWidth="100%">
                 <f:facet name="header">  
                     <h:outputText value="Inventory"/>  
                 </f:facet>
@@ -57,7 +57,7 @@
                             <p:column headerText="Barcode" />
                             <p:column headerText="Condition" />
                             <p:column headerText="Status" />
-                            <p:column rendered="#{manageTable.columnRendered(0)}" headerText="#{itemType.findAttributeNames(0)}" /> 
+                            <p:column rendered="#{manageTable.columnRendered(0)}"  headerText="#{itemType.findAttributeNames(0)}" />
                             <p:column rendered="#{manageTable.columnRendered(1)}"  headerText="#{itemType.findAttributeNames(1)}" />  
                             <p:column rendered="#{manageTable.columnRendered(2)}"  headerText="#{itemType.findAttributeNames(2)}" />  
                             <p:column rendered="#{manageTable.columnRendered(3)}"  headerText="#{itemType.findAttributeNames(3)}" />  
@@ -113,14 +113,14 @@
                 </p:subTable>  
                 <f:facet name="footer">
                     <div style="display:flex; justify-content: flex-start">
-                        <p:commandButton actionListener="#{navigator.setAccountIndex(1)}" ajax="false" value="Add" styleClass="basic-buttons">
+                        <!--<p:commandButton actionListener="{navigator.setAccountIndex(1)}" ajax="false" value="Add" styleClass="basic-buttons">
                             <f:ajax render=":accounts"/>
                         </p:commandButton>
-                        <p:commandButton action="#{navigator.setAccountIndex(accountsController.editAccountSelected())}" ajax="false" value="Edit" styleClass="basic-buttons">
+                        <p:commandButton action="{navigator.setAccountIndex(accountsController.editAccountSelected())}" ajax="false" value="Edit" styleClass="basic-buttons">
                             <f:ajax render=":accounts"/>
-                        </p:commandButton>
-                        <p:commandButton action="#{accountsController.deleteAccount()}" ajax="false" value="Delete" styleClass="basic-buttons">
-                            <f:ajax render=":accounts"/>
+                        </p:commandButton>-->
+                        <p:commandButton actionListener="#{manageTable.findAll()}" ajax="false" value="Refresh" styleClass="basic-buttons">
+                            <p:ajax update="@form"/>
                         </p:commandButton>
                     </div>
                 </f:facet>
