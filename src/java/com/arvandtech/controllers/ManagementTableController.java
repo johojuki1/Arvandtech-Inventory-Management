@@ -38,6 +38,12 @@ public class ManagementTableController implements Serializable {
     private ArrayList<FuncItemType> displayedItems;
     private int maxColNum;
     private String searchField;
+    private ArrayList<String> itemType;
+    private ArrayList<String> itemAttribute;
+    private ArrayList<String> itemValue;
+    private ArrayList<String> selectedItemType;
+    private ArrayList<String> selectedItemAttribute;
+    private ArrayList<String> selectedItemValue;
 
     public ManagementTableController() {
         dConverter = new DatabaseConverter();
@@ -52,10 +58,115 @@ public class ManagementTableController implements Serializable {
         castToFuncItem(new ArrayList<>(trackedFacade.findAll()));
         displayedItems = new ArrayList<>();
         displayedItems.addAll(inventoryItems);
+        itemAttribute = new ArrayList<>();
+        itemType = new ArrayList<>();
+        itemValue = new ArrayList<>();
+        selectedItemAttribute = new ArrayList<>();
+        selectedItemType = new ArrayList<>();
+        selectedItemValue = new ArrayList<>();
+        findItemType(inventoryItems);
+        findItemAttribute(inventoryItems);
         return true;
     }
 
-    public void smartSearch() {
+    /*
+    Function used to find all values in itemtype and sets value 'itemType' when triggered.
+    
+     */
+    private void findItemType(ArrayList<FuncItemType> searchedItemTypes) {
+        for (FuncItemType item : searchedItemTypes) {
+            //check names of the item type for match.
+            if (!itemType.contains(item.getTypeName())) {
+                itemType.add(item.getTypeName());
+            }
+        }
+    }
+
+    private void findItemAttribute(ArrayList<FuncItemType> searchedItemTypes) {
+        for (FuncItemType item : searchedItemTypes) {
+            //check names of the item attribute for match.
+            for (String attributeName : item.getAttributeNames()) {
+                if (!itemAttribute.contains(attributeName)) {
+                    itemAttribute.add(attributeName);
+                }
+            }
+        }
+    }
+
+    private void findItemAttribute(FuncItemType searchedItem) {
+        //check names of the item attribute for match.
+        for (String attributeName : searchedItem.getAttributeNames()) {
+            if (!itemAttribute.contains(attributeName)) {
+                itemAttribute.add(attributeName);
+            }
+        }
+    }
+
+    private void findItemValue(FuncItem searchedItem, int valLocation) {
+        //check names of the item values for match.
+        if (!itemValue.contains(searchedItem.getItemValues().get(valLocation).getPrimary())) {
+            itemValue.add(searchedItem.getItemValues().get(valLocation).getPrimary());
+        }
+    }
+
+    public void itemTypeChange() {
+        itemAttribute.clear();
+        selectedItemAttribute.clear();
+        if (selectedItemType.isEmpty()) {
+            findItemAttribute(inventoryItems);
+        }
+        for (String type : selectedItemType) {
+            for (FuncItemType item : inventoryItems) {
+                //check names of the item type for match.
+                if (item.getTypeName().equals(type)) {
+                    findItemAttribute(item);
+                }
+            }
+        }
+    }
+
+    public void attributeTypeChange() {
+        itemValue.clear();
+        selectedItemValue.clear();
+
+        ArrayList<String> tmpItemType = new ArrayList<>();
+        if(selectedItemType.isEmpty()) {
+            tmpItemType = itemType;
+        } else {
+            tmpItemType = selectedItemType;
+        }
+        
+        for (FuncItemType item : inventoryItems) {
+            for (String type : tmpItemType) {
+                for (String attribute : selectedItemAttribute) {
+                    //check names of the item type for match.
+                    if (item.getTypeName().equals(type)) {
+                        if (item.getAttributeNames().contains(attribute)) {
+                            int attId = item.getAttributeNames().indexOf(attribute);
+                            for (FuncItem iItem : item.getItems()) {
+                                findItemValue(iItem, attId);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public String valueCheckBoxDisplayed() {
+        if (selectedItemAttribute.isEmpty()) {
+            return "hidden";
+        }
+        return "visible";
+    }
+
+    public void search() {
+        //ArrayList<String> processedSearch = processSearchString(searchField);
+        displayedItems.clear();
+        displayedItems.addAll(searchListWithField(inventoryItems, searchField));
+    }
+
+    public ArrayList<FuncItemType> searchListWithField(ArrayList<FuncItemType> searchItemList, String searchField) {
         ArrayList<FuncItemType> tmpFinalSearchList = new ArrayList<>();
         ArrayList<FuncItemType> tmpInventoryItems = new ArrayList<>();
         ArrayList<FuncItemType> modifiedTmpInventoryItems = new ArrayList<>();
@@ -66,8 +177,8 @@ public class ManagementTableController implements Serializable {
         modifiedTmpInventoryItems.clear();
 
         //prepare temperory items.
-        tmpInventoryItems.addAll(inventoryItems);
-        modifiedTmpInventoryItems.addAll(inventoryItems);
+        tmpInventoryItems.addAll(searchItemList);
+        modifiedTmpInventoryItems.addAll(searchItemList);
         //Loop to check if item type or any parameters match.
         //If it does, immediately add all items into list. Then delete all items from tmpInventory, which will be used for later more detailed searches.
         for (FuncItemType item : modifiedTmpInventoryItems) {
@@ -84,7 +195,7 @@ public class ManagementTableController implements Serializable {
         modifiedTmpInventoryItems.addAll(tmpInventoryItems);
         for (FuncItemType item : modifiedTmpInventoryItems) {
             for (FuncItem tmpItem : item.getItems()) {
-                boolean itemFound = tmpItem.getBarcode().equals(searchField) || tmpItem.getOrderNumber().equals(searchField)||checkContainsString(tmpItem.toString(), searchField);
+                boolean itemFound = tmpItem.getBarcode().equals(searchField) || tmpItem.getOrderNumber().equals(searchField) || checkContainsString(tmpItem.toString(), searchField);
                 if (itemFound) {
                     //if found, check if ItemType is in final searched list. If not Add to new list and also add the found item
                     int index = findTypeInList(tmpFinalSearchList, item);
@@ -107,8 +218,7 @@ public class ManagementTableController implements Serializable {
             }
         }
         dConverter.sortFuncList(tmpFinalSearchList);
-        displayedItems.clear();
-        displayedItems.addAll(tmpFinalSearchList);
+        return tmpFinalSearchList;
     }
 
     /*
@@ -171,6 +281,30 @@ public class ManagementTableController implements Serializable {
         return searchField;
     }
 
+    public ArrayList<String> getItemType() {
+        return itemType;
+    }
+
+    public ArrayList<String> getItemAttribute() {
+        return itemAttribute;
+    }
+
+    public ArrayList<String> getSelectedItemType() {
+        return selectedItemType;
+    }
+
+    public ArrayList<String> getSelectedItemAttribute() {
+        return selectedItemAttribute;
+    }
+
+    public ArrayList<String> getSelectedItemValue() {
+        return selectedItemValue;
+    }
+
+    public ArrayList<String> getItemValue() {
+        return itemValue;
+    }
+
     //SETTERS
     public void setDisplayedItems(ArrayList<FuncItemType> displayedItems) {
         this.displayedItems = displayedItems;
@@ -178,5 +312,29 @@ public class ManagementTableController implements Serializable {
 
     public void setSearchField(String searchField) {
         this.searchField = searchField;
+    }
+
+    public void setItemType(ArrayList<String> itemType) {
+        this.itemType = itemType;
+    }
+
+    public void setItemAttribute(ArrayList<String> itemAttribute) {
+        this.itemAttribute = itemAttribute;
+    }
+
+    public void setSelectedItemType(ArrayList<String> selectedItemType) {
+        this.selectedItemType = selectedItemType;
+    }
+
+    public void setSelectedItemAttribute(ArrayList<String> selectedItemAttribute) {
+        this.selectedItemAttribute = selectedItemAttribute;
+    }
+
+    public void setSelectedItemValue(ArrayList<String> selectedItemValue) {
+        this.selectedItemValue = selectedItemValue;
+    }
+
+    public void setItemValue(ArrayList<String> itemValue) {
+        this.itemValue = itemValue;
     }
 }

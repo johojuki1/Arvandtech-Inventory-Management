@@ -5,18 +5,43 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <div onload="#{manageTable.findAll()}">
         <h:form id="accountManagementForm">
-            <div style="display:flex; padding-top: 0px; justify-content: flex-start">
-                <div style="display:flex; align-items: center; padding-bottom: 10px">
-                    <h:outputText class="font-medium" value="Search:"/>
+            <div style="display:block; padding-top: 0px; justify-content: flex-start">
+                <div style="display: flex; align-items: center; padding-bottom: 10px">
+                    <h:outputText class="font-medium" value="Type:"/>
                     <div style="padding-left: 1.5vw"/>
+                    <p:selectCheckboxMenu id="selectType" panelStyle="width:300px"  value="#{manageTable.selectedItemType}" label ="All" multiple="true"
+                                          filter="true" filterMatchMode="startsWith">
+                        <p:ajax event="change" listener="#{manageTable.itemTypeChange()}" update="selectAtt selectVal selectValTitle"/>
+                        <p:ajax event="toggleSelect" listener="#{manageTable.itemTypeChange()}" update="selectAtt selectVal selectValTitle"/>
+                        <f:selectItems value="#{manageTable.itemType}" var="#{iVar}" itemValue="#{iVar}" itemLabel="#{iVar}" />
+                    </p:selectCheckboxMenu>
+                    <div style="padding-left: 1.5vw"/>
+                    <h:outputText class="font-medium" value="Attribute:"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:selectCheckboxMenu id="selectAtt" panelStyle="width:300px" value="#{manageTable.selectedItemAttribute}" label ="All" multiple="true"
+                                          filter="true" filterMatchMode="startsWith">
+                        <p:ajax event="change" listener="#{manageTable.attributeTypeChange()}" update="selectVal selectValTitle"/>
+                        <p:ajax event="toggleSelect" listener="#{manageTable.attributeTypeChange()}" update="selectVal selectValTitle"/>
+                        <f:selectItems value="#{manageTable.itemAttribute}" var="#{aVar}" itemValue="#{aVar}" itemLabel="#{aVar}" />
+                    </p:selectCheckboxMenu>
+                    <div style="padding-left: 1.5vw"/>
+                    <h:outputText id="selectValTitle" class="font-medium" value="Value:" style="visibility: #{manageTable.valueCheckBoxDisplayed()}"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:selectCheckboxMenu id="selectVal" panelStyle="width:300px" value="#{manageTable.selectedItemValue}" label ="All" multiple="true"
+                                          filter="true" filterMatchMode="startsWith" style="visibility: #{manageTable.valueCheckBoxDisplayed()}">
+                        <f:selectItems value="#{manageTable.itemValue}" var="#{vVar}" itemValue="#{vVar}" itemLabel="#{vVar}" />
+                    </p:selectCheckboxMenu>
+                    <div class="medium-view-line-break"/>
+                </div>
+                <div style="display: flex; align-items: flex-start; padding-bottom: 10px">
                     <p:inputText id="smartSearch" style="width: 50vw" value="#{manageTable.searchField}"  onkeydown="if (event.keyCode === 13) {
-                        smartSearch();        
-                        return false;
+                                smartSearch();
+                                return false;
                             }"/>
                     <div style="padding-left: 1.5vw"/>
-                    <p:commandButton value="Search" action="#{manageTable.smartSearch()}" style="width: 15%!important; align-self: flex-start" update="inventoryTable" styleClass="basic-buttons">
+                    <p:commandButton value="Search" action="#{manageTable.search()}" style="width: 15%!important; align-self: flex-start" update="inventoryTable" styleClass="basic-buttons">
                     </p:commandButton>
-                    <p:remoteCommand name="addBarcode" action="#{manageTable.smartSearch()}" update="inventoryTable"/>
+                    <p:remoteCommand name="addBarcode" action="#{manageTable.search()}" update="inventoryTable"/>
                 </div>
             </div>
             <p:dataTable id="inventoryTable" var="itemType" value="#{manageTable.displayedItems}" scrollable="true">
@@ -45,6 +70,7 @@
                         </p:row>
                     </p:columnGroup>
 
+                    <!--These warnings are not errors. Netbeans is failing to process double loops.-->
                     <p:column>  
                         <h:outputText value="#{item.barcode}"/>  
                     </p:column>
