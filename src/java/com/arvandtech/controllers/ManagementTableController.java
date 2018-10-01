@@ -34,6 +34,7 @@ public class ManagementTableController implements Serializable {
     @EJB
     private TrackedFacade trackedFacade;
 
+    private String searchType;
     private DatabaseConverter dConverter;
     private ArrayList<FuncItemType> inventoryItems;
     private ArrayList<FuncItemType> displayedItems;
@@ -115,7 +116,7 @@ public class ManagementTableController implements Serializable {
         selectedItemAttribute.clear();
         itemValue.clear();
         selectedItemValue.clear();
-        
+
         if (selectedItemType.isEmpty()) {
             findItemAttribute(inventoryItems);
         }
@@ -133,7 +134,7 @@ public class ManagementTableController implements Serializable {
         itemValue.clear();
         selectedItemValue.clear();
 
-        ArrayList<String> tmpItemType = new ArrayList<>();
+        ArrayList<String> tmpItemType;
         if (selectedItemType.isEmpty()) {
             tmpItemType = itemType;
         } else {
@@ -165,6 +166,10 @@ public class ManagementTableController implements Serializable {
     }
 
     public void search() {
+        boolean isAndSearch = false;
+        if (searchType.equals("and")) {
+            isAndSearch = true;
+        }
         ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
         interSearchArray.clear();
         interSearchArray.addAll(searchByType(inventoryItems, selectedItemType));
@@ -172,10 +177,10 @@ public class ManagementTableController implements Serializable {
             interSearchArray.addAll(inventoryItems);
         }
         if (!selectedItemAttribute.isEmpty()) {
-            interSearchArray = searchByAttribute(interSearchArray, selectedItemAttribute);
+            interSearchArray = searchByAttribute(interSearchArray, selectedItemAttribute, isAndSearch);
         }
         if (!selectedItemValue.isEmpty()) {
-            interSearchArray = searchByValue(interSearchArray, selectedItemValue);
+            interSearchArray = searchByValue(interSearchArray, selectedItemValue, isAndSearch);
         }
         if (!searchField.isEmpty()) {
             interSearchArray = searchByField(interSearchArray, searchField);
@@ -184,50 +189,94 @@ public class ManagementTableController implements Serializable {
         displayedItems.addAll(interSearchArray);
         maxColNum = findMaxColSpan(displayedItems);
     }
-
-    private ArrayList<FuncItemType> searchByValue(ArrayList<FuncItemType> items, ArrayList<String> values) {
+    
+    private ArrayList<FuncItemType> searchByValue(ArrayList<FuncItemType> items, ArrayList<String> values, boolean isAndSearch) {
         ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
         for (FuncItemType item : items) {
             for (FuncItem tmpItem : item.getItems()) {
-                boolean itemAdded = false;
-                for (FuncItemValue tmpItemValue : tmpItem.getItemValues()) {
-                    if (!itemAdded && values.contains(tmpItemValue.getPrimary())) {
-                        int index = findTypeInList(interSearchArray, item);
-                        if (index == -1) {
-                            FuncItemType itemToAdd = new FuncItemType();
-                            itemToAdd.setId(item.getId());
-                            itemToAdd.setTypeName(item.getTypeName());
-                            itemToAdd.setAttributeNames(item.getAttributeNames());
-                            interSearchArray.add(itemToAdd);
-                            index = interSearchArray.indexOf(itemToAdd);
-                        }
-                        //Add new FuncItem to final list under the correct ItemType.
-                        ArrayList<FuncItem> tmpFuncItems = new ArrayList<>();
-                        tmpFuncItems.clear();
-                        tmpFuncItems.addAll(interSearchArray.get(index).getItems());
-                        tmpFuncItems.add(tmpItem);
-                        interSearchArray.get(index).setItems(tmpFuncItems);
-                        itemAdded = true;
+                boolean boolAddItem = false;
+                if (isAndSearch && andSearchByValue(tmpItem, values)) {
+                    boolAddItem = true;
+                } else if (!isAndSearch && orSearchByValue(tmpItem, values)) {
+                    boolAddItem = true;
+                }
+                if (boolAddItem) {
+                    int index = findTypeInList(interSearchArray, item);
+                    if (index == -1) {
+                        FuncItemType itemToAdd = new FuncItemType();
+                        itemToAdd.setId(item.getId());
+                        itemToAdd.setTypeName(item.getTypeName());
+                        itemToAdd.setAttributeNames(item.getAttributeNames());
+                        interSearchArray.add(itemToAdd);
+                        index = interSearchArray.indexOf(itemToAdd);
                     }
+                    //Add new FuncItem to final list under the correct ItemType.
+                    ArrayList<FuncItem> tmpFuncItems = new ArrayList<>();
+                    tmpFuncItems.clear();
+                    tmpFuncItems.addAll(interSearchArray.get(index).getItems());
+                    tmpFuncItems.add(tmpItem);
+                    interSearchArray.get(index).setItems(tmpFuncItems);
                 }
             }
+
         }
 
         return interSearchArray;
     }
 
-    private ArrayList<FuncItemType> searchByAttribute(ArrayList<FuncItemType> items, ArrayList<String> attributes) {
+    private boolean andSearchByValue(FuncItem funcItem, ArrayList<String> values) {
+        for (String value : values) {
+            boolean boolValueFound = false;
+            for (FuncItemValue tmpItemValue : funcItem.getItemValues()) {
+                if (tmpItemValue.getPrimary().equals(value)) {
+                    boolValueFound = true;
+                }
+            }
+            if (!boolValueFound) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean orSearchByValue(FuncItem funcItem, ArrayList<String> values) {
+        for (FuncItemValue tmpItemValue : funcItem.getItemValues()) {
+            if (values.contains(tmpItemValue.getPrimary())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private ArrayList<FuncItemType> searchByAttribute(ArrayList<FuncItemType> items, ArrayList<String> attributes, boolean isAndSearch) {
         ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
         for (FuncItemType item : items) {
-            boolean itemAdded = false;
-            for (String attribute : attributes) {
-                if (!itemAdded && item.getAttributeNames().contains(attribute)) {
-                    interSearchArray.add(item);
-                    itemAdded = true;
-                }
+            if (isAndSearch && andSearchByAttribute(item, attributes)) {
+                interSearchArray.add(item);
+            } else if (!isAndSearch && orSearchByAttribute(item, attributes)) {
+                interSearchArray.add(item);
             }
         }
         return interSearchArray;
+    }
+
+    private boolean orSearchByAttribute(FuncItemType item, ArrayList<String> attributes) {
+        for (String attribute : attributes) {
+            if (item.getAttributeNames().contains(attribute)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean andSearchByAttribute(FuncItemType item, ArrayList<String> attributes) {
+        for (String attribute : attributes) {
+            if (item.getAttributeNames().contains(attribute)) {
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     private ArrayList<FuncItemType> searchByType(ArrayList<FuncItemType> items, ArrayList<String> types) {
@@ -291,7 +340,7 @@ public class ManagementTableController implements Serializable {
                 }
             }
         }
-        dConverter.sortFuncList(tmpFinalSearchList);
+        dConverter.sort(tmpFinalSearchList);
         return tmpFinalSearchList;
     }
 
@@ -302,7 +351,7 @@ public class ManagementTableController implements Serializable {
      */
     //This function caasts the Tracked object into the FunctItemType. Also sets maxColNum
     private void castToFuncItem(ArrayList<Tracked> trackedItems) {
-        inventoryItems = dConverter.sortToFunc(trackedItems);
+        inventoryItems = dConverter.convertToFuncItemMultiple(trackedItems);
         maxColNum = findMaxColSpan(inventoryItems);
     }
 
@@ -345,8 +394,13 @@ public class ManagementTableController implements Serializable {
         }
         return -1;
     }
-
+    
     //GETTERS
+    
+    public String getSearchType() {
+        return searchType;
+    }
+
     public ArrayList<FuncItemType> getDisplayedItems() {
         return displayedItems;
     }
@@ -380,6 +434,11 @@ public class ManagementTableController implements Serializable {
     }
 
     //SETTERS
+    
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
     public void setDisplayedItems(ArrayList<FuncItemType> displayedItems) {
         this.displayedItems = displayedItems;
     }

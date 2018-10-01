@@ -24,7 +24,7 @@ public class DatabaseConverter {
     This function takes in a list of 'Tracked' database items. It will sort the list into classes and cast all itmes into a more usable format.
     All website functions should use the output format as opposed to directly from database as it is easier to manage and use.
      */
-    public ArrayList<FuncItemType> sortToFunc(ArrayList<Tracked> databaseItem) {
+    public ArrayList<FuncItemType> convertToFuncItemMultiple(ArrayList<Tracked> databaseItem) {
         ArrayList<FuncItemType> items = new ArrayList<>();
         for (Tracked dItem : databaseItem) {
             int i = findItemInArray(dItem, items);
@@ -64,8 +64,44 @@ public class DatabaseConverter {
         Collections.sort(items, sortItemsByType);
         return items;
     }
-    
-    public ArrayList<FuncItemType> sortFuncList(ArrayList<FuncItemType>ftList) {
+
+    /**
+     * Converts single tracked item into FuncItem. All object specific values
+     * are placed into array index 0.
+     * @param databaseItem - Tracked item to be converted into FuncItem.
+     * @return FuncItemType - FuncItem converted from Tracked item.
+     */
+    public FuncItemType convertToFuncItemSingle(Tracked databaseItem) {
+        //Create FuncItemType
+        FuncItemType newItem = new FuncItemType();
+        //set type name.
+        newItem.setTypeName(databaseItem.getItemTypeName());
+        ArrayList<String> newAtt = new ArrayList<>();
+        //set all attributes, both primary and secondary.
+        for (TrackedItem dAtt : databaseItem.getAttributes()) {
+            newAtt.add(dAtt.getAttribute().getAttributeName());
+        }
+        newItem.setAttributeNames(newAtt);
+        newItem.setId(0);
+        //CreateFuncItem
+        FuncItem newfItem = new FuncItem(databaseItem.getTrackedId(), databaseItem.getBarcode(), databaseItem.getDateAdded(), databaseItem.getItemCondition(), databaseItem.getOrderNum(), databaseItem.getStatus(), databaseItem.getDescription());
+        //Set attributes of the class in the correct place, in correct order for 'newfItem'.
+        for (TrackedItem dAtt : databaseItem.getAttributes()) {
+            FuncItemValue tmpFuncValue = new FuncItemValue();
+            tmpFuncValue.setPrimary(dAtt.getAttribute().getAttributeValue());
+            tmpFuncValue.setSecondary(dAtt.getAttribute().getSecondaryValue());
+            tmpFuncValue.setSecondaryType(dAtt.getAttribute().getSecondaryName());
+            newfItem.addItemValue(tmpFuncValue);
+        }
+
+        //Add the new item into final 'items' list.
+        newItem.setItems(new ArrayList<>());
+        newItem.getItems().add(0, newfItem);
+
+        return newItem;
+    }
+
+    public ArrayList<FuncItemType> sort(ArrayList<FuncItemType> ftList) {
         Collections.sort(ftList, sortItemsByType);
         return ftList;
     }
