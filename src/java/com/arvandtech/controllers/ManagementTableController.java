@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.primefaces.PrimeFaces;
+import org.primefaces.context.RequestContext;
 
 /**
  * This class manages the 'inventory management table'. Completes all relevant
@@ -164,6 +166,11 @@ public class ManagementTableController implements Serializable {
         }
         return "visible";
     }
+    
+    public void findAllAndSearch() {
+        castToFuncItem(new ArrayList<>(trackedFacade.findAll()));
+        search();
+    }
 
     public void search() {
         boolean isAndSearch = false;
@@ -189,7 +196,7 @@ public class ManagementTableController implements Serializable {
         displayedItems.addAll(interSearchArray);
         maxColNum = findMaxColSpan(displayedItems);
     }
-    
+
     private ArrayList<FuncItemType> searchByValue(ArrayList<FuncItemType> items, ArrayList<String> values, boolean isAndSearch) {
         ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
         for (FuncItemType item : items) {
@@ -394,9 +401,8 @@ public class ManagementTableController implements Serializable {
         }
         return -1;
     }
-    
+
     //GETTERS
-    
     public String getSearchType() {
         return searchType;
     }
@@ -434,7 +440,6 @@ public class ManagementTableController implements Serializable {
     }
 
     //SETTERS
-    
     public void setSearchType(String searchType) {
         this.searchType = searchType;
     }

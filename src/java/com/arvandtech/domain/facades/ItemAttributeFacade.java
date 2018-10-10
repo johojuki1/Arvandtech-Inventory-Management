@@ -35,6 +35,7 @@ public class ItemAttributeFacade extends AbstractFacade<ItemAttribute> {
                 .setParameter("secValue", item.getSecondaryValue())
                 .getResultList();
         if (foundItems.isEmpty()) {
+            item.setId(0);
             create(item);
             return item;
         } else {

@@ -6,12 +6,16 @@
 package com.arvandtech.controllers;
 
 import com.arvandtech.domain.entities.Attribute;
+import com.arvandtech.domain.entities.ItemAttribute;
 import com.arvandtech.domain.entities.ItemType;
 import com.arvandtech.domain.entities.SecondaryAttribute;
 import com.arvandtech.domain.entities.SelectableBox;
 import com.arvandtech.domain.entities.Tracked;
+import com.arvandtech.domain.entities.TrackedItem;
+import com.arvandtech.domain.facades.ItemAttributeFacade;
 import com.arvandtech.domain.facades.ItemTypeFacade;
 import com.arvandtech.domain.facades.TrackedFacade;
+import com.arvandtech.domain.facades.TrackedItemFacade;
 import com.arvandtech.utilities.Settings;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -37,6 +41,12 @@ public class EditItemController implements Serializable {
 
     @EJB
     private ItemTypeFacade itemFacade;
+    
+    @EJB
+    private TrackedItemFacade tItemFacade;
+    
+    @EJB
+    private ItemAttributeFacade attributeFacade;
 
     private Tracked selectedItem;
 
@@ -95,6 +105,45 @@ public class EditItemController implements Serializable {
             return new ArrayList<>();
         }
         return selectables;
+    }
+
+    /*
+    Function edits the trackeditem object. Edits both direct attributes and also all connected values to the user's new value.
+    */
+    public void editTrackedItem() {
+        //Retrieve attribtues of selected item that is editted
+        List<TrackedItem> newAttributes = selectedItem.getAttributes();
+        //Retrieve attributes of old item from database.
+        List<TrackedItem> oldAttributes = trackedFacade.find(selectedItem.getTrackedId()).getAttributes();
+        //Loop for all available attributes.
+        for (int i = 0; i < newAttributes.size(); i++) {
+            //Determiens if attributes are not the same. If they are different, the attribute gets processed to conform with new values.
+            if (!compareAttributes(newAttributes.get(i).getAttribute(), oldAttributes.get(i).getAttribute())) {
+                //remove tracked from itemAttribute relationship.
+                oldAttributes.get(i).getAttribute().getItems().remove(oldAttributes.get(i));
+                attributeFacade.edit(oldAttributes.get(i).getAttribute());
+                //Find new itemAttribute item for new attribute. (Function automatically determines if one already exists)
+                ItemAttribute newAttribute = attributeFacade.checkAndAdd(newAttributes.get(i).getAttribute());
+                TrackedItem tmpAttribute = new TrackedItem();
+                tmpAttribute.setItemOrder(oldAttributes.get(i).getItemOrder());
+                tmpAttribute.setTracked(oldAttributes.get(i).getTracked());
+                tmpAttribute.setAttribute(newAttribute);
+                //Since the primary key is mapped directly to attribute, attribute cannot be editted.
+                //This function will entirely remove the old attribute and return a new replaced one.
+                tmpAttribute = tItemFacade.returnedCreate(tmpAttribute);
+                selectedItem.getAttributes().set(i, tmpAttribute);
+                tItemFacade.remove(oldAttributes.get(i));
+            }
+        }
+        trackedFacade.edit(selectedItem);
+    }
+
+    private boolean compareAttributes(ItemAttribute att1, ItemAttribute att2) {
+        return (att1.getId()==att2.getId()) 
+                && (att1.getAttributeName().equals(att2.getAttributeName()))
+                &&(att1.getAttributeValue().equals(att2.getAttributeValue()))
+                &&(att1.getSecondaryName().equals(att2.getSecondaryName()))
+                &&(att1.getSecondaryValue().equals(att2.getSecondaryValue()));
     }
 
     public List<String> findSecondarySelectables(int i) {

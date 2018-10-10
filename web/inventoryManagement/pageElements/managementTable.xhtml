@@ -53,7 +53,7 @@
                     <p:remoteCommand name="addBarcode" action="#{manageTable.search()}" update="inventoryTable"/>
                 </div>
             </div>
-            <p:dataTable id="inventoryTable" var="itemType" selectionMode="single" value="#{manageTable.displayedItems}" scrollRows="20" liveScroll="true" scrollHeight="600" lazy="true" rows="20" scrollable="true" rowSelectMode="single" scrollWidth="100%">
+            <p:dataTable id="inventoryTable" var="itemType" selectionMode="single" value="#{manageTable.displayedItems}" scrollRows="20" liveScroll="true" scrollHeight="600" lazy="true" rows="20" scrollable="true" rowSelectMode="single">
                 <f:facet name="header">
                     <h:outputText value="Inventory"/>  
                 </f:facet>
@@ -134,7 +134,7 @@
                 </f:facet>
             </p:dataTable>
             <p:messages for="inventoryTable" style="color:red" />
-            <p:dialog id="dialogs" header="Edit #{editItem.selectedItem.itemTypeName}" widgetVar="editItemDialog" modal="true"  dynamic="true"  showEffect="fade" hideEffect="fade" resizable="false" width="90%" >
+            <p:dialog id="dialogs" header="Edit #{editItem.selectedItem.itemTypeName}" widgetVar="editItemDialog" fitViewport="true" modal="true"  dynamic="true"  showEffect="fade" hideEffect="fade" resizable="true" width="90%"  >
                 <ui:include src="/inventoryManagement/pageElements/editItem.xhtml"/>
             </p:dialog>
         </h:form>

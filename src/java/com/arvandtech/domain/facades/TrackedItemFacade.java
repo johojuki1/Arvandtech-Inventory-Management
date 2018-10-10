@@ -6,6 +6,7 @@
 package com.arvandtech.domain.facades;
 
 import com.arvandtech.domain.entities.TrackedItem;
+import com.arvandtech.domain.entities.TrackedItemId;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,6 +18,11 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class TrackedItemFacade extends AbstractFacade<TrackedItem> {
 
+    public TrackedItem returnedCreate(TrackedItem item) {
+        em.persist(item);
+        return item;
+    }
+    
     @PersistenceContext(unitName = "arvandtechintranet_V1PU")
     private EntityManager em;
 
