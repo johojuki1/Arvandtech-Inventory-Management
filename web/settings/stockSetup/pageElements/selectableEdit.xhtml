@@ -9,26 +9,26 @@
         <div style="width:100%; height: 100%; border: 1px solid grey; padding: 10px; min-width: fit-content; min-height: fit-content; position: relative">
             <div class="small-view-line-break"/>
             <h:outputText class="small-title" value="Edit Selectable Item"/>
-            <div class="medium-view-line-break"/>
-            <p:outputLabel value="Selectable Name"/>
-            <div class="ten-px-line-break"/>
-            <p:inputText class="input-background-size" value="#{stockSetup.selectable.name}" 
-                         required="true" requiredMessage="Selectable Name is Required"
-                         validatorMessage="Selectable Name must have more than 3 characters">
-                <f:validateRegex pattern="([a-zA-Z0-9\s]{3,})" />
-            </p:inputText>
             <h:panelGrid columns="2" style="margin-top:10px">
                 <p:selectBooleanCheckbox id="selectableCheck" value="#{stockSetup.selectable.secondary}">
                     <p:ajax event="change" update="stockSetupForm" />
                 </p:selectBooleanCheckbox>
                 <p:outputLabel style="font-size: 13px" value="Enable Secondary Attribute"/>
             </h:panelGrid>
+            <div class="small-view-line-break"/>
+            <p:outputLabel value="Selectable Name"/>
+            <div class="ten-px-line-break"/>
+            <p:inputText class="input-background-size" value="#{stockSetup.selectable.name}" 
+                         required="true" requiredMessage="Selectable Name is Required"
+                         validatorMessage="Selectable Name can only use characters: letters numbers - _ . , /">
+                <f:validateRegex pattern="([a-zA-Z0-9\.\,\-\_\/\\\s]{1,})" />
+            </p:inputText>
             <p:outputPanel id="secondaryBox" style="display:block; padding-top:5%;" rendered="#{stockSetup.showSecondary(stockSetup.selectable.secondary)}">
                 <p:outputLabel class="small-title" value="Secondary Attribute Name"/>
                 <div class="ten-px-line-break"/>
-                <p:inputText class="input-background-size" value="#{stockSetup.selectable.secondaryName}"
-                             validatorMessage="Secondary Selectable must have more than 3 characters">
-                    <f:validateRegex pattern="([a-zA-Z0-9\s]{3,})" />                                         
+                <p:inputText class="input-background-size" value="#{stockSetup.selectable.secondaryName}" requiredMessage="Secondary Attribute is Required"
+                             validatorMessage="Secondary Attribute Name can only use characters: letters numbers - _ . , /">
+                    <f:validateRegex pattern="([a-zA-Z0-9\.\,\-\_\/\\\s]{1,})" />                                         
                 </p:inputText>
             </p:outputPanel>
             <div class="ten-px-line-break"/>

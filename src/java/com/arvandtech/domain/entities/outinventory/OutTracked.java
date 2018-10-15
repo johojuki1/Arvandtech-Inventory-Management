@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain.entities;
+package com.arvandtech.domain.entities.outinventory;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -22,8 +22,8 @@ import javax.persistence.Temporal;
  * @author User
  */
 @Entity
-@Table(name = "tracked")
-public class Tracked implements Serializable {
+@Table(name = "outTracked")
+public class OutTracked implements Serializable {
 
     private int trackedId;
     private String itemTypeName;
@@ -33,7 +33,9 @@ public class Tracked implements Serializable {
     private Date dateAdded;
     private String description;
     private String orderNum;
-    private List<TrackedItem> attributes;
+    private Date dateOut;
+    private String invoiceNum;
+    private List<OutTrackedItem> attributes;
 
     //GETTERS
     @Id
@@ -79,9 +81,20 @@ public class Tracked implements Serializable {
 
     @OneToMany(mappedBy = "tracked")
     @MapsId("trackedItemId")
-    public List<TrackedItem> getAttributes() {
+    public List<OutTrackedItem> getAttributes() {
         return attributes;
     }
+
+    @Column(nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    public Date getDateOut() {
+        return dateOut;
+    }
+
+    public String getInvoiceNum() {
+        return invoiceNum;
+    }
+    
 
     //SETTERS
     public void setTrackedId(int trackedId) {
@@ -112,11 +125,19 @@ public class Tracked implements Serializable {
         this.description = description;
     }
 
-    public void setAttributes(List<TrackedItem> attributes) {
+    public void setAttributes(List<OutTrackedItem> attributes) {
         this.attributes = attributes;
     }
 
     public void setOrderNum(String orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public void setDateOut(Date dateOut) {
+        this.dateOut = dateOut;
+    }
+
+    public void setInvoiceNum(String invoiceNum) {
+        this.invoiceNum = invoiceNum;
     }
 }

@@ -5,8 +5,8 @@
  */
 package com.arvandtech.domain.facades;
 
-import com.arvandtech.domain.entities.Attribute;
-import com.arvandtech.domain.entities.ItemType;
+import com.arvandtech.domain.entities.settings.Attribute;
+import com.arvandtech.domain.entities.settings.ItemType;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

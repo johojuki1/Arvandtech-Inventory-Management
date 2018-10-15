@@ -5,8 +5,8 @@
  */
 package com.arvandtech.domain.facades;
 
-import com.arvandtech.domain.entities.Attribute;
-import com.arvandtech.domain.entities.SelectableBox;
+import com.arvandtech.domain.entities.settings.Attribute;
+import com.arvandtech.domain.entities.settings.SelectableBox;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;

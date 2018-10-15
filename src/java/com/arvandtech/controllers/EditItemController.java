@@ -5,13 +5,13 @@
  */
 package com.arvandtech.controllers;
 
-import com.arvandtech.domain.entities.Attribute;
-import com.arvandtech.domain.entities.ItemAttribute;
-import com.arvandtech.domain.entities.ItemType;
-import com.arvandtech.domain.entities.SecondaryAttribute;
-import com.arvandtech.domain.entities.SelectableBox;
-import com.arvandtech.domain.entities.Tracked;
-import com.arvandtech.domain.entities.TrackedItem;
+import com.arvandtech.domain.entities.settings.Attribute;
+import com.arvandtech.domain.entities.inventory.ItemAttribute;
+import com.arvandtech.domain.entities.settings.ItemType;
+import com.arvandtech.domain.entities.settings.SecondaryAttribute;
+import com.arvandtech.domain.entities.settings.SelectableBox;
+import com.arvandtech.domain.entities.inventory.Tracked;
+import com.arvandtech.domain.entities.inventory.TrackedItem;
 import com.arvandtech.domain.facades.ItemAttributeFacade;
 import com.arvandtech.domain.facades.ItemTypeFacade;
 import com.arvandtech.domain.facades.TrackedFacade;

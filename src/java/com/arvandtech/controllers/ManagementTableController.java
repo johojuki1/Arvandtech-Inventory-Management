@@ -5,7 +5,7 @@
  */
 package com.arvandtech.controllers;
 
-import com.arvandtech.domain.entities.Tracked;
+import com.arvandtech.domain.entities.inventory.Tracked;
 import com.arvandtech.domain.facades.TrackedFacade;
 import com.arvandtech.utilities.DatabaseConverter;
 import com.arvandtech.utilities.entities.FuncItem;

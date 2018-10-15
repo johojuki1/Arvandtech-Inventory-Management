@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain.entities;
+package com.arvandtech.domain.entities.outinventory;
 
 import java.io.Serializable;
 import javax.persistence.EmbeddedId;
@@ -17,29 +17,29 @@ import javax.persistence.Table;
  * @author User
  */
 @Entity
-@Table(name = "tracked_itemAttribute")
-public class TrackedItem implements Serializable {
+@Table(name = "outTracked_outItemAttribute")
+public class OutTrackedItem implements Serializable {
 
-    private TrackedItemId id;
-    private Tracked tracked;
-    private ItemAttribute attribute;
+    private OutTrackedItemId id;
+    private OutTracked tracked;
+    private OutItemAttribute attribute;
     private int itemOrder;
 
     //GETTERS
     @EmbeddedId
-    public TrackedItemId getId() {
+    public OutTrackedItemId getId() {
         return id;
     }
 
     @ManyToOne
     @MapsId("trackedId")
-    public Tracked getTracked() {
+    public OutTracked getTracked() {
         return tracked;
     }
 
     @ManyToOne
     @MapsId("attributeId")
-    public ItemAttribute getAttribute() {
+    public OutItemAttribute getAttribute() {
         return attribute;
     }
 
@@ -48,15 +48,15 @@ public class TrackedItem implements Serializable {
     }
 
     //SETTERS
-    public void setId(TrackedItemId id) {
+    public void setId(OutTrackedItemId id) {
         this.id = id;
     }
 
-    public void setTracked(Tracked tracked) {
+    public void setTracked(OutTracked tracked) {
         this.tracked = tracked;
     }
 
-    public void setAttribute(ItemAttribute attribute) {
+    public void setAttribute(OutItemAttribute attribute) {
         this.attribute = attribute;
     }
 

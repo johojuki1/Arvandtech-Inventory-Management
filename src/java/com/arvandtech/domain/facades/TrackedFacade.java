@@ -5,7 +5,7 @@
  */
 package com.arvandtech.domain.facades;
 
-import com.arvandtech.domain.entities.Tracked;
+import com.arvandtech.domain.entities.inventory.Tracked;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

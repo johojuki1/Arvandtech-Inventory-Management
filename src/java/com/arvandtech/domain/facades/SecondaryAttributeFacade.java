@@ -5,7 +5,7 @@
  */
 package com.arvandtech.domain.facades;
 
-import com.arvandtech.domain.entities.SecondaryAttribute;
+import com.arvandtech.domain.entities.settings.SecondaryAttribute;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

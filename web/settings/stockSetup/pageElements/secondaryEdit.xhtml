@@ -13,9 +13,9 @@
             <p:outputLabel value="Attribute Name"/>
             <div class="ten-px-line-break"/>
             <p:inputText class="input-background-size" value="#{stockSetup.secondary.secondaryAttributeName}" 
-                         required="true" requiredMessage="Secondary name is Required"
-                         validatorMessage="Secondary attribute name must have more than 3 characters">
-                <f:validateRegex pattern="([a-zA-Z0-9\s]{3,})" />
+                         required="true" requiredMessage="Attribute Name is Required"
+                         validatorMessage="Attribute Name can only use characters: letters numbers - _ . , /">
+                <f:validateRegex pattern="([a-zA-Z0-9\.\,\-\_\/\\\s]{1,})" />
             </p:inputText>
             <div class="ten-px-line-break"/>
             <div class="medium-view-line-break"/>

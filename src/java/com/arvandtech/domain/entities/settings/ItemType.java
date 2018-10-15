@@ -1,5 +1,6 @@
-package com.arvandtech.domain.entities;
+package com.arvandtech.domain.entities.settings;
 
+import com.arvandtech.domain.entities.settings.Attribute;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;

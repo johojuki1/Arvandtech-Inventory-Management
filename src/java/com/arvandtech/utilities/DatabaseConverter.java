@@ -5,8 +5,8 @@
  */
 package com.arvandtech.utilities;
 
-import com.arvandtech.domain.entities.Tracked;
-import com.arvandtech.domain.entities.TrackedItem;
+import com.arvandtech.domain.entities.inventory.Tracked;
+import com.arvandtech.domain.entities.inventory.TrackedItem;
 import com.arvandtech.utilities.entities.FuncItem;
 import com.arvandtech.utilities.entities.FuncItemType;
 import com.arvandtech.utilities.entities.FuncItemValue;

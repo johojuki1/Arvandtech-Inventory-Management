@@ -5,7 +5,7 @@
  */
 package com.arvandtech.controllers;
 
-import com.arvandtech.domain.entities.Accounts;
+import com.arvandtech.domain.entities.settings.Accounts;
 import com.arvandtech.domain.facades.AccountsFacade;
 import com.arvandtech.utilities.Security;
 import java.io.Serializable;

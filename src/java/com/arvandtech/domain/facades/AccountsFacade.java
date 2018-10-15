@@ -1,6 +1,6 @@
 package com.arvandtech.domain.facades;
 
-import com.arvandtech.domain.entities.Accounts;
+import com.arvandtech.domain.entities.settings.Accounts;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -1,4 +1,4 @@
-package com.arvandtech.domain.entities;
+package com.arvandtech.domain.entities.settings;
 
 import java.io.Serializable;
 import javax.persistence.*;

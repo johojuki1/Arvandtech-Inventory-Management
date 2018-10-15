@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain.entities;
+package com.arvandtech.domain.entities.outinventory;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,19 +21,19 @@ import javax.persistence.Table;
  * @author Jonathan Ho
  */
 @Entity
-@Table(name = "itemAttribute")
+@Table(name = "outItemAttribute")
 @NamedQuery(
         name = "ItemAttribute.findSimilarItems",
         query = "SELECT a FROM ItemAttribute a WHERE a.attributeName LIKE :attName AND a.attributeValue LIKE :attValue AND a.secondaryName LIKE :secName AND a.secondaryValue LIKE :secValue"
 )
-public class ItemAttribute implements Serializable {
+public class OutItemAttribute implements Serializable {
 
     private int id;
     private String attributeName;
     private String attributeValue;
     private String secondaryName;
     private String secondaryValue;
-    private List<TrackedItem> items;
+    private List<OutTrackedItem> items;
 
     //GETTERS
     @Id
@@ -62,7 +62,7 @@ public class ItemAttribute implements Serializable {
 
     @OneToMany(mappedBy = "attribute")
     @MapsId("trackedItemId")
-    public List<TrackedItem> getItems() {
+    public List<OutTrackedItem> getItems() {
         return items;
     }
     //SETTERS
@@ -87,7 +87,7 @@ public class ItemAttribute implements Serializable {
         this.secondaryValue = secondaryValue;
     }
 
-    public void setItems(List<TrackedItem> items) {
+    public void setItems(List<OutTrackedItem> items) {
         this.items = items;
     }
 

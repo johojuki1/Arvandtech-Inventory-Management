@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arvandtech.domain.entities;
+package com.arvandtech.domain.entities.outinventory;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -14,7 +14,7 @@ import javax.persistence.Embeddable;
  * @author User
  */
 @Embeddable
-public class TrackedItemId implements Serializable {
+public class OutTrackedItemId implements Serializable {
 
     private int trackedId;
     private int attributeId;
