@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:outputPanel id="itemDetail" style="vertical-align:middle">
+        <div style="width: fit-content; display: block; margin: auto">
+            <div class="small-view-line-break"/>
+            <h:outputText class="small-title" value="Date Added : "/>
+            <h:outputText  class="small-title" value="#{editItem.dateToString(editItem.selectedItem.dateAdded)}">
+            </h:outputText>
+            <div class="medium-view-line-break"/>
+            <h:outputText class="small-title" value="Barcode : "/>
+            <p:inputText  class="small-title" value="#{editItem.selectedItem.barcode}"/>
+            <div class="medium-view-line-break"/>
+            <h:outputText class="small-title" value="Condition : "/>
+            <p:selectOneMenu style="width:150px" value="#{editItem.selectedItem.itemCondition}">
+                <f:selectItems value="#{editItem.fetchConditionDropdown()}"/>
+            </p:selectOneMenu>
+            <div class="medium-view-line-break"/>
+            <h:outputText class="small-title" value="Status : "/>
+            <p:selectOneMenu style="width:150px" value="#{editItem.selectedItem.status}">
+                <f:selectItems value="#{editItem.fetchStatusDropdown()}"/>
+            </p:selectOneMenu>
+            <ui:include src="layouts/showEditAttributes.xhtml"/>
+            <h:outputText class="small-title" value="Supplier Invoice No : "/>
+            <div class="small-view-line-break"/>
+            <p:inputText  class="small-title" style="width: 70%" value="#{editItem.selectedItem.orderNum}"/>
+            <div class="medium-view-line-break"/>
+            <h:outputText class="small-title" value="Description : "/>
+            <div class="small-view-line-break"/>
+            <p:inputTextarea style="width: 100%" value="#{editItem.selectedItem.description}">
+            </p:inputTextarea>
+            <div class="medium-view-line-break"/>
+            <div style="padding-top: 10px; display: inline; align-content: flex-start">
+                <p:commandButton value="Edit Item" actionListener="#{editItem.editTrackedItem()}" action="#{outgoing.refreshTable()}" onsuccess="PF('outEditItemDialog').hide(); updateOutTable()" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
+                </p:commandButton>
+                <p:commandButton value="Cancel" onclick="PF('outEditItemDialog').hide();" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
+                </p:commandButton>
+            </div>
+            <p:remoteCommand name="updateOutTable" update="outgoingTable"/>
+            <div class="medium-view-line-break"/>
+        </div>
+    </p:outputPanel>
+</ui:composition>

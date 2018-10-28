@@ -5,6 +5,8 @@
  */
 package com.arvandtech.utilities;
 
+import com.arvandtech.domain.entities.inventory.Tracked;
+
 /**
  * Class used to store and display items in the scan barcode table. 
  * id: id of item in table.
@@ -18,11 +20,31 @@ package com.arvandtech.utilities;
 public class ScanBarcodeTable {
     int id;
     String barcode;
+    String itemType;
     String status;
     String condition;
     String description;
     String descriptionExists;
     String backgroundColour;
+    
+    public ScanBarcodeTable() {
+        
+    }
+    
+    public ScanBarcodeTable(Tracked item) {
+        id = item.getTrackedId();
+        barcode = item.getBarcode();
+        itemType = item.getItemTypeName();
+        status = item.getStatus();
+        condition = item.getItemCondition();
+        description = item.getDescription();
+        if (description.isEmpty()) {
+            descriptionExists = "No";
+        } else {
+            descriptionExists = "yes";
+        }
+        backgroundColour = "";
+    }
     
     //GETTERS
 
@@ -52,6 +74,10 @@ public class ScanBarcodeTable {
 
     public String getBackgroundColour() {
         return backgroundColour;
+    }
+
+    public String getItemType() {
+        return itemType;
     }
     
     //SETTERS
@@ -83,4 +109,9 @@ public class ScanBarcodeTable {
     public void setBackgroundColour(String backgroundColour) {
         this.backgroundColour = backgroundColour;
     }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+    
 }

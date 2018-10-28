@@ -19,10 +19,12 @@ public class Navigator implements Serializable {
     private final String SETTINGSLINK = "/settings/";
     private final String ADDSTOCKLINK = "/addStock/";
     private final String INVENTORYMANAGEMENTLINK = "/inventoryManagement/";
+    private final String OUTGOINGLINK = "/outgoing/";
     private int mainPageIndex;
     private int settingsIndex;
     private int accountIndex;
     private int addStockIndex;
+    private int outgoingIndex;
     private int inventoryManagementIndex;
 
     /*
@@ -61,6 +63,21 @@ public class Navigator implements Serializable {
     }
 
     /*
+    Returns user's current location within the outgoing pages. 
+     */
+    public String getOutgoingLink() {
+        switch (outgoingIndex) {
+            case 0:
+                return OUTGOINGLINK + "pageElements/chooseAttributes.xhtml";
+            case 1:
+                return OUTGOINGLINK + "pageElements/scanStock.xhtml";
+            default:
+                addStockIndex = 0;
+                return OUTGOINGLINK + "pageElements/chooseAttributes.xhtml";
+        }
+    }
+
+    /*
     Returns user's current location within the add stock pages. 
      */
     public String getAddStockLink() {
@@ -78,10 +95,10 @@ public class Navigator implements Serializable {
                 return ADDSTOCKLINK + "pageElements/typeSelect.xhtml";
         }
     }
-    
+
     /*
     Returns user's current location within the inventory management pages.
-    */
+     */
     public String getInventoryManagementLink() {
         switch (inventoryManagementIndex) {
             case 0:
@@ -107,6 +124,10 @@ public class Navigator implements Serializable {
         return settingsIndex;
     }
 
+    public int getOutgoingIndex() {
+        return outgoingIndex;
+    }
+
     //SETTERS
     public void setMainPageIndex(int mainPageIndex) {
         this.mainPageIndex = mainPageIndex;
@@ -126,5 +147,9 @@ public class Navigator implements Serializable {
 
     public void setInventoryManagementIndex(int inventoryManagementIndex) {
         this.inventoryManagementIndex = inventoryManagementIndex;
+    }
+
+    public void setOutgoingIndex(int outgoingIndex) {
+        this.outgoingIndex = outgoingIndex;
     }
 }

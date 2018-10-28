@@ -34,6 +34,7 @@ import javax.inject.Named;
 
 /**
  * Controller used to manage all functions used by the add stock function.
+ *
  * @author User
  */
 @Named("addStock")
@@ -71,6 +72,7 @@ public class AddStockController implements Serializable {
     private ArrayList<ScanBarcodeTable> tableItems;
     private ScanBarcodeTable selectedTableItem;
     private boolean tableStateAdd;
+    private Tracked outgoingTracked;
 
     public List<ItemType> findAllItems() {
         return itemFacade.findAll();
@@ -140,7 +142,11 @@ public class AddStockController implements Serializable {
     public void updateSecondaryAttribute(int i, int id) {
         if (id != 0) {
             SecondaryAttribute tmpsa = secondaryFacade.find(id);
-            secondaries.set(i - 1, tmpsa);
+            try {
+                secondaries.set(i - 1, tmpsa);
+            } catch (Exception e) {
+                secondaries.add(i - 1, tmpsa);
+            }
         }
     }
 
@@ -156,24 +162,51 @@ public class AddStockController implements Serializable {
         return "";
     }
 
+    public String findLink(int i, String link) {
+        String retrievedLink = findLink(i);
+        if (retrievedLink.equals("")) {
+            return "";
+        } else {
+            return link + retrievedLink;
+        }
+    }
+
     public String findSecondaryLink(int i, int id) {
         try {
             if (id == -1) {
                 selections.set(i - 1, new SelectableBox());
             } else if (id != 0) {
                 SelectableBox tmpsb = selectFacade.find(id);
-                selections.set(i - 1, tmpsb);
+                try {
+                    selections.set(i - 1, tmpsb);
+                } catch (Exception e) {
+                    selections.add(i - 1, tmpsb);
+                }
                 ItemAttribute tmpAtt = new ItemAttribute();
                 tmpAtt.setAttributeName(item.getAttribute().get(i - 1).getAttributeName());
                 tmpAtt.setAttributeValue(tmpsb.getName());
-                attributes.set(i - 1, tmpAtt);
+                try {
+                    attributes.set(i - 1, tmpAtt);
+                } catch (Exception e) {
+                    attributes.add(i - 1, tmpAtt);
+                }
             }
             if (selections.get(i - 1).getName() != null && selections.get(i - 1).isSecondary()) {
                 return "secondarySelection.xhtml";
             }
         } catch (Exception e) {
+            String s = "s";
         }
         return "";
+    }
+
+    public String findSecondaryLink(int i, int id, String link) {
+        String retrievedLink = findSecondaryLink(i, id);
+        if (retrievedLink.equals("")) {
+            return "";
+        } else {
+            return link + "layouts/" + retrievedLink;
+        }
     }
 
     public int moveToScan() {
@@ -212,6 +245,14 @@ public class AddStockController implements Serializable {
         tableItems = new ArrayList();
         initiateAdd();
         return 2;
+    }
+
+    public void outgoingAdd(String barcode, String description) {
+        moveToScan();
+        outgoingTracked = selectedAttributes;
+        outgoingTracked.setBarcode(barcode);
+        outgoingTracked.setDescription(description);
+        
     }
 
     public boolean checkEmpty(String string, String fieldEmptyError, String errorBoxName) {
@@ -429,10 +470,14 @@ public class AddStockController implements Serializable {
             for (ItemAttribute tmpAttribute : attributeList) {
                 itemAttFacade.edit(tmpAttribute);
             }
-            FacesContext.getCurrentInstance().addMessage("selectTable", new FacesMessage(FacesMessage.SEVERITY_INFO, "New '"+item.getTypeName()+"' items have been successifully added to database.", ""));
+            FacesContext.getCurrentInstance().addMessage("selectTable", new FacesMessage(FacesMessage.SEVERITY_INFO, "New '" + item.getTypeName() + "' items have been successifully added to database.", ""));
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage("selectTable", new FacesMessage(FacesMessage.SEVERITY_ERROR, "New '"+item.getTypeName()+"' items were not successifully added to database.", ""));
+            FacesContext.getCurrentInstance().addMessage("selectTable", new FacesMessage(FacesMessage.SEVERITY_ERROR, "New '" + item.getTypeName() + "' items were not successifully added to database.", ""));
         }
+    }
+
+    public void addSingleTracked() {
+
     }
 
 //GETTERS
@@ -472,6 +517,10 @@ public class AddStockController implements Serializable {
         return tableStateAdd;
     }
 
+    public Tracked getOutgoingTracked() {
+        return outgoingTracked;
+    }
+
     //SETTERS
     public void setItem(ItemType item) {
         item.getAttribute().sort(Comparator.comparing(Attribute::getAttributeOrder));
@@ -508,5 +557,9 @@ public class AddStockController implements Serializable {
 
     public void setTableStateAdd(boolean tableStateAdd) {
         this.tableStateAdd = tableStateAdd;
+    }
+
+    public void setOutgoingTracked(Tracked outgoingTracked) {
+        this.outgoingTracked = outgoingTracked;
     }
 }

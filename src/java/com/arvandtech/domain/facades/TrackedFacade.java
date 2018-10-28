@@ -6,6 +6,8 @@
 package com.arvandtech.domain.facades;
 
 import com.arvandtech.domain.entities.inventory.Tracked;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +22,14 @@ public class TrackedFacade extends AbstractFacade<Tracked> {
     @PersistenceContext(unitName = "arvandtechintranet_V1PU")
     private EntityManager em;
 
+    public ArrayList<Tracked> findFromBarcode(String barcode) {
+        ArrayList<Tracked> foundItems = new ArrayList<>();
+        foundItems.addAll(em.createNamedQuery("Tracked.findFromBarcode")
+                .setParameter("barcode", barcode)
+                .getResultList());
+        return foundItems;
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -29,9 +39,10 @@ public class TrackedFacade extends AbstractFacade<Tracked> {
         create(item);
         return item;
     }
-    
+
     public TrackedFacade() {
-        super(Tracked.class);
+        super(Tracked.class
+        );
     }
-    
+
 }

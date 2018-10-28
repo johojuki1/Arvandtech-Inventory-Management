@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:outputText class="medium-title" value="Scan Barcodes" />
+    <div style="padding:3px; padding-bottom: 1%">
+        <div style="display: block; padding-bottom: 2vh;"/>
+        <div style="display: block; min-width: 730px; max-width: 900px; width: 70vw; padding-left: 30px;">
+            <p:dataTable id="outgoingTable" style="border-color: grey; border-style: solid; border-width: 1px" var="item" value="#{outgoing.outgoingItems}" selection="#{outgoing.selectedItem}" rowKey="#{item.id}" sortBy="#{item.id}" scrollHeight="400" sortOrder="descending" scrollable="true">
+                <data-table>
+                    <p:column headerText="Barcode" style="width: 150px">
+                        <p:commandButton  actionListener="#{editItem.findSelectedItem(item.id)}" action="#{outgoing.setDialogAndShow(1)}" value="#{item.barcode}" styleClass="table-barcode-button" 
+                                          icon="fa fa-fw fa-search small-black-icon" title="View Item" update="@form:outdialog:dialogContent">
+                        </p:commandButton> 
+                    </p:column>
+                    <p:column headerText="Type" style="width: 100px">
+                        <h:outputText value="#{item.itemType}" styleClass="font-small"/>
+                    </p:column>
+                    <p:column headerText="Status" style="width: 100px">
+                        <h:outputText value="#{item.status}" styleClass="font-small"/>
+                    </p:column>
+                    <p:column headerText="Attribute Values" style="">
+                        <h:outputText value="#{item.description}" styleClass="font-small"/>
+                    </p:column>
+                    <p:column headerText=" " style="width: 32px; padding-left: 5px; padding-right: 5px;">
+                        <p:commandButton update="outgoingTable" action="#{outgoing.deleteBarcodeItem()}" styleClass="table-delete-button" icon="fa fa-fw fa-remove small-white-icon" title="Delete Item">
+                            <f:setPropertyActionListener value="#{item}" target="#{outgoing.selectedItem}" />
+                        </p:commandButton>
+                    </p:column>
+                </data-table>
+                <f:facet name="footer">
+                    <div style="display:flex; padding-top: 10px; justify-content: flex-start">
+                        <div style="display:flex; align-items: center">
+                            <h:outputText class="font-medium" value="Barcode: "/>
+                            <div style="padding-left: 78px"/>
+                            <p:inputText id="barcodeInput" style="width: 538px" value="#{outgoing.barcode}" onkeydown="if (event.keyCode === 13) {
+                                        addBarcode();
+                                        updateDialog();
+                                        return false;
+                                    }"/>
+                        </div>
+                    </div>
+                    <p:remoteCommand name="addBarcode" action="#{outgoing.addBarcodeItem()}"  update="outgoingTable"/>
+                    <p:remoteCommand name="initiateFocus"  update="outgoingTable"/>
+                    <p:remoteCommand name="updateDialog"  update="@form:outdialog:dialogContent"/>
+                    <p:focus for="barcodeInput"/>
+                </f:facet>
+            </p:dataTable>
+            <p:dialog id="outdialog" header="Add/Edit" widgetVar="outEditItemDialog" fitViewport="true" modal="true"  dynamic="true"  showEffect="fade" hideEffect="fade" resizable="true" width="90%"  >
+                <p:outputPanel id="dialogContent">
+                    <ui:include src="#{outgoing.findDialogLink()}"/>
+                </p:outputPanel>
+            </p:dialog>
+            <p:remoteCommand name="onSelection" action="#{editItem.findSelectedItem(outgoing.selectedItem.id)}" oncomplete="PF('outEditItemDialog').show();"/>
+        </div>
+    </div>
+</ui:composition>
+

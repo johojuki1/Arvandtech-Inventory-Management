@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <p:messages for="selectTable" style="color:red" closable="true" />
+    <add-stock-table-box onload="#{addStock.clearItem(); navigator.setAddStockIndex(1, true)}">
+        <p:dataTable id="outgoingSelectAddTable" var="itemType" value="#{addStock.findAllItems()}" selectionMode="single" selection="#{addStock.item}" rowKey="#{itemType.itemTypeId}" sortBy="#{itemType.itemOrder}" scrollable="true">
+            <p:ajax event="rowSelect" listener="#{outgoing.setDialogNavigator(4)}" onsuccess="#{addStock.resetAll()}" update="@form:outdialog:dialogContent"/>
+            <p:column width="100" headerText="Item Type" style="width:100px">
+                <h:outputText value="#{itemType.typeName}"/>
+            </p:column>
+        </p:dataTable>
+        <div class="medium-view-line-break"/>
+        <p:commandButton value="Back" action="#{outgoing.setDialogNavigator(2)}" immediate = "true" update="@form:outdialog:dialogContent" style="min-width:180px; align-self: flex-start" styleClass="basic-buttons">
+        </p:commandButton>
+    </add-stock-table-box>
+    <div class="medium-view-line-break"/>
+</ui:composition>

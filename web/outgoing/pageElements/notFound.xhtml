@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:outputPanel id="itemDetail" style="vertical-align:middle">
+        <div style="width: fit-content; display: block; margin: auto">
+            <div class="small-view-line-break"/>
+            <h:outputText class="small-title" value="Added barcode is not found in the database."/>
+            <div class="small-view-line-break"/>
+            <h:outputText class="small-title" value="Would you like to add a new item into system?"/>
+            <div class="medium-view-line-break"/>
+            <div style="padding-top: 10px; display: inline; align-content: flex-start">
+                <p:commandButton value="Add New" action="#{outgoing.setDialogNavigator(3)}" update="dialogContent" style="min-width:180px; align-self: flex-start" styleClass="basic-buttons">
+                </p:commandButton>
+                <p:commandButton value="Back" action="#{outgoing.setBarcode('')}"  onclick="PF('outEditItemDialog').hide();" update="@form:outgoingTable:barcodeInput" style="min-width:180px; align-self: flex-start" styleClass="basic-buttons">
+                </p:commandButton>
+            </div>
+        </div>
+    </p:outputPanel>
+</ui:composition>

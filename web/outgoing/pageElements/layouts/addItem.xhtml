@@ -1,0 +1,282 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:outputText class="medium-title" value="#{addStock.item.typeName}" />
+    <div class="small-line-break"/>
+
+    <p:outputPanel id="outAdd1" rendered="#{addStock.attributeExists(1)}"> 
+        <ui:include src="#{addStock.findLink(1, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(1)}"/>
+            <ui:param name="manualEntry" value="#{omanual1}"/>
+            <ui:param name="selection" value="#{oselection1}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(1)}"/>
+            <ui:param name="listener" value="#{addStock.listener()}"/>
+            <ui:param name="secondaryBoxId" value="osb1"/>
+            <ui:param name="update" value="osb1"/>
+            <ui:param name="var" value="ovar1"/>
+            <ui:param name="dropName" value="#{ovar1.name}"/>
+            <ui:param name="dropValue" value="#{ovar1.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(1)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect1}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(1, osecSelect1)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(1)}"/>
+            <ui:param name="sVar" value="osVar1"/>
+            <ui:param name="secondaryValue" value="#{osVar1.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar1.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(1, oselection1, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss1"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd2" rendered="#{addStock.attributeExists(2)}"> 
+        <ui:include src="#{addStock.findLink(2, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(2)}"/>
+            <ui:param name="manualEntry" value="#{omanual2}"/>
+            <ui:param name="selection" value="#{oselection2}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(2)}"/>
+            <ui:param name="secondaryBoxId" value="osb2"/>
+            <ui:param name="update" value="osb2"/>
+            <ui:param name="var" value="ovar2"/>
+            <ui:param name="dropName" value="#{ovar2.name}"/>
+            <ui:param name="dropValue" value="#{ovar2.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(2)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect2}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(2, osecSelect2)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(2)}"/>
+            <ui:param name="sVar" value="osVar2"/>
+            <ui:param name="secondaryValue" value="#{osVar2.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar2.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(2, oselection2, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss2"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd3" rendered="#{addStock.attributeExists(3)}"> 
+        <ui:include src="#{addStock.findLink(3, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(3)}"/>
+            <ui:param name="manualEntry" value="#{omanual3}"/>
+            <ui:param name="selection" value="#{oselection3}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(3)}"/>
+            <ui:param name="secondaryBoxId" value="osb3"/>
+            <ui:param name="update" value="osb3"/>
+            <ui:param name="var" value="ovar3"/>
+            <ui:param name="dropName" value="#{ovar3.name}"/>
+            <ui:param name="dropValue" value="#{ovar3.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(3)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect3}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(3, osecSelect3)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(3)}"/>
+            <ui:param name="sVar" value="osVar3"/>
+            <ui:param name="secondaryValue" value="#{osVar3.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar3.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(3, oselection3, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss3"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd4" rendered="#{addStock.attributeExists(4)}"> 
+        <ui:include src="#{addStock.findLink(4, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(4)}"/>
+            <ui:param name="manualEntry" value="#{omanual4}"/>
+            <ui:param name="selection" value="#{oselection4}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(4)}"/>
+            <ui:param name="secondaryBoxId" value="osb4"/>
+            <ui:param name="update" value="osb4"/>
+            <ui:param name="var" value="ovar4"/>
+            <ui:param name="dropName" value="#{ovar4.name}"/>
+            <ui:param name="dropValue" value="#{ovar4.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(4)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect4}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(4, osecSelect4)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(4)}"/>
+            <ui:param name="sVar" value="osVar4"/>
+            <ui:param name="secondaryValue" value="#{osVar4.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar4.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(4, oselection4, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss4"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd5" rendered="#{addStock.attributeExists(5)}"> 
+        <ui:include src="#{addStock.findLink(5, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(5)}"/>
+            <ui:param name="manualEntry" value="#{omanual5}"/>
+            <ui:param name="selection" value="#{oselection5}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(5)}"/>
+            <ui:param name="secondaryBoxId" value="osb5"/>
+            <ui:param name="update" value="osb5"/>
+            <ui:param name="var" value="ovar5"/>
+            <ui:param name="dropName" value="#{ovar5.name}"/>
+            <ui:param name="dropValue" value="#{ovar5.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(5)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect5}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(5, osecSelect5)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(5)}"/>
+            <ui:param name="sVar" value="osVar5"/>
+            <ui:param name="secondaryValue" value="#{osVar5.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar5.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(5, oselection5, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss5"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd6" rendered="#{addStock.attributeExists(6)}"> 
+        <ui:include src="#{addStock.findLink(6, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(6)}"/>
+            <ui:param name="manualEntry" value="#{omanual6}"/>
+            <ui:param name="selection" value="#{oselection6}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(6)}"/>
+            <ui:param name="secondaryBoxId" value="osb6"/>
+            <ui:param name="update" value="osb6"/>
+            <ui:param name="var" value="ovar6"/>
+            <ui:param name="dropName" value="#{ovar6.name}"/>
+            <ui:param name="dropValue" value="#{ovar6.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(6)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect6}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(6, osecSelect6)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(6)}"/>
+            <ui:param name="sVar" value="osVar6"/>
+            <ui:param name="secondaryValue" value="#{osVar6.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar6.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(6, oselection6, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss6"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd7" rendered="#{addStock.attributeExists(7)}"> 
+        <ui:include src="#{addStock.findLink(7, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(7)}"/>
+            <ui:param name="manualEntry" value="#{omanual7}"/>
+            <ui:param name="selection" value="#{oselection7}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(7)}"/>
+            <ui:param name="secondaryBoxId" value="osb7"/>
+            <ui:param name="update" value="osb7"/>
+            <ui:param name="var" value="ovar7"/>
+            <ui:param name="dropName" value="#{ovar7.name}"/>
+            <ui:param name="dropValue" value="#{ovar7.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(7)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect7}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(7, osecSelect7)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(7)}"/>
+            <ui:param name="sVar" value="osVar7"/>
+            <ui:param name="secondaryValue" value="#{osVar7.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar7.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(7, oselection7, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss7"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd8" rendered="#{addStock.attributeExists(8)}"> 
+        <ui:include src="#{addStock.findLink(8, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(8)}"/>
+            <ui:param name="manualEntry" value="#{omanual8}"/>
+            <ui:param name="selection" value="#{oselection8}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(8)}"/>
+            <ui:param name="secondaryBoxId" value="osb8"/>
+            <ui:param name="update" value="osb8"/>
+            <ui:param name="var" value="ovar8"/>
+            <ui:param name="dropName" value="#{ovar8.name}"/>
+            <ui:param name="dropValue" value="#{ovar8.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(8)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect8}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(8, osecSelect8)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(8)}"/>
+            <ui:param name="sVar" value="osVar8"/>
+            <ui:param name="secondaryValue" value="#{osVar8.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar8.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(8, oselection8, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss8"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd9" rendered="#{addStock.attributeExists(9)}"> 
+        <ui:include src="#{addStock.findLink(9, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(9)}"/>
+            <ui:param name="manualEntry" value="#{omanual9}"/>
+            <ui:param name="selection" value="#{oselection9}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(9)}"/>
+            <ui:param name="secondaryBoxId" value="osb9"/>
+            <ui:param name="update" value="osb9"/>
+            <ui:param name="var" value="ovar9"/>
+            <ui:param name="dropName" value="#{ovar9.name}"/>
+            <ui:param name="dropValue" value="#{ovar9.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(9)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect9}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(9, osecSelect9)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(9)}"/>
+            <ui:param name="sVar" value="osVar9"/>
+            <ui:param name="secondaryValue" value="#{osVar9.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar9.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(9, oselection9, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss9"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="outAdd10" rendered="#{addStock.attributeExists(10)}"> 
+        <ui:include src="#{addStock.findLink(10, outgoing.getOUTGOINGLINK())}">
+            <ui:param name="itemTitle" value="#{addStock.findTitle(10)}"/>
+            <ui:param name="manualEntry" value="#{omanual10}"/>
+            <ui:param name="selection" value="#{oselection10}"/>
+            <ui:param name="dropdown" value="#{addStock.findSelectables(10)}"/>
+            <ui:param name="secondaryBoxId" value="osb10"/>
+            <ui:param name="update" value="osb10"/>
+            <ui:param name="var" value="ovar10"/>
+            <ui:param name="dropName" value="#{ovar10.name}"/>
+            <ui:param name="dropValue" value="#{ovar10.selectableBoxId}"/>
+            <ui:param name="secondaryTitle" value="#{addStock.findSecondaryTitle(10)}"/>
+            <ui:param name="secondarySelection" value="#{osecSelect10}"/>
+            <ui:param name="secondaryListener" value="#{addStock.updateSecondaryAttribute(10, osecSelect10)}"/>
+            <ui:param name="secondaryDrop" value="#{addStock.findSecondaries(10)}"/>
+            <ui:param name="sVar" value="osVar10"/>
+            <ui:param name="secondaryValue" value="#{osVar10.secondaryAttributeId}"/>
+            <ui:param name="secondaryName" value="#{osVar10.secondaryAttributeName}"/>
+            <ui:param name="secondaryLink" value="#{addStock.findSecondaryLink(10, oselection10, outgoing.getOUTGOINGLINK())}"/>
+            <ui:param name="secondarySelectableId" value="oss10"/>
+        </ui:include>
+    </p:outputPanel>
+    <div style="display:block">
+        <div class="medium-view-line-break"/>
+        <div class="small-view-line-break"/>
+        <h:outputText class="small-title" value="Process Status"/>
+        <div class="medium-view-line-break"/>
+        <p:selectOneMenu style="width:150px" value="#{addStock.status}" >
+            <f:selectItem itemValue="-1" noSelectionOption="false" />
+            <f:selectItems value="#{addStock.fetchStatusDropdown()}" var="#{status}" itemValue="#{status}"/>
+        </p:selectOneMenu>
+    </div>
+    <div style="display:block">
+        <div class="medium-view-line-break"/>
+        <div class="small-view-line-break"/>
+        <h:outputText class="small-title" value="Item Condition"/>
+        <div class="medium-view-line-break"/>
+        <p:selectOneMenu style="width:150px" value="#{addStock.itemCondition}" >
+            <f:selectItem itemValue="-1" noSelectionOption="false" />
+            <f:selectItems value="#{addStock.fetchConditionDropdown()}" var="#{cond}" itemValue="#{cond}"/>
+        </p:selectOneMenu>
+    </div>
+    <div style="display:block">
+        <div class="medium-view-line-break"/>
+        <div class="small-view-line-break"/>
+        <h:outputText class="small-title" value="Supplier Invoice Number"/>
+        <div class="medium-view-line-break"/>
+        <p:inputText value="#{addStock.orderNo}" class="input-normal-size"/>
+    </div>
+    <div class="medium-view-line-break"/>
+    <div class="medium-view-line-break"/>       
+    <div style="padding:3px; display: inline-block">
+        <p:commandButton  id="submitButton" actionListener="#{addStock.addManualInputs}" action="#{addStock.outgoingAdd('12345', 'description')}" value="Add Item" update="@form:outdialog:dialogContent">
+            <f:attribute name="man1" value="#{manual1.value}"/>
+            <f:attribute name="man2" value="#{manual2.value}"/>
+            <f:attribute name="man3" value="#{manual3.value}"/>
+            <f:attribute name="man4" value="#{manual4.value}"/>
+            <f:attribute name="man5" value="#{manual5.value}"/>
+            <f:attribute name="man6" value="#{manual6.value}"/>
+            <f:attribute name="man7" value="#{manual7.value}"/>
+            <f:attribute name="man8" value="#{manual8.value}"/>
+            <f:attribute name="man9" value="#{manual9.value}"/>
+            <f:attribute name="man10" value="#{manual10.value}"/>
+        </p:commandButton>
+    </div>
+    <div style="padding:3px; padding-bottom: 2%; display: inline-block">
+        <p:commandButton  action="#{navigator.setAddStockIndex(0)}" value="Back" immediate="true" update="@form">
+        </p:commandButton>
+    </div>
+    <p:messages for="submitButton" showDetail="true" closable="true">
+        <p:autoUpdate/>
+    </p:messages>
+</ui:composition>
+

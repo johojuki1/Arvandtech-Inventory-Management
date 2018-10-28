@@ -18,15 +18,23 @@ public class Settings {
 
     public List<String> getStatus() {
         List<String> status = new ArrayList<>();
-        status.add("Processed");
+        status.add("Prepared");
         status.add("Unprocessed");
+        return status;
+    }
+    
+    public List<String> getOutgoingStatus() {
+        List<String> status = new ArrayList<>();
+        status.add("Sold");
+        status.add("E-Waste");
+        status.add("Other");
         return status;
     }
 
     public List<String> getCondition() {
         List<String> status = new ArrayList<>();
-        status.add("Good Condition (A)");
-        status.add("Ok Condition (B)");
+        status.add("Good (A)");
+        status.add("Ok (B)");
         status.add("Clearance (C)");
         status.add("Missing Parts");
         status.add("Faulty");

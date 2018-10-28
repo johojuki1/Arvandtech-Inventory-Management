@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import org.primefaces.PrimeFaces;
-import org.primefaces.context.RequestContext;
 
 /**
  * This class manages the 'inventory management table'. Completes all relevant
@@ -86,6 +84,9 @@ public class ManagementTableController implements Serializable {
         }
     }
 
+    /*
+    Used to find all attribute values in 'item type' and registers all unique attribute values.
+    */
     private void findItemAttribute(ArrayList<FuncItemType> searchedItemTypes) {
         for (FuncItemType item : searchedItemTypes) {
             //check names of the item attribute for match.
@@ -96,6 +97,10 @@ public class ManagementTableController implements Serializable {
             }
         }
     }
+    
+    /*
+    
+    */
 
     private void findItemAttribute(FuncItemType searchedItem) {
         //check names of the item attribute for match.

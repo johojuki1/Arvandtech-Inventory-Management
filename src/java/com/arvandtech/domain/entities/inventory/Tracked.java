@@ -5,7 +5,9 @@
  */
 package com.arvandtech.domain.entities.inventory;
 
+import com.arvandtech.domain.entities.settings.Attribute;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MapsId;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,6 +26,10 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Table(name = "tracked")
+@NamedQuery(
+        name = "Tracked.findFromBarcode",
+        query = "SELECT a FROM Tracked a WHERE a.barcode LIKE :barcode"
+)
 public class Tracked implements Serializable {
 
     private int trackedId;
@@ -35,6 +42,16 @@ public class Tracked implements Serializable {
     private String orderNum;
     private List<TrackedItem> attributes;
 
+    //FUNCTIONS
+    public String attributesToString() {
+        String attString = "";
+        attributes.sort(Comparator.comparing(TrackedItem::getItemOrder));
+        for(TrackedItem attribute: attributes) {
+            attString = attString + attribute.getAttribute().getAttributeValue()+", ";
+        }
+        return attString.substring(0, attString.length()-2);
+    }
+    
     //GETTERS
     @Id
     @GeneratedValue
@@ -80,6 +97,7 @@ public class Tracked implements Serializable {
     @OneToMany(mappedBy = "tracked")
     @MapsId("trackedItemId")
     public List<TrackedItem> getAttributes() {
+        attributes.sort(Comparator.comparing(TrackedItem::getItemOrder));
         return attributes;
     }
 
