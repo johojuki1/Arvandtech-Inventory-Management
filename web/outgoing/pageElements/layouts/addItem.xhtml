@@ -255,20 +255,28 @@
         <div class="medium-view-line-break"/>
         <p:inputText value="#{addStock.orderNo}" class="input-normal-size"/>
     </div>
+    <div style="display:block; ">
+        <div class="medium-view-line-break"/>
+        <div class="small-view-line-break"/>
+        <h:outputText class="small-title" value="Item Description: "/>
+        <div style="padding-left: 9px"/>
+        <p:inputTextarea style="width: 538px" value="#{addStock.description}">
+        </p:inputTextarea>
+    </div>
     <div class="medium-view-line-break"/>
     <div class="medium-view-line-break"/>       
     <div style="padding:3px; display: inline-block">
-        <p:commandButton  id="submitButton" actionListener="#{addStock.addManualInputs}" action="#{addStock.outgoingAdd('12345', 'description')}" value="Add Item" update="@form:outdialog:dialogContent">
-            <f:attribute name="man1" value="#{manual1.value}"/>
-            <f:attribute name="man2" value="#{manual2.value}"/>
-            <f:attribute name="man3" value="#{manual3.value}"/>
-            <f:attribute name="man4" value="#{manual4.value}"/>
-            <f:attribute name="man5" value="#{manual5.value}"/>
-            <f:attribute name="man6" value="#{manual6.value}"/>
-            <f:attribute name="man7" value="#{manual7.value}"/>
-            <f:attribute name="man8" value="#{manual8.value}"/>
-            <f:attribute name="man9" value="#{manual9.value}"/>
-            <f:attribute name="man10" value="#{manual10.value}"/>
+        <p:commandButton  id="submitButton" actionListener="#{addStock.addManualInputs}" action="#{outgoing.addSuccess(addStock.outgoingAdd(outgoing.barcode, addStock.description))}" value="Add Item" update="@form:outdialog:dialogContent, outgoingTable">
+            <f:attribute name="man1" value="#{omanual1.value}"/>
+            <f:attribute name="man2" value="#{omanual2.value}"/>
+            <f:attribute name="man3" value="#{omanual3.value}"/>
+            <f:attribute name="man4" value="#{omanual4.value}"/>
+            <f:attribute name="man5" value="#{omanual5.value}"/>
+            <f:attribute name="man6" value="#{omanual6.value}"/>
+            <f:attribute name="man7" value="#{omanual7.value}"/>
+            <f:attribute name="man8" value="#{omanual8.value}"/>
+            <f:attribute name="man9" value="#{omanual9.value}"/>
+            <f:attribute name="man10" value="#{omanual10.value}"/>
         </p:commandButton>
     </div>
     <div style="padding:3px; padding-bottom: 2%; display: inline-block">

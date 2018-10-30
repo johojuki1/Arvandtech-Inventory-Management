@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
@@ -53,6 +54,7 @@ public class OutgoingController implements Serializable {
             ScanBarcodeTable foundItem = new ScanBarcodeTable(trackedFoundItem);
             foundItem.setDescription(trackedFoundItem.attributesToString());
             outgoingItems.add(foundItem);
+            barcode = "";
         }
     }
 
@@ -79,6 +81,18 @@ public class OutgoingController implements Serializable {
             return foundItems.get(0);
         }
         return null;
+    }
+
+    public void addSuccess(boolean success) {
+        if (success) {
+            dialogNavigator = 0;
+            addBarcodeItem();
+        } else {
+            FacesContext.getCurrentInstance().addMessage("outgoingTable", new FacesMessage(FacesMessage.SEVERITY_WARN, "Error:", "Item was not successifully added to database."));
+        }
+        PrimeFaces current = PrimeFaces.current();
+        current.executeScript("PF('outEditItemDialog').hide();");
+
     }
 
     public void setDialogAndShow(int i) {

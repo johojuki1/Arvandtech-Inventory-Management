@@ -36,18 +36,23 @@
                             <h:outputText class="font-medium" value="Barcode: "/>
                             <div style="padding-left: 78px"/>
                             <p:inputText id="barcodeInput" style="width: 538px" value="#{outgoing.barcode}" onkeydown="if (event.keyCode === 13) {
+                                        initiateAddNavigator();
                                         addBarcode();
                                         updateDialog();
                                         return false;
                                     }"/>
                         </div>
                     </div>
+                    <p:remoteCommand name="initiateAddNavigator"  action="#{navigator.setAddStockIndex(0, true)}" update="@([id$=addStockBox])" />
                     <p:remoteCommand name="addBarcode" action="#{outgoing.addBarcodeItem()}"  update="outgoingTable"/>
                     <p:remoteCommand name="initiateFocus"  update="outgoingTable"/>
                     <p:remoteCommand name="updateDialog"  update="@form:outdialog:dialogContent"/>
                     <p:focus for="barcodeInput"/>
                 </f:facet>
             </p:dataTable>
+            <p:messages for="outgoingTable" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
             <p:dialog id="outdialog" header="Add/Edit" widgetVar="outEditItemDialog" fitViewport="true" modal="true"  dynamic="true"  showEffect="fade" hideEffect="fade" resizable="true" width="90%"  >
                 <p:outputPanel id="dialogContent">
                     <ui:include src="#{outgoing.findDialogLink()}"/>

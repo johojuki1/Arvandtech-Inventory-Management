@@ -272,11 +272,12 @@
         </p:commandButton>
     </div>
     <div style="padding:3px; padding-bottom: 2%; display: inline-block">
-        <p:commandButton  action="#{navigator.setAddStockIndex(0)}" value="Back" immediate="true" update="@form">
+        <p:commandButton  action="#{navigator.setAddStockIndex(0)}" oncomplete="initiateOutNavigator();" value="Back" immediate="true" update="@form">
         </p:commandButton>
     </div>
     <p:messages for="submitButton" showDetail="true" closable="true">
         <p:autoUpdate/>
     </p:messages>
+    <p:remoteCommand name="initiateOutNavigator"  action="#{navigator.setOutgoingIndex(0)}" update="@([id$=outgoingBox])" />
 </ui:composition>
 

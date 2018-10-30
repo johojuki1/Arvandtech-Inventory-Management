@@ -145,9 +145,13 @@ public class AddStockController implements Serializable {
             try {
                 secondaries.set(i - 1, tmpsa);
             } catch (Exception e) {
-                secondaries.add(i - 1, tmpsa);
+                while (secondaries.size() <= i - 1) {
+                    secondaries.add(new SecondaryAttribute());
+                }
+                secondaries.set(i - 1, tmpsa);
             }
         }
+
     }
 
     public String findLink(int i) {
@@ -180,7 +184,10 @@ public class AddStockController implements Serializable {
                 try {
                     selections.set(i - 1, tmpsb);
                 } catch (Exception e) {
-                    selections.add(i - 1, tmpsb);
+                    while (selections.size() <= i - 1) {
+                        selections.add(new SelectableBox());
+                    }
+                    selections.set(i - 1, tmpsb);
                 }
                 ItemAttribute tmpAtt = new ItemAttribute();
                 tmpAtt.setAttributeName(item.getAttribute().get(i - 1).getAttributeName());
@@ -188,7 +195,10 @@ public class AddStockController implements Serializable {
                 try {
                     attributes.set(i - 1, tmpAtt);
                 } catch (Exception e) {
-                    attributes.add(i - 1, tmpAtt);
+                    while (attributes.size() <= i - 1) {
+                        attributes.add(new ItemAttribute());
+                    }
+                    attributes.set(i - 1, tmpAtt);
                 }
             }
             if (selections.get(i - 1).getName() != null && selections.get(i - 1).isSecondary()) {
@@ -218,23 +228,29 @@ public class AddStockController implements Serializable {
         if (!checkEmpty(status, "Item status cannot be empty", "submitButton")) {
             errorChecker = false;
         }
-        if (!checkEmpty(orderNo, "Item order number cannot be empty", "submitButton")) {
-            errorChecker = false;
-        }
         if (!errorChecker) {
             return 1;
         }
         selectedAttributes.setItemCondition(itemCondition);
         selectedAttributes.setStatus(status);
         selectedAttributes.setItemTypeName(item.getTypeName());
+        if (orderNo.isEmpty()) {
+            selectedAttributes.setOrderNum("");
+        } else {
+            selectedAttributes.setOrderNum(orderNo);
+        }
         List<TrackedItem> tmpAttributeList = new ArrayList<>();
         for (int i = 0; i < item.getAttribute().size(); i++) {
             TrackedItem tmpAttribute = new TrackedItem();
             tmpAttribute.setAttribute(attributes.get(i));
             tmpAttribute.setItemOrder(item.getAttribute().get(i).getAttributeOrder());
-            if (selections.get(i).isSecondary()) {
-                tmpAttribute.getAttribute().setSecondaryName(selections.get(i).getSecondaryName());
-                tmpAttribute.getAttribute().setSecondaryValue(secondaries.get(i).getSecondaryAttributeName());
+            try {
+                if (selections.get(i).isSecondary()) {
+                    tmpAttribute.getAttribute().setSecondaryName(selections.get(i).getSecondaryName());
+                    tmpAttribute.getAttribute().setSecondaryValue(secondaries.get(i).getSecondaryAttributeName());
+                }
+            } catch (Exception e) {
+
             }
             tmpAttributeList.add(tmpAttribute);
             if (!checkEmpty(tmpAttribute.getAttribute().getAttributeValue(), "All attribute fields must be filled in and cannot be empty.", "submitButton")) {
@@ -247,12 +263,18 @@ public class AddStockController implements Serializable {
         return 2;
     }
 
-    public void outgoingAdd(String barcode, String description) {
-        moveToScan();
-        outgoingTracked = selectedAttributes;
-        outgoingTracked.setBarcode(barcode);
-        outgoingTracked.setDescription(description);
-        
+    public boolean outgoingAdd(String barcode, String description) {
+        try {
+            moveToScan();
+            outgoingTracked = selectedAttributes;
+            outgoingTracked.setBarcode(barcode);
+            outgoingTracked.setDescription(description);
+            outgoingTracked.setDateAdded(new Date());
+            addSingleTracked(outgoingTracked);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean checkEmpty(String string, String fieldEmptyError, String errorBoxName) {
@@ -270,8 +292,15 @@ public class AddStockController implements Serializable {
             String tmpManual = (String) event.getComponent().getAttributes().get("man" + (i + 1));
             if (tmpManual != null) {
                 if (!tmpManual.equals("")) {
-                    attributes.get(i).setAttributeName(item.getAttribute().get(i).getAttributeName());
-                    attributes.get(i).setAttributeValue(tmpManual);
+                    ItemAttribute tmpAttribute = new ItemAttribute();
+                    tmpAttribute.setAttributeName(tmpManual);
+                    tmpAttribute.setAttributeName(item.getAttribute().get(i).getAttributeName());
+                    tmpAttribute.setAttributeValue(tmpManual);
+                    try {
+                        attributes.set(i, tmpAttribute);
+                    } catch (Exception e) {
+                        attributes.add(i, tmpAttribute);
+                    }
                 }
             }
         }
@@ -476,8 +505,25 @@ public class AddStockController implements Serializable {
         }
     }
 
-    public void addSingleTracked() {
+    public void addSingleTracked(Tracked tmpTracked) {
+        List<TrackedItem> attributeList = new ArrayList<>();
+        attributeList.addAll(tmpTracked.getAttributes());
+        tmpTracked.setAttributes(new ArrayList<>());
+        tmpTracked = trackedFacade.returnedCreate(tmpTracked);
 
+        for (TrackedItem tmpAttribute : attributeList) {
+            if (tmpAttribute.getAttribute().getItems() == null) {
+                tmpAttribute.getAttribute().setItems(new ArrayList<>());
+            }
+            ItemAttribute tmpItemAttribute = itemAttFacade.checkAndAdd(tmpAttribute.getAttribute());
+            tmpAttribute.setAttribute(tmpItemAttribute);
+            tmpAttribute.setTracked(tmpTracked);
+            trackedItemFacade.create(tmpAttribute);
+            tmpItemAttribute.getItems().add(tmpAttribute);
+            itemAttFacade.edit(tmpItemAttribute);
+            tmpTracked.getAttributes().add(tmpAttribute);
+        }
+        trackedFacade.edit(tmpTracked);
     }
 
 //GETTERS

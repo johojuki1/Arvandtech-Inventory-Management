@@ -46,12 +46,12 @@ public class Tracked implements Serializable {
     public String attributesToString() {
         String attString = "";
         attributes.sort(Comparator.comparing(TrackedItem::getItemOrder));
-        for(TrackedItem attribute: attributes) {
-            attString = attString + attribute.getAttribute().getAttributeValue()+", ";
+        for (TrackedItem attribute : attributes) {
+            attString = attString + attribute.getAttribute().getAttributeValue() + ", ";
         }
-        return attString.substring(0, attString.length()-2);
+        return attString.substring(0, attString.length() - 2);
     }
-    
+
     //GETTERS
     @Id
     @GeneratedValue
@@ -97,7 +97,9 @@ public class Tracked implements Serializable {
     @OneToMany(mappedBy = "tracked")
     @MapsId("trackedItemId")
     public List<TrackedItem> getAttributes() {
-        attributes.sort(Comparator.comparing(TrackedItem::getItemOrder));
+        if (attributes != null) {
+            attributes.sort(Comparator.comparing(TrackedItem::getItemOrder));
+        }
         return attributes;
     }
 

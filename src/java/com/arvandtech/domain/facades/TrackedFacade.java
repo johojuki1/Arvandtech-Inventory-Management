@@ -7,7 +7,6 @@ package com.arvandtech.domain.facades;
 
 import com.arvandtech.domain.entities.inventory.Tracked;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,7 +35,7 @@ public class TrackedFacade extends AbstractFacade<Tracked> {
     }
 
     public Tracked returnedCreate(Tracked item) {
-        create(item);
+            create(item);
         return item;
     }
 
