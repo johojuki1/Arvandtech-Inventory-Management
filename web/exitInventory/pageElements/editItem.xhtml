@@ -40,7 +40,7 @@ and open the template in the editor.
             </p:inputTextarea>
             <div class="medium-view-line-break"/>
             <div style="padding-top: 10px; display: inline; align-content: flex-start">
-                <p:commandButton value="Edit Item" actionListener="#{editItem.editTrackedItem()}" action="#{manageTable.findAllAndSearch()}" onsuccess="PF('editItemDialog').hide(); updateInventoryTable()" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
+                <p:commandButton value="Edit Item" actionListener="#{editItem.editTrackedItem()}" action="#{exitTable.findAllAndSearch()}" onsuccess="PF('editItemDialog').hide(); updateInventoryTable()" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
                 </p:commandButton>
                 <p:commandButton value="Cancel" onclick="PF('editItemDialog').hide();" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
                 </p:commandButton>

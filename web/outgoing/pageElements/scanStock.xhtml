@@ -43,6 +43,14 @@
                                     }"/>
                         </div>
                     </div>
+                    <div style="display: block; padding-top: 10px">
+                        <div style="padding-top: 10px; display: inline; align-content: flex-start">
+                            <p:commandButton value="Process" action="#{navigator.setOutgoingIndex(outgoing.outgoingProcess())}" update="@form" style="width: 20%!important; align-self: flex-start" styleClass="basic-buttons">
+                            </p:commandButton>
+                            <p:commandButton value="Back" actionListener="#{outgoing.init()}" action="#{navigator.setOutgoingIndex(0)}" update="@form" immediate="true" style="width: 20%!important; align-self: flex-start" styleClass="basic-buttons">
+                            </p:commandButton>
+                        </div>
+                    </div>
                     <p:remoteCommand name="initiateAddNavigator"  action="#{navigator.setAddStockIndex(0, true)}" update="@([id$=addStockBox])" />
                     <p:remoteCommand name="addBarcode" action="#{outgoing.addBarcodeItem()}"  update="outgoingTable"/>
                     <p:remoteCommand name="initiateFocus"  update="outgoingTable"/>
@@ -50,7 +58,7 @@
                     <p:focus for="barcodeInput"/>
                 </f:facet>
             </p:dataTable>
-            <p:messages for="outgoingTable" showDetail="true" closable="true">
+            <p:messages for="outgoingTable" showDetail="false" closable="true">
                 <p:autoUpdate/>
             </p:messages>
             <p:dialog id="outdialog" header="Add/Edit" widgetVar="outEditItemDialog" fitViewport="true" modal="true"  dynamic="true"  showEffect="fade" hideEffect="fade" resizable="true" width="90%"  >

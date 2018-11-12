@@ -60,7 +60,7 @@ public class ItemAttribute implements Serializable {
         return secondaryValue;
     }
 
-    @OneToMany(mappedBy = "attribute")
+    @OneToMany(mappedBy = "attribute", orphanRemoval = true)
     @MapsId("trackedItemId")
     public List<TrackedItem> getItems() {
         return items;

@@ -5,8 +5,8 @@
  */
 package com.arvandtech.controllers;
 
-import com.arvandtech.domain.entities.inventory.Tracked;
-import com.arvandtech.domain.facades.TrackedFacade;
+import com.arvandtech.domain.entities.outinventory.OutTracked;
+import com.arvandtech.domain.facades.OutTrackedFacade;
 import com.arvandtech.utilities.DatabaseConverter;
 import com.arvandtech.utilities.entities.FuncItem;
 import com.arvandtech.utilities.entities.FuncItemType;
@@ -27,12 +27,12 @@ import javax.inject.Named;
  *
  * @author Jonathan
  */
-@Named("manageTable")
+@Named("exitTable")
 @SessionScoped
-public class ManagementTableController implements Serializable {
+public class ExitInventoryTableController implements Serializable {
 
     @EJB
-    private TrackedFacade trackedFacade;
+    private OutTrackedFacade outTrackedFacade;
 
     private String searchType;
     private DatabaseConverter dConverter;
@@ -47,7 +47,7 @@ public class ManagementTableController implements Serializable {
     private ArrayList<String> selectedItemAttribute;
     private ArrayList<String> selectedItemValue;
 
-    public ManagementTableController() {
+    public ExitInventoryTableController() {
         dConverter = new DatabaseConverter();
     }
 
@@ -57,7 +57,7 @@ public class ManagementTableController implements Serializable {
     
      */
     public boolean findAll() {
-        castToFuncItem(new ArrayList<>(trackedFacade.findAll()));
+        castToFuncItem(new ArrayList<>(outTrackedFacade.findAll()));
         displayedItems = new ArrayList<>();
         displayedItems.addAll(inventoryItems);
         itemAttribute = new ArrayList<>();
@@ -173,7 +173,7 @@ public class ManagementTableController implements Serializable {
     }
     
     public void findAllAndSearch() {
-        castToFuncItem(new ArrayList<>(trackedFacade.findAll()));
+        castToFuncItem(new ArrayList<>(outTrackedFacade.findAll()));
         search();
     }
 
@@ -362,8 +362,8 @@ public class ManagementTableController implements Serializable {
     
      */
     //This function caasts the Tracked object into the FunctItemType. Also sets maxColNum
-    private void castToFuncItem(ArrayList<Tracked> trackedItems) {
-        inventoryItems = dConverter.convertToFuncItemMultiple(trackedItems);
+    private void castToFuncItem(ArrayList<OutTracked> trackedItems) {
+        inventoryItems = dConverter.convertOutToFuncItemMultiple(trackedItems);
         maxColNum = findMaxColSpan(inventoryItems);
     }
 

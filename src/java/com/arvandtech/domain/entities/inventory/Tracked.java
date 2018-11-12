@@ -5,7 +5,6 @@
  */
 package com.arvandtech.domain.entities.inventory;
 
-import com.arvandtech.domain.entities.settings.Attribute;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
@@ -14,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,6 +41,7 @@ public class Tracked implements Serializable {
     private String description;
     private String orderNum;
     private List<TrackedItem> attributes;
+    private LocationGroup location;
 
     //FUNCTIONS
     public String attributesToString() {
@@ -49,7 +50,11 @@ public class Tracked implements Serializable {
         for (TrackedItem attribute : attributes) {
             attString = attString + attribute.getAttribute().getAttributeValue() + ", ";
         }
-        return attString.substring(0, attString.length() - 2);
+        if (attString.length() > 3) {
+            return attString.substring(0, attString.length() - 2);
+        } else {
+            return "";
+        }
     }
 
     //GETTERS
@@ -94,13 +99,18 @@ public class Tracked implements Serializable {
         return description;
     }
 
-    @OneToMany(mappedBy = "tracked")
+    @OneToMany(mappedBy = "tracked", orphanRemoval = true)
     @MapsId("trackedItemId")
     public List<TrackedItem> getAttributes() {
         if (attributes != null) {
             attributes.sort(Comparator.comparing(TrackedItem::getItemOrder));
         }
         return attributes;
+    }
+ 
+    @ManyToOne
+    public LocationGroup getLocation() {
+        return location;
     }
 
     //SETTERS
@@ -138,5 +148,9 @@ public class Tracked implements Serializable {
 
     public void setOrderNum(String orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public void setLocation(LocationGroup location) {
+        this.location = location;
     }
 }

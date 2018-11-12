@@ -23,8 +23,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "outItemAttribute")
 @NamedQuery(
-        name = "ItemAttribute.findSimilarItems",
-        query = "SELECT a FROM ItemAttribute a WHERE a.attributeName LIKE :attName AND a.attributeValue LIKE :attValue AND a.secondaryName LIKE :secName AND a.secondaryValue LIKE :secValue"
+        name = "OutItemAttribute.findSimilarItems",
+        query = "SELECT a FROM OutItemAttribute a WHERE a.attributeName LIKE :attName AND a.attributeValue LIKE :attValue AND a.secondaryName LIKE :secName AND a.secondaryValue LIKE :secValue"
 )
 public class OutItemAttribute implements Serializable {
 

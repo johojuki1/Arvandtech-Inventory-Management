@@ -4,15 +4,24 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
     <p:messages for="selectTable" style="color:red" closable="true" />
-    <add-stock-table-box onload="#{addStock.clearItem(); navigator.setAddStockIndex(1, true)}">
-        <p:dataTable id="outgoingSelectAddTable" var="itemType" value="#{addStock.findAllItems()}" selectionMode="single" selection="#{addStock.item}" rowKey="#{itemType.itemTypeId}" sortBy="#{itemType.itemOrder}" scrollable="true">
-            <p:ajax event="rowSelect" listener="#{outgoing.setDialogNavigator(4)}" onsuccess="#{addStock.resetAll()}" update="@form:outdialog:dialogContent"/>
-            <p:column width="100" headerText="Item Type" style="width:100px">
-                <h:outputText value="#{itemType.typeName}"/>
+    <add-stock-table-box onload="#{navigator.setAddStockIndex(1, true)}">
+        <p:dataTable id="multipleOutgoingSleectTable" var="trackedItem" value="#{outgoing.foundItems}" selection="#{trackedId}" selectionMode="single"  rowKey="#{trackedItem.trackedId}" scrollable="true" style="min-width: 60vw">
+            <p:ajax event="rowSelect"  listener="#{outgoing.addItemToTable(trackedId.trackedId)}" update="@form" oncomplete="PF('outEditItemDialog').hide();"/>
+            <p:column headerText="Barcode" style="width: 150px">
+                <h:outputText value="#{trackedItem.barcode}" styleClass="font-small"/>
+            </p:column>
+            <p:column headerText="Type" style="width: 100px">
+                <h:outputText value="#{trackedItem.itemTypeName}" styleClass="font-small"/>
+            </p:column>
+            <p:column headerText="Status" style="width: 100px">
+                <h:outputText value="#{trackedItem.status}" styleClass="font-small"/>
+            </p:column>
+            <p:column headerText="Attribute Values" style="">
+                <h:outputText value="#{trackedItem.attributesToString()}" styleClass="font-small"/>
             </p:column>
         </p:dataTable>
         <div class="medium-view-line-break"/>
-        <p:commandButton value="Back" action="#{outgoing.setDialogNavigator(2)}" immediate = "true" update="@form:outdialog:dialogContent" style="min-width:180px; align-self: flex-start" styleClass="basic-buttons">
+        <p:commandButton value="Back"  action="#{outgoing.clearBarcode()}" onclick="PF('outEditItemDialog').hide();" immediate = "true" update="@([id$=outgoingTable])" style="min-width:180px; align-self: flex-start" styleClass="basic-buttons">
         </p:commandButton>
     </add-stock-table-box>
     <div class="medium-view-line-break"/>
