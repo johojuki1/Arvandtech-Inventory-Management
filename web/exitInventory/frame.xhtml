@@ -1,0 +1,15 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <div style="padding-left: 3%;" class="fake-tabs-fix">
+        <div class="medium-line-break"/>
+        <h:outputText class="page-title" value="Inventory Management"/>
+        <div class="medium-line-break"/>
+        <!--<h:form id="inventoryBox">-->
+            <ui:include src="#{navigator.getInventoryManagementLink()}"/>
+        <!--</h:form>-->
+    </div>
+</ui:composition>
+

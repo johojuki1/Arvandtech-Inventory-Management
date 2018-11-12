@@ -1,0 +1,144 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <div onload="#{manageTable.findAll()}">
+        <h:form id="managementTableForm">
+            <div style="display:block; padding-top: 0px; justify-content: flex-start">
+                <div style="display: flex; align-items: center; padding-bottom: 10px">
+                    <h:outputText class="font-medium" style="width:70px" value="Search Type:"/>
+                    <div style="padding-left: 0.4vw"/>
+                    <p:selectOneMenu id="selectSearchType" value="#{manageTable.searchType}" style="width:40px">
+                        <f:selectItem itemLabel="AND" itemValue="and" />
+                        <f:selectItem itemLabel="OR" itemValue="or" />
+                    </p:selectOneMenu>
+                    <div style="padding-left: 1.5vw"/>
+                    <h:outputText class="font-medium" value="Type:"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:selectCheckboxMenu id="selectType" panelStyle="width:300px"  value="#{manageTable.selectedItemType}" label ="All" multiple="true"
+                                          filter="true" filterMatchMode="startsWith">
+                        <p:ajax event="change" listener="#{manageTable.itemTypeChange()}" update="selectAtt selectVal selectValTitle"/>
+                        <p:ajax event="toggleSelect" listener="#{manageTable.itemTypeChange()}" update="selectAtt selectVal selectValTitle"/>
+                        <f:selectItems value="#{manageTable.itemType}" var="#{iVar}" itemValue="#{iVar}" itemLabel="#{iVar}" />
+                    </p:selectCheckboxMenu>
+                    <div style="padding-left: 1.5vw"/>
+                    <h:outputText class="font-medium" value="Attribute:"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:selectCheckboxMenu id="selectAtt" panelStyle="width:300px" value="#{manageTable.selectedItemAttribute}" label ="All" multiple="true"
+                                          filter="true" filterMatchMode="startsWith">
+                        <p:ajax event="change" listener="#{manageTable.attributeTypeChange()}" update="selectVal selectValTitle"/>
+                        <p:ajax event="toggleSelect" listener="#{manageTable.attributeTypeChange()}" update="selectVal selectValTitle"/>
+                        <f:selectItems value="#{manageTable.itemAttribute}" var="#{aVar}" itemValue="#{aVar}" itemLabel="#{aVar}" />
+                    </p:selectCheckboxMenu>
+                    <div style="padding-left: 1.5vw"/>
+                    <h:outputText id="selectValTitle" class="font-medium" value="Value:" style="visibility: #{manageTable.valueCheckBoxDisplayed()}"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:selectCheckboxMenu id="selectVal" panelStyle="width:300px" value="#{manageTable.selectedItemValue}" label ="All" multiple="true"
+                                          filter="true" filterMatchMode="startsWith" style="visibility: #{manageTable.valueCheckBoxDisplayed()}">
+                        <f:selectItems value="#{manageTable.itemValue}" var="#{vVar}" itemValue="#{vVar}" itemLabel="#{vVar}" />
+                    </p:selectCheckboxMenu>
+                    <div class="medium-view-line-break"/>
+                </div>
+                <div style="display: flex; align-items: flex-start; padding-bottom: 10px">
+                    <p:inputText id="smartSearch" style="width: 50vw" value="#{manageTable.searchField}"  onkeydown="if (event.keyCode === 13) {
+                                smartSearch();
+                                return false;
+                            }"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:commandButton value="Search" action="#{manageTable.search()}" style="width: 15%!important; align-self: flex-start" update="inventoryTable" styleClass="basic-buttons">
+                    </p:commandButton>
+                    <p:remoteCommand name="addBarcode" action="#{manageTable.search()}" update="inventoryTable"/>
+                </div>
+            </div>
+            <p:dataTable id="inventoryTable" var="itemType" selectionMode="single" value="#{manageTable.displayedItems}" scrollRows="20" liveScroll="true" scrollHeight="600" lazy="true" rows="20" scrollable="true" rowSelectMode="single">
+                <f:facet name="header">
+                    <h:outputText value="Inventory"/>  
+                </f:facet>
+                <p:subTable var="item" value="#{itemType.items}"> 
+                    <f:facet name="header">  
+                        <h:outputText value="#{itemType.typeName}"/>    
+                    </f:facet>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column headerText="Barcode"/>
+                            <p:column headerText="Condition"/>
+                            <p:column headerText="Status"/>
+                            <p:column rendered="#{manageTable.columnRendered(0)}"  headerText="#{itemType.findAttributeNames(0)}" />
+                            <p:column rendered="#{manageTable.columnRendered(1)}"  headerText="#{itemType.findAttributeNames(1)}" />  
+                            <p:column rendered="#{manageTable.columnRendered(2)}"  headerText="#{itemType.findAttributeNames(2)}" />  
+                            <p:column rendered="#{manageTable.columnRendered(3)}"  headerText="#{itemType.findAttributeNames(3)}" />  
+                            <p:column rendered="#{manageTable.columnRendered(4)}"  headerText="#{itemType.findAttributeNames(4)}" />  
+                            <p:column rendered="#{manageTable.columnRendered(5)}"  headerText="#{itemType.findAttributeNames(5)}" />  
+                            <p:column rendered="#{manageTable.columnRendered(6)}"  headerText="#{itemType.findAttributeNames(6)}" />  
+                            <p:column rendered="#{manageTable.columnRendered(7)}"  headerText="#{itemType.findAttributeNames(7)}" />  
+                            <p:column rendered="#{manageTable.columnRendered(8)}"  headerText="#{itemType.findAttributeNames(8)}" />  
+                            <p:column rendered="#{manageTable.columnRendered(9)}"  headerText="#{itemType.findAttributeNames(9)}" />   
+                        </p:row>
+                    </p:columnGroup>
+
+                    <!--These warnings are not errors. Netbeans is failing to process double loops.-->
+                    <p:column style="padding:2px">
+                        <p:commandButton  action="#{editItem.findSelectedItem(item.id)}" value="#{item.barcode}" styleClass="table-barcode-button" 
+                                          icon="fa fa-fw fa-search small-black-icon" title="View Item" update="@form" oncomplete="PF('editItemDialog').show();">
+                        </p:commandButton>
+                    </p:column>
+                    <p:column>  
+                        <h:outputText value="#{item.condition}"/>  
+                    </p:column>
+                    <p:column>  
+                        <h:outputText value="#{item.status}"/>  
+                    </p:column>
+                    <p:column rendered="#{manageTable.columnRendered(0)}">  
+                        <h:outputText value="#{item.findPrimaryValue(0)}"/>  
+                    </p:column>
+                    <p:column rendered="#{manageTable.columnRendered(1)}">  
+                        <h:outputText value="#{item.findPrimaryValue(1)}"/>  
+                    </p:column> 
+                    <p:column rendered="#{manageTable.columnRendered(2)}">  
+                        <h:outputText value="#{item.findPrimaryValue(2)}"/>  
+                    </p:column> 
+                    <p:column rendered="#{manageTable.columnRendered(3)}">  
+                        <h:outputText value="#{item.findPrimaryValue(3)}"/>  
+                    </p:column> 
+                    <p:column rendered="#{manageTable.columnRendered(4)}">
+                        <h:outputText value="#{item.findPrimaryValue(4)}"/>  
+                    </p:column> 
+                    <p:column rendered="#{manageTable.columnRendered(5)}">  
+                        <h:outputText value="#{item.findPrimaryValue(5)}"/>  
+                    </p:column> 
+                    <p:column rendered="#{manageTable.columnRendered(6)}">  
+                        <h:outputText value="#{item.findPrimaryValue(6)}"/>  
+                    </p:column> 
+                    <p:column rendered="#{manageTable.columnRendered(7)}">  
+                        <h:outputText value="#{item.findPrimaryValue(7)}"/>  
+                    </p:column> 
+                    <p:column rendered="#{manageTable.columnRendered(8)}">  
+                        <h:outputText value="#{item.findPrimaryValue(8)}"/>  
+                    </p:column> 
+                    <p:column rendered="#{manageTable.columnRendered(9)}">  
+                        <h:outputText value="#{item.findPrimaryValue(9)}"/>  
+                    </p:column> 
+                </p:subTable>  
+                <f:facet name="footer">
+                    <div style="display:flex; justify-content: flex-start"> 
+                        <p:commandButton actionListener="#{manageTable.findAll()}" ajax="false" value="Refresh" styleClass="basic-buttons">
+                            <p:ajax update="@form"/>
+                        </p:commandButton>
+                        <p:commandButton id="pdfExport" ajax="false" value="Export PDF" styleClass="basic-buttons">  
+                            <pe:exporter type="pdf" target="inventoryTable" fileName="Arvandtech Inventory" subTable="true"/>
+                        </p:commandButton>
+                    </div>
+                </f:facet>
+            </p:dataTable>
+            <p:messages for="inventoryTable" style="color:red" />
+            <p:dialog id="dialogs" header="Edit #{editItem.selectedItem.itemTypeName}" widgetVar="editItemDialog" fitViewport="true" modal="true"  dynamic="true"  showEffect="fade" hideEffect="fade" resizable="true" width="90%"  >
+                <ui:include src="/inventoryManagement/pageElements/editItem.xhtml"/>
+            </p:dialog>
+        </h:form>
+
+    </div>
+</ui:composition>
+
