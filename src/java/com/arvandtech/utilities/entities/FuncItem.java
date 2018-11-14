@@ -19,6 +19,7 @@ public class FuncItem {
     private Date dateAdded;
     private String condition;
     private String orderNumber;
+    private String invoiceNumber;
     private String status;
     private String description;
     private ArrayList<FuncItemValue> itemValues;
@@ -93,6 +94,10 @@ public class FuncItem {
         return itemValues;
     }
 
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+    
     //SETTERS
     public void setId(int id) {
         this.id = id;
@@ -124,5 +129,9 @@ public class FuncItem {
 
     public void setItemValues(ArrayList<FuncItemValue> itemValues) {
         this.itemValues = itemValues;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 }

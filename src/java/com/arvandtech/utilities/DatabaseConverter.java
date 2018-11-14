@@ -93,6 +93,7 @@ public class DatabaseConverter {
             }
             //add item into array based on index i.
             FuncItem newfItem = new FuncItem(dItem.getTrackedId(), dItem.getBarcode(), dItem.getDateAdded(), dItem.getItemCondition(), dItem.getOrderNum(), dItem.getStatus(), dItem.getDescription());
+            newfItem.setInvoiceNumber(dItem.getInvoiceNum());
             //Set attributes of the class in the correct place, in correct order for 'newfItem'.
             for (String fName : items.get(i).getAttributeNames()) {
                 for (OutTrackedItem dAtt : dItem.getAttributes()) {

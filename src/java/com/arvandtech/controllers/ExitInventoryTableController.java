@@ -330,7 +330,7 @@ public class ExitInventoryTableController implements Serializable {
         modifiedTmpInventoryItems.addAll(tmpInventoryItems);
         for (FuncItemType item : modifiedTmpInventoryItems) {
             for (FuncItem tmpItem : item.getItems()) {
-                boolean itemFound = tmpItem.getBarcode().equals(searchField) || tmpItem.getOrderNumber().equals(searchField) || checkContainsString(tmpItem.toString(), searchField);
+                boolean itemFound = tmpItem.getBarcode().equals(searchField) || tmpItem.getOrderNumber().equals(searchField)|| tmpItem.getInvoiceNumber().equals(searchField)  || checkContainsString(tmpItem.toString(), searchField);
                 if (itemFound) {
                     //if found, check if ItemType is in final searched list. If not Add to new list and also add the found item
                     int index = findTypeInList(tmpFinalSearchList, item);
