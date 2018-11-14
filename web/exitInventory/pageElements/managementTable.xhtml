@@ -48,12 +48,12 @@
                                 return false;
                             }"/>
                     <div style="padding-left: 1.5vw"/>
-                    <p:commandButton value="Search" action="#{exitTable.search()}" style="width: 15%!important; align-self: flex-start" update="inventoryTable" styleClass="basic-buttons">
+                    <p:commandButton value="Search" action="#{exitTable.search()}" style="width: 15%!important; align-self: flex-start" update="outInventoryTable" styleClass="basic-buttons">
                     </p:commandButton>
-                    <p:remoteCommand name="addBarcode" action="#{exitTable.search()}" update="inventoryTable"/>
+                    <p:remoteCommand name="addBarcode" action="#{exitTable.search()}" update="outInventoryTable"/>
                 </div>
             </div>
-            <p:dataTable id="inventoryTable" var="itemType" selectionMode="single" value="#{exitTable.displayedItems}" scrollRows="20" liveScroll="true" scrollHeight="600" lazy="true" rows="20" scrollable="true" rowSelectMode="single">
+            <p:dataTable id="outInventoryTable" var="itemType" value="#{exitTable.displayedItems}" scrollRows="20" liveScroll="true" scrollHeight="600" lazy="true" rows="20" scrollable="true" rowSelectMode="single">
                 <f:facet name="header">
                     <h:outputText value="Inventory"/>  
                 </f:facet>
@@ -81,8 +81,8 @@
 
                     <!--These warnings are not errors. Netbeans is failing to process double loops.-->
                     <p:column style="padding:2px">
-                        <p:commandButton  value="#{item.barcode}" styleClass="table-barcode-button" 
-                                          icon="fa fa-fw fa-search small-black-icon" title="View Item" update="@form" >
+                        <p:commandButton  action="#{editItem.findSelectedOutgoingItem(item.id)}" value="#{item.barcode}" styleClass="table-barcode-button" 
+                                          icon="fa fa-fw fa-search small-black-icon" title="View Item" update="@form" oncomplete="PF('viewItemDialog').show();">
                         </p:commandButton>
                     </p:column>
                     <p:column>  
@@ -128,14 +128,16 @@
                             <p:ajax update="@form"/>
                         </p:commandButton>
                         <p:commandButton id="pdfExport" ajax="false" value="Export PDF" styleClass="basic-buttons">  
-                            <pe:exporter type="pdf" target="inventoryTable" fileName="Arvandtech Inventory" subTable="true"/>
+                            <pe:exporter type="pdf" target="outInventoryTable" fileName="Arvandtech Inventory" subTable="true"/>
                         </p:commandButton>
                     </div>
                 </f:facet>
             </p:dataTable>
-            <p:messages for="inventoryTable" style="color:red" />
+            <p:messages for="outInventoryTable" style="color:red" />
+            <p:dialog id="dialogs" header="View #{editItem.selectedOutgoingItem.itemTypeName}" widgetVar="viewItemDialog" fitViewport="true" modal="true"  dynamic="true"  showEffect="fade" hideEffect="fade" resizable="true" width="90%"  >
+                <ui:include src="/exitInventory/pageElements/viewItem.xhtml"/>
+            </p:dialog>
         </h:form>
-
     </div>
 </ui:composition>
 

@@ -73,6 +73,7 @@ public class AddStockController implements Serializable {
     private ScanBarcodeTable selectedTableItem;
     private boolean tableStateAdd;
     private Tracked outgoingTracked;
+    private ArrayList<String> existingBarcodes;
 
     public List<ItemType> findAllItems() {
         return itemFacade.findAll();
@@ -175,6 +176,13 @@ public class AddStockController implements Serializable {
         }
     }
 
+    private void updateBarcodeList() {
+        existingBarcodes = new ArrayList<>();
+        for (Tracked tmpTracked : trackedFacade.findAll()) {
+            existingBarcodes.add(tmpTracked.getBarcode());
+        };
+    }
+
     public String findSecondaryLink(int i, int id) {
         try {
             if (id == -1) {
@@ -205,7 +213,6 @@ public class AddStockController implements Serializable {
                 return "secondarySelection.xhtml";
             }
         } catch (Exception e) {
-            String s = "s";
         }
         return "";
     }
@@ -259,6 +266,7 @@ public class AddStockController implements Serializable {
         }
         selectedAttributes.setAttributes(tmpAttributeList);
         tableItems = new ArrayList();
+        updateBarcodeList();
         initiateAdd();
         return 2;
     }
@@ -394,10 +402,18 @@ public class AddStockController implements Serializable {
     }
 
     private boolean checkTableColour() {
-        for (ScanBarcodeTable tmpItem : tableItems) {
-            tmpItem.setBackgroundColour("");
-        }
         boolean noSameBarcode = true;
+        int counter = 0;
+        for (ScanBarcodeTable tmpItem : tableItems) {
+            if (existingBarcodes.indexOf(tmpItem.getBarcode()) != -1) {
+                tableItems.get(counter).setBackgroundColour("table-row-red");
+                noSameBarcode = false;
+            } else {
+                tmpItem.setBackgroundColour("");
+            }
+            counter++;
+        }
+        //Check if barcode already exists within database.
         for (ScanBarcodeTable tmpItem : tableItems) {
             if (tmpItem.getBackgroundColour().equals("")) {
                 for (int i = tableItems.indexOf(tmpItem); i + 1 < tableItems.size(); i++) {

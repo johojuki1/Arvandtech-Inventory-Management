@@ -7,9 +7,7 @@
     <div class="small-view-line-break"/>
     <div style="display: block" >
         <h:outputText class="small-title" value="#{itemTitle} : "/>
-        <p:selectOneMenu style="width:150px" value="#{selection}" editable="true">
-            <f:selectItems value="#{dropdown}" var="var1" itemValue="#{var1}" itemLabel="#{var1}" />
-        </p:selectOneMenu>
+        <h:outputText class="small-title" value="#{itemValue}"/>
     </div>
     <p:outputPanel style="display: block; padding-left:50px">
         <ui:include src="#{secondaryLink}"/>

@@ -217,6 +217,7 @@ public class OutgoingController implements Serializable {
             outAttFacade.edit(outAtt);
             outTracked.getAttributes().add(outItem);
         }
+        outTracked.setDescription(outTracked.getDescription() + "\n" + addedDescription);
         outTrackedFacade.edit(outTracked);
     }
 

@@ -225,6 +225,10 @@ add-stock-table-box{
 .table-row-yellow{
     background: yellow;
 }
+
+.table-row-red{
+    background: red;
+}
 /**
 /////////////////////////
 Formatting for display of the main tab menu, does not contain any formatting data for content

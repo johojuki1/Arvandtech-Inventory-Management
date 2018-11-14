@@ -12,8 +12,10 @@ import com.arvandtech.domain.entities.settings.SecondaryAttribute;
 import com.arvandtech.domain.entities.settings.SelectableBox;
 import com.arvandtech.domain.entities.inventory.Tracked;
 import com.arvandtech.domain.entities.inventory.TrackedItem;
+import com.arvandtech.domain.entities.outinventory.OutTracked;
 import com.arvandtech.domain.facades.ItemAttributeFacade;
 import com.arvandtech.domain.facades.ItemTypeFacade;
+import com.arvandtech.domain.facades.OutTrackedFacade;
 import com.arvandtech.domain.facades.TrackedFacade;
 import com.arvandtech.domain.facades.TrackedItemFacade;
 import com.arvandtech.utilities.Settings;
@@ -41,17 +43,23 @@ public class EditItemController implements Serializable {
 
     @EJB
     private ItemTypeFacade itemFacade;
-    
+
     @EJB
     private TrackedItemFacade tItemFacade;
-    
+
     @EJB
     private ItemAttributeFacade attributeFacade;
 
+    @EJB
+    private OutTrackedFacade outTrackedFacade;
+
     private Tracked selectedItem;
+
+    private OutTracked selectedOutgoingItem;
 
     public EditItemController() {
         selectedItem = new Tracked();
+        selectedOutgoingItem = new OutTracked();
     }
 
     /**
@@ -61,6 +69,11 @@ public class EditItemController implements Serializable {
     public void findSelectedItem(int id) {
         selectedItem = new Tracked();
         selectedItem = trackedFacade.find(id);
+    }
+
+    public void findSelectedOutgoingItem(int id) {
+        selectedOutgoingItem = new OutTracked();
+        selectedOutgoingItem = outTrackedFacade.find(id);
     }
 
     public String dateToString(Date date) {
@@ -79,6 +92,14 @@ public class EditItemController implements Serializable {
     public boolean attributeExists(int i) {
         try {
             return i <= selectedItem.getAttributes().size();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean attributeOutExists(int i) {
+        try {
+            return i <= selectedOutgoingItem.getAttributes().size();
         } catch (Exception e) {
             return false;
         }
@@ -109,7 +130,7 @@ public class EditItemController implements Serializable {
 
     /*
     Function edits the trackeditem object. Edits both direct attributes and also all connected values to the user's new value.
-    */
+     */
     public void editTrackedItem() {
         //Retrieve attribtues of selected item that is editted
         List<TrackedItem> newAttributes = selectedItem.getAttributes();
@@ -137,13 +158,17 @@ public class EditItemController implements Serializable {
         }
         trackedFacade.edit(selectedItem);
     }
+    
+    public void editOutDescription() {
+        outTrackedFacade.edit(selectedOutgoingItem);
+    }
 
     private boolean compareAttributes(ItemAttribute att1, ItemAttribute att2) {
-        return (att1.getId()==att2.getId()) 
+        return (att1.getId() == att2.getId())
                 && (att1.getAttributeName().equals(att2.getAttributeName()))
-                &&(att1.getAttributeValue().equals(att2.getAttributeValue()))
-                &&(att1.getSecondaryName().equals(att2.getSecondaryName()))
-                &&(att1.getSecondaryValue().equals(att2.getSecondaryValue()));
+                && (att1.getAttributeValue().equals(att2.getAttributeValue()))
+                && (att1.getSecondaryName().equals(att2.getSecondaryName()))
+                && (att1.getSecondaryValue().equals(att2.getSecondaryValue()));
     }
 
     public List<String> findSecondarySelectables(int i) {
@@ -185,6 +210,17 @@ public class EditItemController implements Serializable {
             return "";
         }
     }
+    
+    public String findOutSecondaryLink(int i) {
+        try {
+            if (selectedOutgoingItem.getAttributes().get(i - 1).getAttribute().getSecondaryName().isEmpty()) {
+                return "";
+            }
+            return "secondarySelection.xhtml";
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
     private List<String> checkAndAdd(List<String> list, String item) {
         if (!list.contains(item)) {
@@ -198,9 +234,17 @@ public class EditItemController implements Serializable {
         return selectedItem;
     }
 
+    public OutTracked getSelectedOutgoingItem() {
+        return selectedOutgoingItem;
+    }
+
     //SETTERS
     public void setSelectedItem(Tracked selectedItem) {
         this.selectedItem = selectedItem;
+    }
+
+    public void setSelectedOutgoingItem(OutTracked selectedOutgoingItem) {
+        this.selectedOutgoingItem = selectedOutgoingItem;
     }
 
 }

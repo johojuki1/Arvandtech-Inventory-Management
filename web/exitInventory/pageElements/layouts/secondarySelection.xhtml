@@ -5,8 +5,6 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <div class="small-view-line-break"/>
     <h:outputText  class="smaller-title" value="#{secondaryTitle}:  "/>
-    <p:selectOneMenu style="width:150px" value="#{secondaryValue}" editable="true">
-        <f:selectItems value="#{secondaryItems}" var="var1" itemValue="#{var1}" itemLabel="#{var1}" />
-    </p:selectOneMenu>
+    <h:outputText class="small-title" value="#{secondaryValue}"/>
 </ui:composition>
 

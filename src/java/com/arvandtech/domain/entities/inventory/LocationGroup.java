@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Table(name = "LocationGroup")
 public class LocationGroup implements Serializable{
     private int id;
-    private String group;
+    private String locationGroup;
     private String location;
     
     //GETTERS
@@ -29,8 +29,8 @@ public class LocationGroup implements Serializable{
         return id;
     }
 
-    public String getGroup() {
-        return group;
+    public String getLocationGroup() {
+        return locationGroup;
     }
 
     public String getLocation() {
@@ -43,8 +43,8 @@ public class LocationGroup implements Serializable{
         this.id = id;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setLocationGroup(String locationgroup) {
+        this.locationGroup = locationgroup;
     }
 
     public void setLocation(String location) {

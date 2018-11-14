@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <div class="small-view-line-break"/>
+    <p:outputPanel id="add1" rendered="#{editItem.attributeOutExists(1)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(0).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(0).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(1)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(0).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(0).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="add2" rendered="#{editItem.attributeOutExists(2)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(1).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(1).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(2)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(1).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(1).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="add3" rendered="#{editItem.attributeOutExists(3)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(2).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(2).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(3)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(2).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(2).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="add4" rendered="#{editItem.attributeOutExists(4)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(3).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(3).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(4)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(3).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(3).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="add5" rendered="#{editItem.attributeOutExists(5)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(4).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(4).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(5)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(4).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(4).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="add6" rendered="#{editItem.attributeOutExists(6)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(5).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(5).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(6)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(5).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(5).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>    
+    <p:outputPanel id="add7" rendered="#{editItem.attributeOutExists(7)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(6).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(6).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(7)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(6).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(6).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="add8" rendered="#{editItem.attributeOutExists(8)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(7).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(7).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(8)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(7).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(7).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="add9" rendered="#{editItem.attributeOutExists(9)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(8).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(8).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(9)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(8).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(8).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+    <p:outputPanel id="add10" rendered="#{editItem.attributeOutExists(10)}"> 
+        <ui:include src="selectable.xhtml">
+            <ui:param name="itemTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(9).getAttribute().attributeName}"/>
+            <ui:param name="itemValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(9).getAttribute().attributeValue}"/>
+            <ui:param name="secondaryLink" value="#{editItem.findOutSecondaryLink(10)}"/>
+            <ui:param name="secondaryTitle" value="#{editItem.selectedOutgoingItem.getAttributes().get(9).getAttribute().secondaryName}"/>
+            <ui:param name="secondaryValue" value="#{editItem.selectedOutgoingItem.getAttributes().get(9).getAttribute().secondaryValue}"/>
+        </ui:include>
+    </p:outputPanel>
+
+</ui:composition>

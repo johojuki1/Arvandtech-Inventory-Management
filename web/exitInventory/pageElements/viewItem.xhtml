@@ -14,38 +14,43 @@ and open the template in the editor.
         <div style="width: fit-content; display: block; margin: auto">
             <div class="small-view-line-break"/>
             <h:outputText class="small-title" value="Date Added : "/>
-            <h:outputText  class="small-title" value="#{editItem.dateToString(editItem.selectedItem.dateAdded)}">
+            <h:outputText  class="small-title" value="#{editItem.dateToString(editItem.selectedOutgoingItem.dateAdded)}">
+            </h:outputText>
+            <div class="small-view-line-break"/>
+            <h:outputText class="small-title" value="Date Out : "/>
+            <h:outputText  class="small-title" value="#{editItem.dateToString(editItem.selectedOutgoingItem.dateOut)}">
             </h:outputText>
             <div class="medium-view-line-break"/>
             <h:outputText class="small-title" value="Barcode : "/>
-            <p:inputText  class="small-title" value="#{editItem.selectedItem.barcode}"/>
+            <h:outputText  class="small-title" value="#{editItem.selectedOutgoingItem.barcode}"/>
             <div class="medium-view-line-break"/>
             <h:outputText class="small-title" value="Condition : "/>
-            <p:selectOneMenu style="width:150px" value="#{editItem.selectedItem.itemCondition}">
-                <f:selectItems value="#{editItem.fetchConditionDropdown()}"/>
-            </p:selectOneMenu>
+            <h:outputText  class="small-title" value="#{editItem.selectedOutgoingItem.itemCondition}"/>
             <div class="medium-view-line-break"/>
             <h:outputText class="small-title" value="Status : "/>
-            <p:selectOneMenu style="width:150px" value="#{editItem.selectedItem.status}">
-                <f:selectItems value="#{editItem.fetchStatusDropdown()}"/>
-            </p:selectOneMenu>
-            <ui:include src="layouts/showEditAttributes.xhtml"/>
+            <h:outputText  class="small-title" value="#{editItem.selectedOutgoingItem.status}"/>
+            <ui:include src="layouts/showViewAttributes.xhtml"/>
+            <div class="small-view-line-break"/>
             <h:outputText class="small-title" value="Supplier Invoice No : "/>
             <div class="small-view-line-break"/>
-            <p:inputText  class="small-title" style="width: 70%" value="#{editItem.selectedItem.orderNum}"/>
+            <h:outputText  class="small-title" value="#{editItem.selectedOutgoingItem.orderNum}"/>
+            <div class="medium-view-line-break"/>
+            <h:outputText class="small-title" value="Buyer Invoice No : "/>
+            <div class="small-view-line-break"/>
+            <h:outputText  class="small-title" value="#{editItem.selectedOutgoingItem.invoiceNum}"/>
             <div class="medium-view-line-break"/>
             <h:outputText class="small-title" value="Description : "/>
             <div class="small-view-line-break"/>
-            <p:inputTextarea style="width: 100%" value="#{editItem.selectedItem.description}">
+            <p:inputTextarea style="width: 100%" value="#{editItem.selectedOutgoingItem.description}">
             </p:inputTextarea>
             <div class="medium-view-line-break"/>
             <div style="padding-top: 10px; display: inline; align-content: flex-start">
-                <p:commandButton value="Edit Item" actionListener="#{editItem.editTrackedItem()}" action="#{exitTable.findAllAndSearch()}" onsuccess="PF('editItemDialog').hide(); updateInventoryTable()" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
+                <p:commandButton value="Edit Description" action="#{editItem.editOutDescription()}" onsuccess="PF('viewItemDialog').hide(); updateOutInventoryTable()" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
                 </p:commandButton>
-                <p:commandButton value="Cancel" onclick="PF('editItemDialog').hide();" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
+                <p:commandButton value="Back" onclick="PF('viewItemDialog').hide();" style="width: 45%!important; align-self: flex-start" styleClass="basic-buttons">
                 </p:commandButton>
             </div>
-            <p:remoteCommand name="updateInventoryTable" update="inventoryTable"/>
+            <p:remoteCommand name="updateInventoryTable" update="outInventoryTable"/>
             <div class="medium-view-line-break"/>
         </div>
     </p:outputPanel>

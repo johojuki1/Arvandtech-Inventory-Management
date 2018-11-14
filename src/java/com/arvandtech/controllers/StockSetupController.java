@@ -137,6 +137,11 @@ public class StockSetupController implements Serializable {
             case 0:
                 return NAVIGATION_LOCATION + "attributeSelectableBox.xhtml";
             case 1:
+                if (item.getAttribute().size() > 9) {
+                    checkSelected("attributeBox", "No more than 10 attributes can be added per item.", "Attribute add Failed.", 0);
+                    itemTypeState = 0;
+                    return NAVIGATION_LOCATION + "attributeSelectableBox.xhtml";
+                }
                 return NAVIGATION_LOCATION + "attributeAdd.xhtml";
             case 2:
                 return NAVIGATION_LOCATION + "attributeEdit.xhtml";
