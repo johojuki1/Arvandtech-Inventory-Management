@@ -231,6 +231,22 @@
     <div style="display:block">
         <div class="medium-view-line-break"/>
         <div class="small-view-line-break"/>
+        <h:outputText class="small-title" value="Item Location"/>
+        <div class="medium-view-line-break"/>
+        <p:outputPanel id="locationBox">
+            <h:outputText class="font-medium" style="padding-left: 30px; padding-right: 30px" value="Group:"/>
+            <p:selectOneMenu style="width:150px;" value="#{groupVal}" onchange="#{addStock.changeLocationFromString(groupVal)}" >
+                <f:selectItems value="#{location.getGroups()}" var="#{group}" itemValue="#{group}"/>
+                <p:ajax update="@form:locationBox"/>
+            </p:selectOneMenu>
+            <div class="medium-view-line-break"/>
+            <h:outputText class="font-medium" style="padding-left: 30px; padding-right: 15px" value="Location:"/>
+            <p:outputLabel value="#{addStock.location.location}"/>
+        </p:outputPanel>
+    </div>
+    <div style="display:block">
+        <div class="medium-view-line-break"/>
+        <div class="small-view-line-break"/>
         <h:outputText class="small-title" value="Process Status"/>
         <div class="medium-view-line-break"/>
         <p:selectOneMenu style="width:150px" value="#{addStock.status}" >

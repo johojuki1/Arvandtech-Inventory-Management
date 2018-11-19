@@ -6,7 +6,6 @@
 package com.arvandtech.domain.facades;
 
 import com.arvandtech.domain.entities.inventory.TrackedItem;
-import com.arvandtech.domain.entities.inventory.TrackedItemId;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

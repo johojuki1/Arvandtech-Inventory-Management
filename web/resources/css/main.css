@@ -338,3 +338,7 @@ This determines width and height of tabbed windows.*/
 /* Edits the sizes of top tabs within forms*/
 .ui-tabs.ui-tabs-top > .ui-tabs-nav li {
 }
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+    white-space: pre;
+}

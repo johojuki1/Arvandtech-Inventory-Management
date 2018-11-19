@@ -6,6 +6,7 @@
 package com.arvandtech.controllers;
 
 import com.arvandtech.domain.entities.inventory.Tracked;
+import com.arvandtech.domain.facades.LocationGroupFacade;
 import com.arvandtech.domain.facades.TrackedFacade;
 import com.arvandtech.utilities.DatabaseConverter;
 import com.arvandtech.utilities.entities.FuncItem;
@@ -13,6 +14,7 @@ import com.arvandtech.utilities.entities.FuncItemType;
 import com.arvandtech.utilities.entities.FuncItemValue;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -34,6 +36,9 @@ public class ManagementTableController implements Serializable {
     @EJB
     private TrackedFacade trackedFacade;
 
+    @EJB
+    private LocationGroupFacade groupFacade;
+
     private String searchType;
     private DatabaseConverter dConverter;
     private ArrayList<FuncItemType> inventoryItems;
@@ -46,6 +51,7 @@ public class ManagementTableController implements Serializable {
     private ArrayList<String> selectedItemType;
     private ArrayList<String> selectedItemAttribute;
     private ArrayList<String> selectedItemValue;
+    private String groupItems;
 
     public ManagementTableController() {
         dConverter = new DatabaseConverter();
@@ -71,9 +77,16 @@ public class ManagementTableController implements Serializable {
         return true;
     }
 
+    public HashMap<String, String> findGroupValues() {
+        return groupFacade.returnFuncGroup();
+    }
+
+    public HashMap<String, String> findLocationValues() {
+        return groupFacade.returnFuncLocation();
+    }
+
     /*
     Function used to find all values in itemtype and sets value 'itemType' when triggered.
-    
      */
     private void findItemType(ArrayList<FuncItemType> searchedItemTypes) {
         for (FuncItemType item : searchedItemTypes) {
@@ -86,7 +99,7 @@ public class ManagementTableController implements Serializable {
 
     /*
     Used to find all attribute values in 'item type' and registers all unique attribute values.
-    */
+     */
     private void findItemAttribute(ArrayList<FuncItemType> searchedItemTypes) {
         for (FuncItemType item : searchedItemTypes) {
             //check names of the item attribute for match.
@@ -97,11 +110,10 @@ public class ManagementTableController implements Serializable {
             }
         }
     }
-    
+
     /*
     
-    */
-
+     */
     private void findItemAttribute(FuncItemType searchedItem) {
         //check names of the item attribute for match.
         for (String attributeName : searchedItem.getAttributeNames()) {
@@ -171,7 +183,7 @@ public class ManagementTableController implements Serializable {
         }
         return "visible";
     }
-    
+
     public void findAllAndSearch() {
         castToFuncItem(new ArrayList<>(trackedFacade.findAll()));
         search();
@@ -188,6 +200,18 @@ public class ManagementTableController implements Serializable {
         if (interSearchArray.isEmpty()) {
             interSearchArray.addAll(inventoryItems);
         }
+        //Check for group.
+        if (groupItems != null) {
+            if (groupItems.indexOf("group") == 0) {
+                String groupName = groupItems.substring(5);
+                interSearchArray = searchByGroup(interSearchArray, groupName);
+            }
+            //Check for location
+            if (groupItems.indexOf("location") == 0) {
+                String locationName = groupItems.substring(8);
+                interSearchArray = searchByLocation(interSearchArray, locationName);
+            }
+        }
         if (!selectedItemAttribute.isEmpty()) {
             interSearchArray = searchByAttribute(interSearchArray, selectedItemAttribute, isAndSearch);
         }
@@ -200,6 +224,58 @@ public class ManagementTableController implements Serializable {
         displayedItems.clear();
         displayedItems.addAll(interSearchArray);
         maxColNum = findMaxColSpan(displayedItems);
+    }
+
+    private ArrayList<FuncItemType> searchByGroup(ArrayList<FuncItemType> items, String group) {
+        ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
+        for (FuncItemType item : items) {
+            for (FuncItem tmpItem : item.getItems()) {
+                if (tmpItem.getGroup().equals(group)) {
+                    int index = findTypeInList(interSearchArray, item);
+                    if (index == -1) {
+                        FuncItemType itemToAdd = new FuncItemType();
+                        itemToAdd.setId(item.getId());
+                        itemToAdd.setTypeName(item.getTypeName());
+                        itemToAdd.setAttributeNames(item.getAttributeNames());
+                        interSearchArray.add(itemToAdd);
+                        index = interSearchArray.indexOf(itemToAdd);
+                    }
+                    //Add new FuncItem to final list under the correct ItemType.
+                    ArrayList<FuncItem> tmpFuncItems = new ArrayList<>();
+                    tmpFuncItems.clear();
+                    tmpFuncItems.addAll(interSearchArray.get(index).getItems());
+                    tmpFuncItems.add(tmpItem);
+                    interSearchArray.get(index).setItems(tmpFuncItems);
+                }
+            }
+        }
+        return interSearchArray;
+    }
+
+    private ArrayList<FuncItemType> searchByLocation(ArrayList<FuncItemType> items, String location) {
+        ArrayList<FuncItemType> interSearchArray = new ArrayList<>();
+        for (FuncItemType item : items) {
+            for (FuncItem tmpItem : item.getItems()) {
+                if (tmpItem.getLocation().equals(location)) {
+                    int index = findTypeInList(interSearchArray, item);
+                    if (index == -1) {
+                        FuncItemType itemToAdd = new FuncItemType();
+                        itemToAdd.setId(item.getId());
+                        itemToAdd.setTypeName(item.getTypeName());
+                        itemToAdd.setAttributeNames(item.getAttributeNames());
+                        interSearchArray.add(itemToAdd);
+                        index = interSearchArray.indexOf(itemToAdd);
+                    }
+                    //Add new FuncItem to final list under the correct ItemType.
+                    ArrayList<FuncItem> tmpFuncItems = new ArrayList<>();
+                    tmpFuncItems.clear();
+                    tmpFuncItems.addAll(interSearchArray.get(index).getItems());
+                    tmpFuncItems.add(tmpItem);
+                    interSearchArray.get(index).setItems(tmpFuncItems);
+                }
+            }
+        }
+        return interSearchArray;
     }
 
     private ArrayList<FuncItemType> searchByValue(ArrayList<FuncItemType> items, ArrayList<String> values, boolean isAndSearch) {
@@ -444,6 +520,10 @@ public class ManagementTableController implements Serializable {
         return itemValue;
     }
 
+    public String getGroupItems() {
+        return groupItems;
+    }
+
     //SETTERS
     public void setSearchType(String searchType) {
         this.searchType = searchType;
@@ -479,5 +559,9 @@ public class ManagementTableController implements Serializable {
 
     public void setItemValue(ArrayList<String> itemValue) {
         this.itemValue = itemValue;
+    }
+
+    public void setGroupItems(String groupItems) {
+        this.groupItems = groupItems;
     }
 }

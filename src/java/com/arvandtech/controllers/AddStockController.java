@@ -10,10 +10,12 @@ import com.arvandtech.domain.entities.settings.ItemType;
 import com.arvandtech.domain.facades.ItemTypeFacade;
 import com.arvandtech.domain.entities.settings.SelectableBox;
 import com.arvandtech.domain.entities.inventory.ItemAttribute;
+import com.arvandtech.domain.entities.inventory.LocationGroup;
 import com.arvandtech.domain.entities.settings.SecondaryAttribute;
 import com.arvandtech.domain.entities.inventory.Tracked;
 import com.arvandtech.domain.entities.inventory.TrackedItem;
 import com.arvandtech.domain.facades.ItemAttributeFacade;
+import com.arvandtech.domain.facades.LocationGroupFacade;
 import com.arvandtech.domain.facades.SecondaryAttributeFacade;
 import com.arvandtech.domain.facades.SelectableBoxFacade;
 import com.arvandtech.domain.facades.TrackedFacade;
@@ -58,7 +60,10 @@ public class AddStockController implements Serializable {
 
     @EJB
     private TrackedFacade trackedFacade;
-
+    
+    @EJB
+    private LocationGroupFacade locationFacade;
+    
     private ItemType item;
     private ArrayList<ItemAttribute> attributes;
     private ArrayList<SelectableBox> selections;
@@ -74,6 +79,7 @@ public class AddStockController implements Serializable {
     private boolean tableStateAdd;
     private Tracked outgoingTracked;
     private ArrayList<String> existingBarcodes;
+    private LocationGroup location;
 
     public List<ItemType> findAllItems() {
         return itemFacade.findAll();
@@ -127,6 +133,10 @@ public class AddStockController implements Serializable {
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    public void changeLocationFromString(String s) {
+        location = locationFacade.returnAndAdd(s);
     }
 
     /*
@@ -278,6 +288,7 @@ public class AddStockController implements Serializable {
             outgoingTracked.setBarcode(barcode);
             outgoingTracked.setDescription(description);
             outgoingTracked.setDateAdded(new Date());
+            outgoingTracked.setLocation(location);
             addSingleTracked(outgoingTracked);
             return true;
         } catch (Exception e) {
@@ -491,6 +502,7 @@ public class AddStockController implements Serializable {
                 tmpItem.setDateAdded(new Date());
                 tmpItem.setDescription(tmpScanItem.getDescription());
                 tmpItem.setOrderNum(orderNo);
+                tmpItem.setLocation(location);
                 inventoryItems.add(tmpItem);
             }
             for (Tracked tmpTracked : inventoryItems) {
@@ -583,6 +595,10 @@ public class AddStockController implements Serializable {
         return outgoingTracked;
     }
 
+    public LocationGroup getLocation() {
+        return location;
+    }
+
     //SETTERS
     public void setItem(ItemType item) {
         item.getAttribute().sort(Comparator.comparing(Attribute::getAttributeOrder));
@@ -623,5 +639,9 @@ public class AddStockController implements Serializable {
 
     public void setOutgoingTracked(Tracked outgoingTracked) {
         this.outgoingTracked = outgoingTracked;
+    }
+
+    public void setLocation(LocationGroup location) {
+        this.location = location;
     }
 }

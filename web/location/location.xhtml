@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div style="padding-left: 3%;" class="fake-tabs-fix">
+        <div class="medium-line-break"/>
+        <h:outputText class="page-title" value="Location Management"/>
+        <div class="medium-line-break"/>
+        <h:form id="locationForm">
+            <div style="display:block">
+                <h:outputText class="small-title" value="Group"/>
+                <div class="medium-view-line-break"/>
+                <p:selectOneMenu style="width:150px" value="#{location.group}" onchange="#{location.listener()}" >
+                    <f:selectItems value="#{location.getGroups()}" var="#{group}" itemValue="#{group}"/>
+                    <p:ajax update="@form"/>
+                </p:selectOneMenu>
+            </div>
+            <div class="medium-line-break"/>
+            <div class="medium-line-break"/>
+            <div style="display:block">
+                <h:outputText class="small-title" value="Location"/>
+                <div class="medium-view-line-break"/>
+                <p:selectOneMenu style="width:150px" value="#{location.loc}" >
+                    <f:selectItems value="#{location.getLocations()}" var="#{loc}" itemValue="#{loc}"/>
+                </p:selectOneMenu>
+            </div>
+            <div class="medium-line-break"/>
+            <div class="medium-line-break"/>
+            <p:commandButton value="Set" action="#{location.set()}" style="width: 20%!important; align-self: flex-start" styleClass="basic-buttons">
+            </p:commandButton>
+        </h:form>
+    </div>
+</ui:composition>

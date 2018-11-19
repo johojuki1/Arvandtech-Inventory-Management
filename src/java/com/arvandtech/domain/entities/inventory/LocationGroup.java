@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -17,10 +18,20 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "LocationGroup")
+@NamedQuery(
+        name = "LocationGroup.findObject",
+        query = "SELECT a FROM LocationGroup a WHERE a.locationGroup LIKE :group"
+)
 public class LocationGroup implements Serializable{
     private int id;
     private String locationGroup;
     private String location;
+    
+    public LocationGroup() {
+        id = 0;
+        locationGroup = "Unknown";
+        location = "Unknown";
+    }
     
     //GETTERS
     @Id
@@ -50,7 +61,4 @@ public class LocationGroup implements Serializable{
     public void setLocation(String location) {
         this.location = location;
     }
-
-
-    
 }

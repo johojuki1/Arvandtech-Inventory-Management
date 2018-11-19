@@ -15,6 +15,7 @@ import com.arvandtech.domain.entities.inventory.TrackedItem;
 import com.arvandtech.domain.entities.outinventory.OutTracked;
 import com.arvandtech.domain.facades.ItemAttributeFacade;
 import com.arvandtech.domain.facades.ItemTypeFacade;
+import com.arvandtech.domain.facades.LocationGroupFacade;
 import com.arvandtech.domain.facades.OutTrackedFacade;
 import com.arvandtech.domain.facades.TrackedFacade;
 import com.arvandtech.domain.facades.TrackedItemFacade;
@@ -53,9 +54,14 @@ public class EditItemController implements Serializable {
     @EJB
     private OutTrackedFacade outTrackedFacade;
 
+    @EJB
+    private LocationGroupFacade locationFacade;
+
     private Tracked selectedItem;
 
     private OutTracked selectedOutgoingItem;
+
+    private String groupString;
 
     public EditItemController() {
         selectedItem = new Tracked();
@@ -69,6 +75,15 @@ public class EditItemController implements Serializable {
     public void findSelectedItem(int id) {
         selectedItem = new Tracked();
         selectedItem = trackedFacade.find(id);
+        if (selectedItem.getLocation() == null) {
+            groupString = "Unknown";
+        } else {
+            groupString = selectedItem.getLocation().getLocationGroup();
+        }
+    }
+
+    public void editLocation() {
+        selectedItem.setLocation(locationFacade.returnAndAdd(groupString));
     }
 
     public void findSelectedOutgoingItem(int id) {
@@ -158,7 +173,7 @@ public class EditItemController implements Serializable {
         }
         trackedFacade.edit(selectedItem);
     }
-    
+
     public void editOutDescription() {
         outTrackedFacade.edit(selectedOutgoingItem);
     }
@@ -210,7 +225,7 @@ public class EditItemController implements Serializable {
             return "";
         }
     }
-    
+
     public String findOutSecondaryLink(int i) {
         try {
             if (selectedOutgoingItem.getAttributes().get(i - 1).getAttribute().getSecondaryName().isEmpty()) {
@@ -238,6 +253,10 @@ public class EditItemController implements Serializable {
         return selectedOutgoingItem;
     }
 
+    public String getGroupString() {
+        return groupString;
+    }
+
     //SETTERS
     public void setSelectedItem(Tracked selectedItem) {
         this.selectedItem = selectedItem;
@@ -245,6 +264,10 @@ public class EditItemController implements Serializable {
 
     public void setSelectedOutgoingItem(OutTracked selectedOutgoingItem) {
         this.selectedOutgoingItem = selectedOutgoingItem;
+    }
+
+    public void setGroupString(String groupString) {
+        this.groupString = groupString;
     }
 
 }

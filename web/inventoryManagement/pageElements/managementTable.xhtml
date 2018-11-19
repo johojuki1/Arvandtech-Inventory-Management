@@ -41,6 +41,17 @@
                         <f:selectItems value="#{manageTable.itemValue}" var="#{vVar}" itemValue="#{vVar}" itemLabel="#{vVar}" />
                     </p:selectCheckboxMenu>
                     <div class="medium-view-line-break"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <h:outputText id="selectGrpTitle" class="font-medium" value="Group/Location:"/>
+                    <div style="padding-left: 1.5vw"/>
+                    <p:selectOneMenu id="selectGrp"  panelStyle="width:300px" value="#{manageTable.groupItems}" label ="All" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="" itemValue=""/>
+                        <f:selectItem itemLabel="Groups" itemValue="" itemDisabled="true"/>
+                        <f:selectItems value="#{manageTable.findGroupValues()}"/>
+                        <f:selectItem itemLabel="Locations" itemValue="" itemDisabled="true"/>
+                        <f:selectItems value="#{manageTable.findLocationValues()}"/>
+                    </p:selectOneMenu>
+                    <div class="medium-view-line-break"/>
                 </div>
                 <div style="display: flex; align-items: flex-start; padding-bottom: 10px">
                     <p:inputText id="smartSearch" style="width: 50vw" value="#{manageTable.searchField}"  onkeydown="if (event.keyCode === 13) {

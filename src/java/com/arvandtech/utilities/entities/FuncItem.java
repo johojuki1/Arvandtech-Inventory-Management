@@ -23,6 +23,8 @@ public class FuncItem {
     private String status;
     private String description;
     private ArrayList<FuncItemValue> itemValues;
+    private String location;
+    private String group;
 
     //Constructor used to set all initial values.
     public FuncItem(int id, String barcode, Date dateAdded, String condition, String orderNumber, String status, String description) {
@@ -34,6 +36,8 @@ public class FuncItem {
         this.status = status;
         this.description = description;
         itemValues = new ArrayList<>();
+        location = new String();
+        group = new String();
     }
 
     //FUNCTIONS
@@ -97,6 +101,14 @@ public class FuncItem {
     public String getInvoiceNumber() {
         return invoiceNumber;
     }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getGroup() {
+        return group;
+    }
     
     //SETTERS
     public void setId(int id) {
@@ -133,5 +145,13 @@ public class FuncItem {
 
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

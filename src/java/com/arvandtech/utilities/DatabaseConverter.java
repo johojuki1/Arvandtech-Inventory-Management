@@ -48,6 +48,13 @@ public class DatabaseConverter {
             }
             //add item into array based on index i.
             FuncItem newfItem = new FuncItem(dItem.getTrackedId(), dItem.getBarcode(), dItem.getDateAdded(), dItem.getItemCondition(), dItem.getOrderNum(), dItem.getStatus(), dItem.getDescription());
+            try {
+                newfItem.setGroup(dItem.getLocation().getLocationGroup());
+                newfItem.setLocation(dItem.getLocation().getLocation());
+            } catch (Exception e) {
+                newfItem.setGroup("");
+                newfItem.setLocation("");
+            }
             //Set attributes of the class in the correct place, in correct order for 'newfItem'.
             for (String fName : items.get(i).getAttributeNames()) {
                 for (TrackedItem dAtt : dItem.getAttributes()) {
@@ -66,7 +73,7 @@ public class DatabaseConverter {
         Collections.sort(items, sortItemsByType);
         return items;
     }
-    
+
     /*
     This function takes in a list of 'OutTracked' database items. It will sort the list into classes and cast all itmes into a more usable format.
     All website functions should use the output format as opposed to directly from database as it is easier to manage and use.
@@ -116,6 +123,7 @@ public class DatabaseConverter {
     /**
      * Converts single tracked item into FuncItem. All object specific values
      * are placed into array index 0.
+     *
      * @param databaseItem - Tracked item to be converted into FuncItem.
      * @return FuncItemType - FuncItem converted from Tracked item.
      */
@@ -179,8 +187,8 @@ public class DatabaseConverter {
         }
         return -1;
     }
-    
-        /*
+
+    /*
     Function tests if database item 'dItem' fits into any class of items currently stored in funcitnal items list, 'fItems'.
     Returns array index of corresponding fItem, if a similar class of item is found in 'fItems' list.
     Returns -1 if dItem is of a new class of items currently not in list 'fItems'.
@@ -222,7 +230,7 @@ public class DatabaseConverter {
         }
         return false;
     }
-    
+
     /*
     This function tests of a database item, 'dType' and functional item 'fType' is of the same class of items.
     Functuion checks name, primary attribute name and secondary attribute name.
