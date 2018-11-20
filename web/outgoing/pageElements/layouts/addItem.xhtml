@@ -262,7 +262,7 @@
             <h:outputText class="small-title" value="Item Location"/>
             <div class="medium-view-line-break"/>
             <h:outputText class="font-medium" style="padding-left: 30px; padding-right: 30px" value="Group:"/>
-            <p:selectOneMenu style="width:150px;" value="#{groupVal}" onchange="#{addStock.changeLocationFromString(groupVal)}" >
+            <p:selectOneMenu style="width:150px;" value="#{groupVal}" onchange="#{addStock.changeLocationFromString(groupVal)}" label ="All" filter="true" filterMatchMode="contains">
                 <f:selectItems value="#{location.getGroups()}" var="#{group}" itemValue="#{group}"/>
                 <p:ajax update="@form:outgoingBox:outdialog:dialogContent:locationSegment"/>
             </p:selectOneMenu>

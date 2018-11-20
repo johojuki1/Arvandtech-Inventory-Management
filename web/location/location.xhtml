@@ -12,7 +12,7 @@
             <div style="display:block">
                 <h:outputText class="small-title" value="Group"/>
                 <div class="medium-view-line-break"/>
-                <p:selectOneMenu style="width:150px" value="#{location.group}" onchange="#{location.listener()}" >
+                <p:selectOneMenu style="width:260px" value="#{location.group}" onchange="#{location.listener()}" label ="All" filter="true" filterMatchMode="contains">
                     <f:selectItems value="#{location.getGroups()}" var="#{group}" itemValue="#{group}"/>
                     <p:ajax update="@form"/>
                 </p:selectOneMenu>
@@ -22,7 +22,7 @@
             <div style="display:block">
                 <h:outputText class="small-title" value="Location"/>
                 <div class="medium-view-line-break"/>
-                <p:selectOneMenu style="width:150px" value="#{location.loc}" >
+                <p:selectOneMenu style="width:260px" value="#{location.loc}" label ="All" filter="true" filterMatchMode="contains">
                     <f:selectItems value="#{location.getLocations()}" var="#{loc}" itemValue="#{loc}"/>
                 </p:selectOneMenu>
             </div>

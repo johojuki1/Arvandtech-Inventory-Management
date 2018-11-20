@@ -235,7 +235,7 @@
         <div class="medium-view-line-break"/>
         <p:outputPanel id="locationBox">
             <h:outputText class="font-medium" style="padding-left: 30px; padding-right: 30px" value="Group:"/>
-            <p:selectOneMenu style="width:150px;" value="#{groupVal}" onchange="#{addStock.changeLocationFromString(groupVal)}" >
+            <p:selectOneMenu style="width:150px;" value="#{groupVal}" onchange="#{addStock.changeLocationFromString(groupVal)}" label ="All" filter="true" filterMatchMode="contains">
                 <f:selectItems value="#{location.getGroups()}" var="#{group}" itemValue="#{group}"/>
                 <p:ajax update="@form:locationBox"/>
             </p:selectOneMenu>
