@@ -71,6 +71,8 @@
                 <p:subTable var="item" value="#{itemType.items}"> 
                     <f:facet name="header">  
                         <h:outputText value="#{itemType.typeName}"/>    
+                        <h:outputText value="    :    "/>   
+                        <h:outputText value="#{itemType.items.size()}"/>    
                     </f:facet>
                     <p:columnGroup type="header">
                         <p:row>
